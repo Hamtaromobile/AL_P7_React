@@ -1,0 +1,16 @@
+.container_prof{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content:space-around;
+    align-items:flex-start;
+    margin-top: 2em;
+}
+.container_profileinfo{
+    margin-left: 3em;
+    flex-grow: 1;
+}
+
+.container_profileimg{
+    margin-left: 3em;
+}

@@ -1,0 +1,12 @@
+
+@import "./pages/profile";
+@import "./pages/welcome";
+@import "./pages/innerpost";
+@import "./pages/creatpost";
+@import "./pages/signup";
+@import "./components/footer";
+@import "./components/navigation";
+@import "./components/profileimg";
+@import "./components/post";
+@import "./components/mainpost";
+

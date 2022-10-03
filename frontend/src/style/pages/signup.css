@@ -1,0 +1,23 @@
+.container_signup{
+    margin: auto;
+    margin-top: 5em;
+    width: 60em;
+    border: 1px solid #778899;
+    border-radius: 30px;
+    padding: 4em;
+    background-color:#fff3f3 ;
+}
+
+@media only screen and (max-width: 1200px) {
+    .container_signup{ 
+     width: 40em;
+    }
+  }
+
+  
+@media only screen and (max-width: 600px) {
+    .container_signup{ 
+     width: 15em;
+     padding: 1em;
+    }
+  }

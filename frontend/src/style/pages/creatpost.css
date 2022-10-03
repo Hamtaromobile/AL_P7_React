@@ -1,0 +1,33 @@
+.container_creatpost{
+    width: 100em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content:space-evenly;
+    align-items:center;
+    margin-top: 3em;
+}
+
+.container_textfield_creatpost{
+    display: flex;
+    flex-direction: column;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:flex-start;
+    width: 72em ;
+    height: 21em;
+    border: 0.1rem solid;
+    border-radius: 2em;
+    padding: 2em;
+}
+
+
+.item_textfield_text{
+    width: 68em;
+    color: white;
+}
+
+.container_tt_creatpost{
+    margin-top: 2em;
+    text-align: center;
+}

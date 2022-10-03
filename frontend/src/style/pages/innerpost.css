@@ -1,0 +1,9 @@
+.container_post_innerpost{
+    display: flex;
+    flex-direction: column;
+    flex-wrap:wrap;
+    justify-content:space-evenly;
+    align-items:center;
+    gap: 3em;
+    margin: 2em;
+}

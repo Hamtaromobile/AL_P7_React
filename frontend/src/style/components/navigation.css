@@ -1,0 +1,41 @@
+.secondary-color{
+  background-color: #FFD7D7;
+}
+
+.hover-link:hover{
+  color: #FD2D01;
+  font-weight: bold;
+}
+
+.container_nav{
+  display: flex;
+  justify-content:space-evenly;
+}
+
+.container_img_nav{
+  padding: 2em;
+  margin-left: 2em;
+  margin-right: 2em;
+  width: 15em;
+  display: block;
+  position: relative;
+ /* overflow: hidden;*/
+}
+
+.img_nav{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+}
+
+@media only screen and (max-width: 600px) {
+  .container_signup{ 
+   width: 15em;
+   padding: 1em;
+  }
+  .container_nav{
+    display: flex; 
+  }
+}

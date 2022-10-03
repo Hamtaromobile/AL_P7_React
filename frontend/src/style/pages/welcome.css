@@ -1,0 +1,49 @@
+.container_welcome{
+    color:#69707a;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    background-color: #fff3f3;
+    }
+
+    .container_imgbtn_post_welcome{
+        display: flex;
+        flex-direction: row;
+        flex-wrap:wrap;
+        justify-content:space-around;
+        align-items:flex-start;
+        margin-top: 2em;
+    }
+    .container_imgbtn_welcome{
+        display: flex;
+        flex-direction: column;
+        flex-wrap:wrap;
+        justify-content:space-around;
+        align-items:center;
+        gap:2em;
+    }
+
+    .container_tt_welcome{
+       text-align: center;
+    }
+
+    .item_profileimg_welcome:hover{
+        opacity: 40%;
+    }
+
+   /* .item_post_welcome{
+        margin-top: 5em;
+    }*/
+
+    .item_post_welcome:hover{
+        opacity: 40%;
+    }
+
+    .button_welcome:hover{
+        color:#FD2D01;
+    }
+
+    @media (max-width: 1250px) { 
+        .item_post_welcome{
+            width: 50em;
+        }
+     }
