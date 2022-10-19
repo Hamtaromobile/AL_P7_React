@@ -29,14 +29,31 @@ const theme = createTheme({
 });
 
 const Welcome = () => {
-  //const [blogData, setBlogData] = useState([]);
-  const [dataPosts, setDataPosts] = useState([]);
-  const getDataPosts = () => {
+  let params = new URL(document.location).searchParams;
+  let id = params.get("id");
+  console.log("id", id);
+
+  const [dataUser, setDataUser] = useState([]);
+  const [firstName, setFirstName] = useState("");
+  const [employment, setEmployment] = useState("");
+
+  useEffect(() => {
     axios
-      .get("http://localhost:3000/api/posts")
-      .then((res) => setDataPosts(res.data));
-  };
-  useEffect(() => getDataPosts(), []);
+      .get("http://localhost:3001/api/auth/getUser/" + id)
+      .then((res) => {
+        setDataUser(res.data);
+        // console.log("res", res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  console.log("dataUser", dataUser);
+  console.log("dataUserfn", dataUser.firstName);
+  //setFirstName(dataUser.firstName);
+  // console.log("firstName", firstName);
+  const [dataPosts, setDataPosts] = useState([]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -47,20 +64,15 @@ const Welcome = () => {
         </div>
         <div className="container_imgbtn_post_welcome">
           <div className="container_imgbtn_welcome">
-            <NavLink to="/Profile">
+            <NavLink to={`/Profile?id=${id}`}>
               <div className="item_profileimg_welcome">
-                <Profileimg />
+                <Profileimg dataUser={dataUser} />
               </div>
             </NavLink>
             <div>
-              <Button
-                href="/Creatpost"
-                variant="contained"
-                color="secondary"
-                className="button_welcome"
-              >
-                CreatPost
-              </Button>{" "}
+              <NavLink to={`/creatPost?id=${id}`}>
+                <Profileimg id={id} />
+              </NavLink>
             </div>
           </div>
           <NavLink to="/Innerpost">

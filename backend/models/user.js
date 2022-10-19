@@ -10,6 +10,7 @@ const userSchema = mongoose.Schema({
   employment: { type: String },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  imageUrl: { type: String },
 });
 
 userSchema.plugin(uniqueValidator);

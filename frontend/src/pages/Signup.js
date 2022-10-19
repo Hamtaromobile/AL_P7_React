@@ -26,13 +26,14 @@ const Signup = () => {
     useState(false);
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const [dataResAxios, setDataResAxios] = useState("");
+  const [dataIdUser, setDataIdUser] = useState("");
   //const [allowSend, setAllowSend] = useState(false);
 
   //gestion erreurs
 
   const firstNameOnChange = (e) => {
     setFirstName(e.target.value);
-    if (!/^[a-zA-Z ]+$/.test(e.target.value)) {
+    if (!/^[a-zA-Z ]+$/.test(e.target.value) || firstName.length > 40) {
       setErrorFn(true);
       setAllowSendFn(false);
     } else {
@@ -43,7 +44,7 @@ const Signup = () => {
 
   const lastNameOnChange = (e) => {
     setLastName(e.target.value);
-    if (!/^[a-zA-Z ]+$/.test(e.target.value)) {
+    if (!/^[a-zA-Z ]+$/.test(e.target.value) || lastName.length > 40) {
       setErrorLn(true);
       setAllowSendLn(false);
     } else {
@@ -54,7 +55,10 @@ const Signup = () => {
 
   const employmentOnChange = (e) => {
     setEmployment(e.target.value);
-    if (!/^[a-zA-Z\u0080-\u024F\s\-)(`."']+$/.test(e.target.value)) {
+    if (
+      !/^[a-zA-Z\u0080-\u024F\s\-)(`."']+$/.test(e.target.value) ||
+      employment.length > 40
+    ) {
       setErrorE(true);
       setAllowSendE(false);
     } else {
@@ -65,7 +69,10 @@ const Signup = () => {
 
   const emailOnChange = (e) => {
     setEmail(e.target.value);
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(e.target.value)) {
+    if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(e.target.value) ||
+      firstName.length > 40
+    ) {
       setErrorEmail(true);
       setAllowSendEmail(false);
     } else {
@@ -103,13 +110,13 @@ const Signup = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     if (
-      allowSendFn &&
-      allowSendLn &&
-      allowSendE &&
-      allowSendEmail &&
-      allowSendPassword &&
-      allowSendConfirmPassword
+      allowSendFn ||
+      allowSendLn ||
+      allowSendE ||
+      allowSendEmail ||
+      (allowSendPassword && allowSendConfirmPassword)
     ) {
       alert("axios post");
       const dataSignup = {
@@ -119,11 +126,14 @@ const Signup = () => {
         email: email,
         password: password,
       };
+
       axios
-        .post("http://localhost:3000/api/auth/signup", dataSignup)
+        .post("http://localhost:3001/api/auth/signup", dataSignup)
         .then((res) => {
           console.log(res);
           setDataResAxios(res);
+          setDataIdUser(res.data.userId);
+          console.log("dataIdUser", dataIdUser);
         })
         .catch((err) => {
           console.log(err);
@@ -131,9 +141,9 @@ const Signup = () => {
         });
       console.log("DataResAxiossatus", dataResAxios.status);
       console.log("DataErrorAxiosmsg", dataErrorAxios.message);
-    }
-    if (dataResAxios.status === 201) {
-      window.location.href = "http://192.168.1.11:3000/Welcome";
+      if (dataResAxios.status === 201) {
+        window.location.href = "/Welcome" + "?id=" + dataIdUser; //!!pas de route / nom de page
+      }
     }
   };
   //const data = new FormData(event.currentTarget);
@@ -235,6 +245,13 @@ const Signup = () => {
                 </Typography>
               )}
             </div>
+            <div>
+              {email.length > 40 && (
+                <Typography color="#FD2D01">
+                  Maximum de 40 caractère autorisé
+                </Typography>
+              )}
+            </div>
           </div>
           <div className="mb-3">
             <label
@@ -255,7 +272,6 @@ const Signup = () => {
               placeholder="Enter password"
               value={password}
               onChange={(e) => passwordOnChange(e)}
-              color="green"
               style={{
                 color:
                   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
@@ -266,6 +282,15 @@ const Signup = () => {
               }}
             />
           </div>
+
+          <div>
+            {password.length > 30 && (
+              <Typography color="#FD2D01">
+                Maximum de 30 caractère autorisé
+              </Typography>
+            )}
+          </div>
+
           <div className="mb-3">
             <label
               style={{
@@ -308,7 +333,6 @@ const Signup = () => {
             <button
               type="submit"
               className="btn btn-primary"
-              color="green"
               disabled={
                 !allowSendFn ||
                 !allowSendLn ||

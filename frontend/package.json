@@ -22,6 +22,7 @@
     "react-dom": "^18.2.0",
     "react-float-menu": "^0.4.7",
     "react-headless-tabs": "^5.1.3",
+    "react-images-uploading": "^3.1.7",
     "react-native-web": "^0.18.9",
     "react-offcanvas": "^0.4.0",
     "react-offcanvas-menu-component": "^1.0.1",

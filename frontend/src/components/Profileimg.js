@@ -1,19 +1,23 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const Profileimg = () => {
+const Profileimg = ({ dataUser }) => {
+  console.log("dataUserimg", dataUser);
+  console.log("dataUser.imageUrl", dataUser.imageUrl);
   return (
     <div className="container_profileimg">
       <div className="card mb-4 mb-xl-0">
-        <div className="card-header">Welcome Damien</div>
+        <div className="card-header">Welcome {dataUser.firstName}</div>
         <div className="card-body text-center">
           <div className="container-img">
             <img
               className="img-account-profile rounded-circle mb-2"
-              src="http://bootdey.com/img/Content/avatar/avatar1.png"
-              alt=""
+              src={dataUser.imageUrl}
+              alt="Photo de profil"
             />
           </div>
-          <p className="employment">Engineer</p>
+          <p className="employment">{dataUser.employment}</p>
         </div>
       </div>
     </div>

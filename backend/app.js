@@ -15,7 +15,7 @@ const userRoutes = require("./routes/user");
 //permet la connexion à mongodb
 mongoose
   .connect(
-    "mongodb+srv://Antoine:Antoine@p7.octwgfe.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://antoine:antoine@cluster0.9hqkitg.mongodb.net/?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

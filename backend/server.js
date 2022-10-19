@@ -18,7 +18,7 @@ const normalizePort = (val) => {
 };
 
 //port déclaré ou écoute sur le port 3000
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.PORT || "3001");
 app.set("port", port);
 
 // rapport d'erreurs possibles

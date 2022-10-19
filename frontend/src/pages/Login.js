@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Navigation from "../components/Navigation";
-//import { useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../components/Footer";
 
@@ -46,6 +46,7 @@ export default function Login() {
   const [errorAxios, setErrorAxios] = useState(false);
   let [dataErrorAxios, setDataErrorAxios] = useState("");
   const [dataResAxios, setDataResAxios] = useState("");
+  const [dataIdUser, setDataIdUser] = useState("");
 
   //const [loginData, setLoginData] = useState([]);
 
@@ -80,19 +81,20 @@ export default function Login() {
         email: email,
         password: password,
       };
+      if (dataResAxios.status === 200) {
+        (window.location.href = "/Welcome" + "?id=" + dataIdUser).load();
+      }
       axios
-        .post("http://localhost:3000/api/auth/Login", dataLogin)
+        .post("http://localhost:3001/api/auth/Login", dataLogin)
         .then((res) => {
-          console.log("res", res);
           setDataResAxios(res);
-          console.log("dataResAxios", dataResAxios);
+          setDataIdUser(res.data.userId);
+
+          console.log("res", res.data.userId);
         })
         .catch((err) => {
           console.log(err);
         });
-      if (dataResAxios.status === 201) {
-        window.location.href = "http://192.168.1.11:3000/Welcome";
-      }
     }
     /*const data = new FormData(event.currentTarget);*/
   };
