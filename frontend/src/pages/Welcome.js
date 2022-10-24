@@ -57,7 +57,7 @@ const Welcome = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navigation />
+      <Navigation id={id} />
       <div className="container_welcome">
         <div className="container_tt_welcome">
           <h1>Groupomania post</h1>
@@ -70,9 +70,7 @@ const Welcome = () => {
               </div>
             </NavLink>
             <div>
-              <NavLink to={`/creatPost?id=${id}`}>
-                <Profileimg id={id} />
-              </NavLink>
+              <NavLink to={`/creatPost?id=${id}`}></NavLink>
             </div>
           </div>
           <NavLink to="/Innerpost">

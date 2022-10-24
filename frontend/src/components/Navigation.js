@@ -1,6 +1,6 @@
 import React from "react";
 
-const Navigation = () => {
+const Navigation = ({ id }) => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg secondary-color static-top">
@@ -47,7 +47,11 @@ const Navigation = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/Welcome" aria-current="page">
+                <a
+                  className="nav-link"
+                  href={id != undefined ? "/Welcome" + "?id=" + id : "/Welcome"}
+                  aria-current="page"
+                >
                   Welcome
                 </a>
               </li>

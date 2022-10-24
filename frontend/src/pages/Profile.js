@@ -24,7 +24,7 @@ const Newprofile = () => {
 
   return (
     <div className="container-body">
-      <Navigation />
+      <Navigation id={id} />
       <div className="container_prof">
         <div>
           <div className="container_profileimg">

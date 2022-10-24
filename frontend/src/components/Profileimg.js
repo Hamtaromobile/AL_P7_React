@@ -4,7 +4,7 @@ import axios from "axios";
 
 const Profileimg = ({ dataUser }) => {
   console.log("dataUserimg", dataUser);
-  console.log("dataUser.imageUrl", dataUser.imageUrl);
+  // console.log("dataUser.imageUrl", dataUser.imageUrl);
   return (
     <div className="container_profileimg">
       <div className="card mb-4 mb-xl-0">
@@ -13,7 +13,7 @@ const Profileimg = ({ dataUser }) => {
           <div className="container-img">
             <img
               className="img-account-profile rounded-circle mb-2"
-              src={dataUser.imageUrl}
+              src={dataUser.imageUrl != undefined ? dataUser.imageUrl : ""}
               alt="Photo de profil"
             />
           </div>

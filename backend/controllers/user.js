@@ -67,10 +67,10 @@ exports.modifyUser = (req, res, next) => {
   //modif. img
   console.log("req.body.user,", req.body.user);
   console.log("req.File", req.file);
-  /*console.log("req.recfile", req.recfile);
+  //console.log("req.recfile", req.recfile);
   console.log("req.body", req.body);
-  console.log("req.protocol", req.protocol);
-  console.log("req.params.id", req.params.id);*/
+  //console.log("req.protocol", req.protocol);
+  console.log("req.params.id", req.params.id);
   const userObject = req.file // req.file existe ?
     ? {
         //si oui
@@ -88,8 +88,8 @@ exports.modifyUser = (req, res, next) => {
 
 //recup. 1 user, route get
 exports.getUser = (req, res, next) => {
-  console.log("req", req);
-  console.log("req.params.id", req.params.id);
+  //console.log("req", req);
+  //console.log("req.params.id", req.params.id);
   User.findOne({ _id: req.params.id })
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(404).json({ error }));

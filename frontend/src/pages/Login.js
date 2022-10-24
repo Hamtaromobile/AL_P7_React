@@ -50,6 +50,13 @@ export default function Login() {
 
   //const [loginData, setLoginData] = useState([]);
 
+  //chgt page
+  useEffect(() => {
+    if (dataResAxios.status === 200) {
+      (window.location.href = "/Welcome" + "?id=" + dataIdUser).load();
+    }
+  }, [dataResAxios.status === 200]);
+
   const emailOnChange = (e) => {
     setEmail(e.target.value);
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(e.target.value)) {
@@ -81,9 +88,7 @@ export default function Login() {
         email: email,
         password: password,
       };
-      if (dataResAxios.status === 200) {
-        (window.location.href = "/Welcome" + "?id=" + dataIdUser).load();
-      }
+
       axios
         .post("http://localhost:3001/api/auth/Login", dataLogin)
         .then((res) => {

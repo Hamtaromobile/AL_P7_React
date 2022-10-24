@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navigation from "../components/Navigation";
 
 import Box from "@mui/material/Box";
@@ -28,6 +28,13 @@ const Signup = () => {
   const [dataResAxios, setDataResAxios] = useState("");
   const [dataIdUser, setDataIdUser] = useState("");
   //const [allowSend, setAllowSend] = useState(false);
+
+  //chgt page
+  useEffect(() => {
+    if (dataResAxios.status === 201) {
+      window.location.href = "/Welcome" + "?id=" + dataIdUser; //!!pas de route / nom de page
+    }
+  }, [dataResAxios.status === 201]);
 
   //gestion erreurs
 
@@ -141,9 +148,6 @@ const Signup = () => {
         });
       console.log("DataResAxiossatus", dataResAxios.status);
       console.log("DataErrorAxiosmsg", dataErrorAxios.message);
-      if (dataResAxios.status === 201) {
-        window.location.href = "/Welcome" + "?id=" + dataIdUser; //!!pas de route / nom de page
-      }
     }
   };
   //const data = new FormData(event.currentTarget);

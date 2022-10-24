@@ -62,7 +62,7 @@ const Home = ({ id }) => {
   return (
     <section>
       <Box component="form" onClick={handleSubmit} noValidate sx={{ mt: 1 }}>
-        <Navigation />
+        <Navigation id={id} />
         <div className="container_tt_creatpost">
           <Typography component="h1" variant="h3">
             Creat post
