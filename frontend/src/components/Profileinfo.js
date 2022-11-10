@@ -149,6 +149,10 @@ const Profileinfo = ({ id }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    let token = [];
+
+    token = JSON.parse(localStorage.getItem("token"));
+    console.log("token", token);
 
     if (firstName.length === 0) {
       firstName = dataUser.firstName;
@@ -181,7 +185,13 @@ const Profileinfo = ({ id }) => {
       };
       console.log("modifyData", modifyData);
       axios
-        .put(urlPut + id, modifyData)
+        .put(urlPut + id, modifyData, {
+          headers: {
+            authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
         .then((res) => {
           console.log(res);
           setDataResAxios(res);
@@ -197,15 +207,23 @@ const Profileinfo = ({ id }) => {
         email,
         password,
       };
+
       console.log("modifyData", modifyDataP);
+
       axios
-        .put(urlPut + id, modifyDataP)
+        .put(urlPut + id, modifyDataP, {
+          headers: {
+            authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
         .then((res) => {
           console.log(res);
           setDataResAxios(res);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          console.log(error);
         });
     }
   };
@@ -399,7 +417,7 @@ const Profileinfo = ({ id }) => {
                   !allowSendLn &&
                   !allowSendE &&
                   !allowSendEmail &&
-                  (!allowSendConfirmPassword || !allowSendPassword)
+                  !allowSendConfirmPassword
                     ? true
                     : false
                 }

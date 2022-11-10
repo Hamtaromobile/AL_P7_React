@@ -47,6 +47,7 @@ export default function Login() {
   let [dataErrorAxios, setDataErrorAxios] = useState("");
   const [dataResAxios, setDataResAxios] = useState("");
   const [dataIdUser, setDataIdUser] = useState("");
+  const urlPost = "http://localhost:3001/api/auth/Login";
 
   //const [loginData, setLoginData] = useState([]);
 
@@ -83,118 +84,127 @@ export default function Login() {
     event.preventDefault();
     console.log(email);
     if (allowSendEmail && allowSendPassword) {
-      alert("axios post");
       const dataLogin = {
         email: email,
         password: password,
       };
 
       axios
-        .post("http://localhost:3001/api/auth/Login", dataLogin)
+        .post(urlPost, dataLogin)
         .then((res) => {
           setDataResAxios(res);
           setDataIdUser(res.data.userId);
+          localStorage.setItem("token", JSON.stringify(res.data.token));
 
-          console.log("res", res.data.userId);
+          console.log("res", res);
         })
         .catch((err) => {
+          setDataErrorAxios(err);
           console.log(err);
         });
     }
+
     /*const data = new FormData(event.currentTarget);*/
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Navigation />
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
+    <section>
+      <ThemeProvider theme={theme}>
+        <Navigation />
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
           <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <TextField
-              value={email}
-              onChange={(e) => emailOnChange(e)}
-              className="email"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              color="secondary"
-            />
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => passwordOnChange(e)}
-              color="secondary"
-            />
-            <div>
-              {!errorAxios && (
-                <Typography color="#FD2D01">
-                  {dataErrorAxios.valueOf}
-                </Typography>
-              )}
-            </div>
-
-            <FormControlLabel
-              control={<Checkbox value="remember" color="secondary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={!allowSendPassword || !allowSendEmail ? true : false}
-            >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
               Login
-            </Button>
+            </Typography>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                value={email}
+                onChange={(e) => emailOnChange(e)}
+                className="email"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                color="secondary"
+              />
 
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2" color="secondary">
-                  Forgot password?
-                </Link>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => passwordOnChange(e)}
+                color="secondary"
+              />
+              <div>
+                {!errorAxios && (
+                  <Typography color="#FD2D01">
+                    {dataErrorAxios.valueOf}
+                  </Typography>
+                )}
+              </div>
+
+              <FormControlLabel
+                control={<Checkbox value="remember" color="secondary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                disabled={!allowSendPassword || !allowSendEmail ? true : false}
+              >
+                Login
+              </Button>
+              <div>
+                <Typography color="#FD2D01">
+                  {dataErrorAxios.message}
+                </Typography>
+              </div>
+
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2" color="secondary">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="/Signup" variant="body2" color="secondary">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link href="/Signup" variant="body2" color="secondary">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-      <Footer />
-    </ThemeProvider>
+        </Container>
+        <Footer />
+      </ThemeProvider>
+    </section>
   );
 }

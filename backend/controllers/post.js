@@ -6,16 +6,22 @@ const fs = require("fs");
 
 //creation, route post
 exports.createPost = (req, res, next) => {
-  const postObject = JSON.parse(req.body.post); // "form-data" parse en JSON
-  delete postObject._id; //remove id de la req, remplacer par l'id de mongoDb
-  delete postObject._userId; //remove _userId, protection contre mauvais id envoyé
+  //const postObject = JSON.parse(req.body.post); // "form-data" parse en JSON
+  const postObject = req.body;
+  console.log("postObject", postObject);
+  //console.log("postObject_id", postObject._id);
+  //console.log("postObjectuser_id", postObject.user_id);
+  console.log("req.auth.userId", req.auth);
+
+  //delete postObject._id; //remove id de la req, remplacer par l'id de mongoDb
+  //delete postObject._userId; //remove _userId, protection contre mauvais id envoyé
   const newPost = new Post({
     //créa new instance
     ...postObject, //copy champ de req.body
     userId: req.auth.userId,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${
+    /* imageUrl: `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
-    }`,
+    }`,*/
     likes: 0,
     dislikes: 0,
     usersLiked: "",

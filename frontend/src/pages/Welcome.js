@@ -36,10 +36,11 @@ const Welcome = () => {
   const [dataUser, setDataUser] = useState([]);
   const [firstName, setFirstName] = useState("");
   const [employment, setEmployment] = useState("");
+  const urlGet = "http://localhost:3001/api/auth/getUser/";
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/auth/getUser/" + id)
+      .get(urlGet + id)
       .then((res) => {
         setDataUser(res.data);
         // console.log("res", res);
@@ -70,8 +71,15 @@ const Welcome = () => {
               </div>
             </NavLink>
             <div>
-              <NavLink to={`/creatPost?id=${id}`}></NavLink>
+              <NavLink to={`/createPost?id=${id}`}>
+                <button type="button" className="btn btn-primary">
+                  Creat post
+                </button>
+              </NavLink>
             </div>
+          </div>
+          <div>
+            <Post />
           </div>
           <NavLink to="/Innerpost">
             <div className="item_post_welcome">

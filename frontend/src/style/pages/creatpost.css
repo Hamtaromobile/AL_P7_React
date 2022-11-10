@@ -8,21 +8,21 @@
     margin-top: 3em;
 }
 
-.container_textfield_creatpost{
+.container_titletextsub_creatpost{
     display: flex;
     flex-direction: column;
     flex-wrap:wrap;
     justify-content:space-between;
     align-items:flex-start;
     width: 72em ;
-    height: 21em;
+    height: 30em;
     border: 0.1rem solid;
     border-radius: 2em;
     padding: 2em;
 }
 
 
-.item_textfield_text{
+.container_textfield_text{
     width: 68em;
     color: white;
 }

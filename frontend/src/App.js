@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import Welcome from "./pages/Welcome";
 import Profile from "./pages/Profile";
 import Innerpost from "./pages/Innerpost";
-import Creatpost from "./pages/Creatpost";
+import Createpost from "./pages/Createpost";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
@@ -17,7 +17,7 @@ const App = () => {
         <Route path="/Welcome" element={<Welcome />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Innerpost" element={<Innerpost />} />
-        <Route path="/Creatpost" element={<Creatpost />} />
+        <Route path="/Createpost" element={<Createpost />} />
         <Route path="*" element={<Login />} />
       </Routes>
     </BrowserRouter>

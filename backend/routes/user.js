@@ -14,7 +14,7 @@ router.post("/signup", userCtrl.signup);
 router.post("/login", userCtrl.login);
 
 //Modify
-router.put("/modifyUser/:id", multer, userCtrl.modifyUser);
+router.put("/modifyUser/:id", auth, multer, userCtrl.modifyUser);
 
 //recup. user
 router.get("/getUser/:id", userCtrl.getUser);

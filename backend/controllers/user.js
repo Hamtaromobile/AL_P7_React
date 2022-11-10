@@ -3,6 +3,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 
 // new user, route post
 exports.signup = (req, res, next) => {
@@ -39,7 +40,7 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
-      //user n'existe pas
+      //si user n'existe pas
       if (!user) {
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
       }
@@ -65,25 +66,80 @@ exports.login = (req, res, next) => {
 //modif., route put
 exports.modifyUser = (req, res, next) => {
   //modif. img
-  console.log("req.body.user,", req.body.user);
-  console.log("req.File", req.file);
+  //console.log("req.body.user,", req.body.user);
+  //console.log("req.File", req.file);
   //console.log("req.recfile", req.recfile);
   console.log("req.body", req.body);
   //console.log("req.protocol", req.protocol);
-  console.log("req.params.id", req.params.id);
-  const userObject = req.file // req.file existe ?
-    ? {
-        //si oui
+  // console.log("req.params.id", req.params.id);
+  let userObject = {};
+  if (req.file) {
+    // req.file existe ?
+    //si oui
+    User.findOne({
+      _id: req.params.id,
+    }).then((user) => {
+      //supp. img
+      fs.unlinkSync(`images/${user.imageUrl.split("/images/")[1]}`);
+    }),
+      (userObject = {
+        //new  img
         //...JSON.parse(req.body.user),
         imageUrl: `${req.protocol}://${req.get("host")}/images/${
           req.file.filename
         }`,
-      }
-    : { ...req.body }; //si non
+      });
+    User.updateOne(
+      { _id: req.params.id },
+      { ...userObject, _id: req.params.id }
+    )
+      .then(() =>
+        res.status(200).json({ message: "Utilisateur modifié !", res })
+      )
+      .catch((error) => res.status(400).json({ error }));
+  } //mp
+  else if (
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
+      req.body.password
+    )
+  ) {
+    bcrypt.hash(req.body.password, 10).then((hash) => {
+      userObject = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        employment: req.body.employment,
+        email: req.body.email,
+        password: hash,
+      };
+      User.updateOne(
+        /*{ _id: req.params.id },*/
+        { ...userObject, _id: req.params.id }
+      )
+        .then(() =>
+          res.status(200).json({ message: "Utilisateur modifié !", res })
+        )
+        .catch((error) => res.status(400).json({ error }));
+      console.log("userObjectacpsw", userObject);
+    });
+  } else {
+    userObject = {
+      ...req.body,
+    };
+    console.log("userObjectsspsw", userObject);
+    User.updateOne(
+      { _id: req.params.id },
+      { ...userObject, _id: req.params.id }
+    )
+      .then(() =>
+        res.status(200).json({ message: "Utilisateur modifié !", res })
+      )
+      .catch((error) => res.status(400).json({ error }));
+  }
+  //console.log("userObject", userObject);
   //maj user à modif., new user
-  User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
+  /* User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
     .then(() => res.status(200).json({ message: "Utilisateur modifié !", res }))
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(400).json({ error }));*/
 };
 
 //recup. 1 user, route get

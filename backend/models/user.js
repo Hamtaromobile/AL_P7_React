@@ -5,9 +5,10 @@ const uniqueValidator = require("mongoose-unique-validator");
 
 //Schéma de données : user, pr mongoDb
 const userSchema = mongoose.Schema({
+  //userId: { type: Number },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  employment: { type: String },
+  employment: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   imageUrl: { type: String },

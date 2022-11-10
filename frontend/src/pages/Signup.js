@@ -27,6 +27,7 @@ const Signup = () => {
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const [dataResAxios, setDataResAxios] = useState("");
   const [dataIdUser, setDataIdUser] = useState("");
+  const urlPost = "http://localhost:3001/api/auth/signup";
   //const [allowSend, setAllowSend] = useState(false);
 
   //chgt page
@@ -125,7 +126,6 @@ const Signup = () => {
       allowSendEmail ||
       (allowSendPassword && allowSendConfirmPassword)
     ) {
-      alert("axios post");
       const dataSignup = {
         firstName: firstName,
         lastName: lastName,
@@ -135,9 +135,10 @@ const Signup = () => {
       };
 
       axios
-        .post("http://localhost:3001/api/auth/signup", dataSignup)
+        .post(urlPost, dataSignup)
         .then((res) => {
           console.log(res);
+          localStorage.setItem("token", JSON.stringify(res.data.token));
           setDataResAxios(res);
           setDataIdUser(res.data.userId);
           console.log("dataIdUser", dataIdUser);

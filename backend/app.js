@@ -12,10 +12,12 @@ const postRoutes = require("./routes/post");
 // import route user
 const userRoutes = require("./routes/user");
 
+const cors = require("cors");
+
 //permet la connexion à mongodb
 mongoose
   .connect(
-    "mongodb+srv://antoine:antoine@cluster0.9hqkitg.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://antoine:antoine@cluster0.nss6wxt.mongodb.net/?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -45,6 +47,13 @@ app.use((req, res, next) => {
   next();
 });
 
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+
 //parse req mis ds req.body
 app.use(
   bodyParser.urlencoded({
@@ -61,7 +70,7 @@ app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 //router pour ttes req. vers /api/posts
-app.use("/api/posts", postRoutes);
+app.use("/api/post", postRoutes);
 
 //router pr ttes req. vers /api/auth
 app.use("/api/auth", userRoutes);

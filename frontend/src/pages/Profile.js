@@ -3,16 +3,17 @@ import Navigation from "../components/Navigation";
 import Profileinfo from "../components/Profileinfo";
 import Profileimg from "../components/Profileimg";
 import axios from "axios";
-import Up2 from "../components/Up2";
+import UploadingProf from "../components/UploadingProf";
 
 const Newprofile = () => {
   let params = new URL(document.location).searchParams;
   let id = params.get("id");
   const [dataUser, setDataUser] = useState([]);
+  const urlGet = "http://localhost:3001/api/auth/getUser/";
   console.log("id", id);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/auth/getUser/" + id)
+      .get(urlGet + id)
       .then((res) => {
         setDataUser(res.data);
         console.log("res", res);
@@ -34,7 +35,7 @@ const Newprofile = () => {
         <div className="container_profileinfo">
           <Profileinfo id={id} />
         </div>
-        <Up2 id={id} />
+        <UploadingProf id={id} />
       </div>
     </div>
   );
