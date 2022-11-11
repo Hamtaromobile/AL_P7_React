@@ -182,6 +182,7 @@ const Profileinfo = ({ id }) => {
         lastName,
         employment,
         email,
+        imageUrl: dataUser.imageUrl,
       };
       console.log("modifyData", modifyData);
       axios
@@ -206,9 +207,10 @@ const Profileinfo = ({ id }) => {
         employment,
         email,
         password,
+        //imageUrl: dataUser.imageUrl,
       };
 
-      console.log("modifyData", modifyDataP);
+      console.log("modifyDataPswd", modifyDataP);
 
       axios
         .put(urlPut + id, modifyDataP, {

@@ -40,13 +40,14 @@ function App({ id }) {
       email,
       password,
     };
+
     formData.append("image", file);
     //formData.append("fileName", file.name);
-    const config = {
+    /*const config = {
       headers: {
         "content-type": "multipart/form-data",
       },
-    };
+    };*/
     axios
       .put(url, formData, {
         headers: {
@@ -56,7 +57,7 @@ function App({ id }) {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        console.log("response.data", response.data);
       })
       .catch((err) => {
         console.log(err);

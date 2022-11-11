@@ -18,6 +18,7 @@ exports.signup = (req, res, next) => {
         employment: req.body.employment,
         email: req.body.email,
         password: hash,
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${"smile.png"}`,
       });
       user
         .save()
@@ -80,7 +81,10 @@ exports.modifyUser = (req, res, next) => {
       _id: req.params.id,
     }).then((user) => {
       //supp. img
-      fs.unlinkSync(`images/${user.imageUrl.split("/images/")[1]}`);
+      if (user.imageUrl !== "http://localhost:3001/images/smile.png") {
+        console.log("user.imageUrl", user.imageUrl);
+        fs.unlinkSync(`images/${user.imageUrl.split("/images/")[1]}`);
+      }
     }),
       (userObject = {
         //new  img
@@ -89,14 +93,12 @@ exports.modifyUser = (req, res, next) => {
           req.file.filename
         }`,
       });
-    User.updateOne(
+    /* User.updateOne(
       { _id: req.params.id },
       { ...userObject, _id: req.params.id }
     )
-      .then(() =>
-        res.status(200).json({ message: "Utilisateur modifié !", res })
-      )
-      .catch((error) => res.status(400).json({ error }));
+      .then(() => res.status(200).json({ message: "Utilisateur modifié !" }))
+      .catch((error) => res.status(400).json({ error }));*/
   } //mp
   else if (
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
@@ -110,15 +112,16 @@ exports.modifyUser = (req, res, next) => {
         employment: req.body.employment,
         email: req.body.email,
         password: hash,
+        //imageUrl: req.body.imageUrl,
       };
-      User.updateOne(
-        /*{ _id: req.params.id },*/
+      /* User.updateOne(
+        { _id: req.params.id },
         { ...userObject, _id: req.params.id }
       )
         .then(() =>
-          res.status(200).json({ message: "Utilisateur modifié !", res })
+          res.status(200).json({ message: "Utilisateur modifié !" })
         )
-        .catch((error) => res.status(400).json({ error }));
+        .catch((error) => res.status(400).json({ error }));*/
       console.log("userObjectacpsw", userObject);
     });
   } else {
@@ -126,20 +129,20 @@ exports.modifyUser = (req, res, next) => {
       ...req.body,
     };
     console.log("userObjectsspsw", userObject);
-    User.updateOne(
+    /*User.updateOne(
       { _id: req.params.id },
       { ...userObject, _id: req.params.id }
     )
-      .then(() =>
-        res.status(200).json({ message: "Utilisateur modifié !", res })
-      )
-      .catch((error) => res.status(400).json({ error }));
+
+      .then(() => res.status(200).json({ message: "Utilisateur modifié !" }))
+      .catch((error) => res.status(400).json({ error }));*/
+    console.log("User", User);
   }
   //console.log("userObject", userObject);
   //maj user à modif., new user
-  /* User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
-    .then(() => res.status(200).json({ message: "Utilisateur modifié !", res }))
-    .catch((error) => res.status(400).json({ error }));*/
+  User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
+    .then(() => res.status(200).json({ message: "Utilisateur modifié !" }))
+    .catch((error) => res.status(400).json({ error }));
 };
 
 //recup. 1 user, route get

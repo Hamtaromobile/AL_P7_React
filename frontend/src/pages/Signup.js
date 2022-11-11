@@ -132,8 +132,9 @@ const Signup = () => {
         employment: employment,
         email: email,
         password: password,
+        imageUrl: "",
       };
-
+      console.log("dataSignup", dataSignup);
       axios
         .post(urlPost, dataSignup)
         .then((res) => {
