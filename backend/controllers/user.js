@@ -93,12 +93,6 @@ exports.modifyUser = (req, res, next) => {
           req.file.filename
         }`,
       });
-    /* User.updateOne(
-      { _id: req.params.id },
-      { ...userObject, _id: req.params.id }
-    )
-      .then(() => res.status(200).json({ message: "Utilisateur modifié !" }))
-      .catch((error) => res.status(400).json({ error }));*/
   } //mp
   else if (
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
@@ -114,14 +108,6 @@ exports.modifyUser = (req, res, next) => {
         password: hash,
         //imageUrl: req.body.imageUrl,
       };
-      /* User.updateOne(
-        { _id: req.params.id },
-        { ...userObject, _id: req.params.id }
-      )
-        .then(() =>
-          res.status(200).json({ message: "Utilisateur modifié !" })
-        )
-        .catch((error) => res.status(400).json({ error }));*/
       console.log("userObjectacpsw", userObject);
     });
   } else {
@@ -129,13 +115,6 @@ exports.modifyUser = (req, res, next) => {
       ...req.body,
     };
     console.log("userObjectsspsw", userObject);
-    /*User.updateOne(
-      { _id: req.params.id },
-      { ...userObject, _id: req.params.id }
-    )
-
-      .then(() => res.status(200).json({ message: "Utilisateur modifié !" }))
-      .catch((error) => res.status(400).json({ error }));*/
     console.log("User", User);
   }
   //console.log("userObject", userObject);

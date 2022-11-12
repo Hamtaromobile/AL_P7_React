@@ -3,12 +3,8 @@ import axios from "axios";
 
 function App({ id }) {
   const [file, setFile] = useState();
-  let [firstName, setFirstName] = useState("");
-  let [lastName, setLastName] = useState("");
-  let [employment, setEmployment] = useState("");
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
   const [dataUser, setDataUser] = useState([]);
+  const [dataResAxios, setDataResAxios] = useState("");
   const urlGet = "http://localhost:3001/api/auth/getUser/";
   function handleChange(event) {
     setFile(event.target.files[0]);
@@ -27,27 +23,22 @@ function App({ id }) {
       });
   }, []);
 
+  //chgt page
+  useEffect(() => {
+    if (dataResAxios.status === 200) {
+      window.location.href = `/Profile?id=${id}`; //!!pas de route / nom de page
+    }
+  }, [dataResAxios.status === 200]);
+
   function handleSubmit(event) {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
     console.log("file", file);
     const url = "http://localhost:3001/api/auth/modifyUser/" + id;
     const formData = new FormData();
-    const modifyData = {
-      firstName,
-      lastName,
-      employment,
-      email,
-      password,
-    };
 
     formData.append("image", file);
-    //formData.append("fileName", file.name);
-    /*const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    };*/
+
     axios
       .put(url, formData, {
         headers: {
@@ -58,6 +49,7 @@ function App({ id }) {
       })
       .then((response) => {
         console.log("response.data", response.data);
+        setDataResAxios(response);
       })
       .catch((err) => {
         console.log(err);
@@ -67,7 +59,7 @@ function App({ id }) {
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
-        <h1>React File Upload</h1>
+        <h1>Image du profile</h1>
         <input type="file" onChange={handleChange} />
         <button type="submit">Upload</button>
       </form>

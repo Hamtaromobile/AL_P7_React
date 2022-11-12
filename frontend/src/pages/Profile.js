@@ -27,15 +27,16 @@ const Newprofile = () => {
     <div className="container-body">
       <Navigation id={id} />
       <div className="container_prof">
-        <div>
-          <div className="container_profileimg">
-            <Profileimg dataUser={dataUser} />
-          </div>
+        <div className="container_profileimg">
+          <Profileimg dataUser={dataUser} />
         </div>
+
         <div className="container_profileinfo">
           <Profileinfo id={id} />
+          <div>
+            <UploadingProf id={id} />
+          </div>
         </div>
-        <UploadingProf id={id} />
       </div>
     </div>
   );

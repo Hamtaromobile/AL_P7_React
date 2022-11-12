@@ -46,11 +46,12 @@ const Profileinfo = ({ id }) => {
   }, []);
 
   //chgt page
-  /* useEffect(() => {
+  useEffect(() => {
     if (dataResAxios.status === 200) {
       window.location.href = `/Profile?id=${id}`; //!!pas de route / nom de page
     }
-  }, [dataResAxios.status === 200]);*/
+  }, [dataResAxios.status === 200]);
+
   useEffect(() => {
     if (
       confirmPassword.length > 0 &&
@@ -196,6 +197,7 @@ const Profileinfo = ({ id }) => {
         .then((res) => {
           console.log(res);
           setDataResAxios(res);
+          console.log("dataResAxios.status", dataResAxios.data);
         })
         .catch((err) => {
           console.log(err);
@@ -223,6 +225,7 @@ const Profileinfo = ({ id }) => {
         .then((res) => {
           console.log(res);
           setDataResAxios(res);
+          console.log("dataResAxios", dataResAxios);
         })
         .catch((error) => {
           console.log(error);
@@ -303,7 +306,7 @@ const Profileinfo = ({ id }) => {
               <div className="row gx-3 mb-3">
                 <div className="col-md-6">
                   <label className="small mb-1" for="inputEmpName">
-                    Employement
+                    Employment
                   </label>
                   <input
                     className="form-control"
