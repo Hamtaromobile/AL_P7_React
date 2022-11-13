@@ -8,29 +8,43 @@ const fs = require("fs");
 exports.createPost = (req, res, next) => {
   //const postObject = JSON.parse(req.body.post); // "form-data" parse en JSON
   const postObject = req.body;
-  console.log("postObject", postObject);
-  //console.log("postObject_id", postObject._id);
-  //console.log("postObjectuser_id", postObject.user_id);
-  console.log("req.auth.userId", req.auth);
 
-  //delete postObject._id; //remove id de la req, remplacer par l'id de mongoDb
-  //delete postObject._userId; //remove _userId, protection contre mauvais id envoyé
-  const newPost = new Post({
-    //créa new instance
-    ...postObject, //copy champ de req.body
-    userId: req.auth.userId,
-    /* imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`,*/
-    likes: 0,
-    dislikes: 0,
-    usersLiked: "",
-    usersDisliked: "",
-  });
-  newPost
-    .save()
-    .then(() => res.status(201).json({ message: "post enregistré!" }))
-    .catch((error) => res.status(400).json({ error }));
+  delete postObject._id; //remove id de la req, remplacer par l'id de mongoDb
+  delete postObject._userId; //remove _userId, protection contre mauvais id envoyé
+
+  if (req.file) {
+    const newPost = new Post({
+      //créa new instance
+      ...postObject, //copy champ de req.body
+      userId: req.auth.userId,
+      imageUrl: `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+      }`,
+      likes: 0,
+      dislikes: 0,
+      usersLiked: "",
+      usersDisliked: "",
+    });
+    newPost
+      .save()
+      .then(() => res.status(201).json({ message: "post enregistré!" }))
+      .catch((error) => res.status(400).json({ error }));
+  } else {
+    const newPost = new Post({
+      //créa new instance
+      ...postObject, //copy champ de req.body
+      userId: req.auth.userId,
+      imageUrl: "",
+      likes: 0,
+      dislikes: 0,
+      usersLiked: "",
+      usersDisliked: "",
+    });
+    newPost
+      .save()
+      .then(() => res.status(201).json({ message: "post enregistré!" }))
+      .catch((error) => res.status(400).json({ error }));
+  }
 };
 
 //recup. 1 post, route get

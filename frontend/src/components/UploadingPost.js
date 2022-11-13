@@ -9,6 +9,7 @@ function App({ id }) {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   const [dataUser, setDataUser] = useState([]);
+
   function handleChange(event) {
     setFile(event.target.files[0]);
   }
@@ -28,16 +29,16 @@ function App({ id }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log("file", file);
-    const url = "http://localhost:3001/api/auth/modifyUser/" + id;
+    //  console.log("file", file);
+    const url = "http://localhost:3001/api/post/createPost" + id;
     const formData = new FormData();
-    const modifyData = {
+    /*const modifyData = {
       firstName,
       lastName,
       employment,
       email,
       password,
-    };
+    };*/
     formData.append("image", file);
     //formData.append("fileName", file.name);
     const config = {

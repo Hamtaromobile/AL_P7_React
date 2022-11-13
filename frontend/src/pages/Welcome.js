@@ -34,16 +34,37 @@ const Welcome = () => {
   console.log("id", id);
 
   const [dataUser, setDataUser] = useState([]);
+  const [dataPost, setDataPost] = useState([]);
   const [firstName, setFirstName] = useState("");
   const [employment, setEmployment] = useState("");
-  const urlGet = "http://localhost:3001/api/auth/getUser/";
+  const urlGetProf = "http://localhost:3001/api/auth/getUser/";
+  const urlGetPost = "http://localhost:3001/api/post/getAllPost/";
 
   useEffect(() => {
     axios
-      .get(urlGet + id)
+      .get(urlGetProf + id)
       .then((res) => {
         setDataUser(res.data);
         // console.log("res", res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    axios
+      .get(urlGetPost, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        setDataPost(res.data);
+        console.log("dataPost", dataPost);
       })
       .catch((err) => {
         console.log(err);
@@ -84,7 +105,7 @@ const Welcome = () => {
           <NavLink to="/Innerpost">
             <div className="item_post_welcome">
               <ul>
-                {dataPosts.map((post, index) => (
+                {dataPost.map((post, index) => (
                   <Post key={index} post={post} />
                 ))}
               </ul>

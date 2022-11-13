@@ -8,7 +8,7 @@ const fs = require("fs");
 // new user, route post
 exports.signup = (req, res, next) => {
   //crypt. mp, pas de stockage du mp
-  console.log(req.body);
+
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
@@ -67,12 +67,7 @@ exports.login = (req, res, next) => {
 //modif., route put
 exports.modifyUser = (req, res, next) => {
   //modif. img
-  //console.log("req.body.user,", req.body.user);
-  //console.log("req.File", req.file);
-  //console.log("req.recfile", req.recfile);
-  console.log("req.body", req.body);
-  //console.log("req.protocol", req.protocol);
-  // console.log("req.params.id", req.params.id);
+
   let userObject = {};
   if (req.file) {
     // req.file existe ?
@@ -82,7 +77,6 @@ exports.modifyUser = (req, res, next) => {
     }).then((user) => {
       //supp. img
       if (user.imageUrl !== "http://localhost:3001/images/smile.png") {
-        console.log("user.imageUrl", user.imageUrl);
         fs.unlinkSync(`images/${user.imageUrl.split("/images/")[1]}`);
       }
     }),
@@ -108,16 +102,13 @@ exports.modifyUser = (req, res, next) => {
         password: hash,
         //imageUrl: req.body.imageUrl,
       };
-      console.log("userObjectacpsw", userObject);
     });
   } else {
     userObject = {
       ...req.body,
     };
-    console.log("userObjectsspsw", userObject);
-    console.log("User", User);
   }
-  //console.log("userObject", userObject);
+
   //maj user à modif., new user
   User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
     .then(() => res.status(200).json({ message: "Utilisateur modifié !" }))
@@ -126,8 +117,6 @@ exports.modifyUser = (req, res, next) => {
 
 //recup. 1 user, route get
 exports.getUser = (req, res, next) => {
-  //console.log("req", req);
-  //console.log("req.params.id", req.params.id);
   User.findOne({ _id: req.params.id })
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(404).json({ error }));

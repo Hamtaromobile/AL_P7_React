@@ -150,9 +150,9 @@ const Profileinfo = ({ id }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let token = [];
+    //let token = [];
 
-    token = JSON.parse(localStorage.getItem("token"));
+    const token = JSON.parse(localStorage.getItem("token"));
     console.log("token", token);
 
     if (firstName.length === 0) {

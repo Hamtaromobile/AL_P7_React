@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import UploadingPost from "../components/UploadingPost";
 import { useState, useEffect } from "react";
 
 import Box from "@mui/material/Box";
@@ -36,11 +37,14 @@ const theme = createTheme({
 });
 
 const Creatpost = () => {
+  const [file, setFile] = useState();
   const [dataUser, setDataUser] = useState([]);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [date, setDate] = useState("");
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const [dataResAxios, setDataResAxios] = useState("");
+
   const urlGet = "http://localhost:3001/api/auth/getUser/";
   const urlPost = "http://localhost:3001/api/post/createPost";
 
@@ -70,17 +74,37 @@ const Creatpost = () => {
     setText(e.target.value);
   };
 
+  function handleChange(e) {
+    setFile(e.target.files[0]);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    const dataCreatePost = {
-      // userId: id,
+    const token = JSON.parse(localStorage.getItem("token"));
+    const today = new Date();
+    setDate(JSON.stringify(today.toString()));
+    console.log("today.toString()", today.toString());
+    console.log("date", date);
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("userId", id);
+    formData.append("title", title);
+    formData.append("text", text);
+    formData.append("date", date);
+    /*const dataCreatePost = {
+      userId: id,
       title: title,
       text: text,
-    };
+    };*/
 
     axios
-      .post(urlPost, dataCreatePost)
+      .post(urlPost, formData, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         console.log(res);
         setDataResAxios(res);
@@ -91,14 +115,12 @@ const Creatpost = () => {
       });
     console.log("DataResAxiossatus", dataResAxios.status);
     console.log("DataErrorAxiosmsg", dataErrorAxios.message);
-    if (dataResAxios.status === 201) {
-    }
   };
 
   return (
     <section>
       <ThemeProvider theme={theme}>
-        <Box component="form" onClick={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <Navigation id={id} />
           <div className="container_tt_creatpost">
             <Typography component="h1" variant="h3">
@@ -134,6 +156,9 @@ const Creatpost = () => {
                   value={text}
                   onChange={(e) => textOnChange(e)}
                 />
+              </div>
+              <div>
+                <input type="file" onChange={handleChange} />
               </div>
               <div>
                 <button className="btn btn-primary" type="submit">
