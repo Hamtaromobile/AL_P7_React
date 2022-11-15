@@ -1,84 +1,87 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
 
-const Mainpost = ({ id }) => {
-  const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
-  const urlGetUser = "http://localhost:3001/api/auth/getUser/";
-  const [dataUser, setDataUser] = useState([]);
-  const token = JSON.parse(localStorage.getItem("token"));
-  const [dataPost, setDataPost] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(urlGetPost + id, {
-        headers: {
-          authorization: `Bearer ${token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        setDataPost(res.data);
-        console.log("resPost", res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  console.log("dataPost", dataPost);
-
-  useEffect(() => {
-    const getDataUser = async () => {
-      try {
-        const res = await axios.get(urlGetUser + dataPost.userId);
-        setDataUser(res.data);
-        console.log("res.dataUser", res.data);
-      } catch (err) {
-        // Handle Error Here
-        console.error(err);
-      }
-    };
-    getDataUser();
-  }, []);
-
+const Mainpost = () => {
   return (
-    <article className="container_mainpost">
-      <div className="container_date_mainpost">
-        <p>date</p>
-      </div>
-      <div className="container_memberpost_mainpost">
-        <div className="container_member_mainpost">
-          <div>
-            <img
-              className="item_img_mainpost"
-              src={dataUser.imageUrl != undefined ? dataUser.imageUrl : ""}
-              alt="Photo de profil"
-              style={{
-                border:
-                  dataUser.imageUrl != undefined ? "1px  solid #FD2D01" : "",
-              }}
-            />
-          </div>
-          <p>{dataUser.firstName}</p>
-          <p>{dataUser.lastName}</p>
-        </div>
-        <div className="container_post_mainpost">
-          <div>
-            <h2 className="item_tt_mainpost">{dataPost.title}</h2>
-            <div className="borderbot_tt"></div>
-            <div className="container_txtimg_mainpost">
-              <p>{dataPost.text}</p>
-              <p>img</p>
+    <div className="container_mp">
+      <div class="container-fluid mt-100">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-4">
+              <div class="card-header_mp">
+                <div class="media flex-wrap w-100 align-items-center">
+                  {" "}
+                  <img
+                    src="https://i.imgur.com/iNmBizf.jpg"
+                    class="d-block ui-w-40 rounded-circle"
+                    alt=""
+                  />
+                  <div class="media-body ml-3">
+                    {" "}
+                    <p>Tom Harry</p>
+                    <div class="text-muted small">13 days ago</div>
+                  </div>
+                  <div class="text-muted small ml-3">
+                    <div>
+                      Member since <strong>01/1/2019</strong>
+                    </div>
+                    <div>
+                      <strong>134</strong> posts
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>
+                  {" "}
+                  For me, getting my business website made was a lot of tech
+                  wizardry things. Thankfully i get an ad on Facebook ragarding
+                  commence website. I get connected with BBB team. They made my
+                  stunning website live in just 3 days. With the increase demand
+                  of online customers. I had to take my business online. BBB
+                  Team guided me at each step and enabled me to centralise my
+                  work and have control on all aspect of my online business.
+                </p>
+                <p>
+                  {" "}
+                  For me, getting my business website made was a lot of tech
+                  wizardry things. Thankfully i get an ad on Facebook ragarding
+                  commence website. I get connected with BBB team. They made my
+                  stunning website live in just 3 days. With the increase demand
+                  of online customers. I had to take my business online. BBB
+                  Team guided me at each step and enabled me to centralise my
+                  work and have control on all aspect of my online business.
+                </p>
+              </div>
+              <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
+                <div class="px-4 pt-3">
+                  {" "}
+                  <a
+                    href="javascript:void(0)"
+                    class="text-muted d-inline-flex align-items-center align-middle"
+                    data-abc="true"
+                  >
+                    {" "}
+                    <i class="fa fa-heart text-danger"></i>&nbsp;{" "}
+                    <span class="align-middle">445</span>{" "}
+                  </a>{" "}
+                  <span class="text-muted d-inline-flex align-items-center align-middle ml-4">
+                    {" "}
+                    <i class="fa fa-eye text-muted fsize-3"></i>&nbsp;{" "}
+                    <span class="align-middle">14532</span>{" "}
+                  </span>{" "}
+                </div>
+                <div class="px-4 pt-3">
+                  {" "}
+                  <button type="button" class="btn btn-primary">
+                    <i class="ion ion-md-create"></i>&nbsp; Reply
+                  </button>{" "}
+                </div>
+              </div>
             </div>
           </div>
-          <div className="container_logo_mainpost">
-            <img className="logo_mainpost" src="./images/icon-left-font.png" />
-          </div>
         </div>
       </div>
-    </article>
+    </div>
   );
 };
 
