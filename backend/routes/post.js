@@ -15,7 +15,7 @@ router.post("/createPost", auth, multer, postCtrl.createPost); //auth
 router.get("/getAllPost", auth, postCtrl.getAllPost);
 
 //recup. un post
-router.get("/:id", auth, postCtrl.getOnePost);
+router.get("/getOnePost/:id", auth, postCtrl.getOnePost);
 
 //modif.
 router.put("/:id", auth, multer, postCtrl.modifyPost);

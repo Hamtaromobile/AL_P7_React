@@ -41,11 +41,11 @@ const Creatpost = () => {
   const [dataUser, setDataUser] = useState([]);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  const [date, setDate] = useState("");
+  //const [date, setDate] = useState("");
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const [dataResAxios, setDataResAxios] = useState("");
 
-  const urlGet = "http://localhost:3001/api/auth/getUser/";
+  const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlPost = "http://localhost:3001/api/post/createPost";
 
   let params = new URL(document.location).searchParams;
@@ -54,12 +54,10 @@ const Creatpost = () => {
 
   useEffect(() => {
     axios
-      .get(urlGet + id)
+      .get(urlGetUser + id)
       .then((res) => {
         setDataUser(res.data);
         console.log("res", res);
-        console.log("dataUser", dataUser);
-        console.log("dataUserfn", dataUser.firstName);
       })
       .catch((err) => {
         console.log(err);
@@ -81,9 +79,10 @@ const Creatpost = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
-    const today = new Date();
-    setDate(JSON.stringify(today.toString()));
-    console.log("today.toString()", today.toString());
+    //const today = new Date();
+    //setDate(JSON.stringify(today.toString()));
+    const date = new Date().toLocaleString();
+    //console.log("today.toString()", today.toString());
     console.log("date", date);
     const formData = new FormData();
     formData.append("image", file);

@@ -21,6 +21,7 @@
 .container_member_mainpost{
     padding: 2em;
     width: 20em;
+    height: auto;
     background-color: #f4f6f8;
 }
 
@@ -58,3 +59,10 @@
     left: 50%;
     transform: translate(-50%, -50%); 
   }
+
+  .item_img_mainpost{
+    border: 1px solid black;
+    border-radius: 50%;
+    height: 2.5em;
+    width: 2.5em;
+}

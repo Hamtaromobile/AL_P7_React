@@ -134,7 +134,6 @@ const Signup = () => {
         password: password,
         imageUrl: "",
       };
-      console.log("dataSignup", dataSignup);
       axios
         .post(urlPost, dataSignup)
         .then((res) => {
@@ -142,14 +141,11 @@ const Signup = () => {
           localStorage.setItem("token", JSON.stringify(res.data.token));
           setDataResAxios(res);
           setDataIdUser(res.data.userId);
-          console.log("dataIdUser", dataIdUser);
         })
         .catch((err) => {
           console.log(err);
           setDataErrorAxios(err);
         });
-      console.log("DataResAxiossatus", dataResAxios.status);
-      console.log("DataErrorAxiosmsg", dataErrorAxios.message);
     }
   };
   //const data = new FormData(event.currentTarget);

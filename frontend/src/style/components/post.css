@@ -5,6 +5,7 @@
     justify-content:space-between;
     align-items:flex-start;
     width: 70em;
+    height: 10em;
     background-color: white;
     border:1px solid #e2dfdf;
     padding: 2em;
@@ -38,6 +39,7 @@
 .container_tt_txt_post{
     border-bottom: solid black ;
     width: 20em;
+    
 }
 
 .item_img_post{
@@ -45,12 +47,21 @@
     border-radius: 50%;
     height: 2.5em;
     width: 2.5em;
-    
 }
 
-.container_auth_img_post{
+.container_auth_img_date_post{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin-top:-2em;
     
+}
+
+.container_date{
+    margin-top: 4em;
+}
+
+.container_text_post{
+    height: 3.2em;
+    overflow: hidden;
 }

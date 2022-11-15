@@ -31,21 +31,26 @@ const theme = createTheme({
 const Welcome = () => {
   let params = new URL(document.location).searchParams;
   let id = params.get("id");
-  console.log("id", id);
 
   const [dataUser, setDataUser] = useState([]);
   const [dataPost, setDataPost] = useState([]);
   const [firstName, setFirstName] = useState("");
   const [employment, setEmployment] = useState("");
-  const urlGetProf = "http://localhost:3001/api/auth/getUser/";
+  const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetPost = "http://localhost:3001/api/post/getAllPost/";
+  const token = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
     axios
-      .get(urlGetProf + id)
+      .get(urlGetUser + id, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         setDataUser(res.data);
-        // console.log("res", res);
       })
       .catch((err) => {
         console.log(err);
@@ -53,7 +58,6 @@ const Welcome = () => {
   }, []);
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
     axios
       .get(urlGetPost, {
         headers: {
@@ -64,18 +68,12 @@ const Welcome = () => {
       })
       .then((res) => {
         setDataPost(res.data);
-        console.log("dataPost", dataPost);
+        console.log("datapost", dataPost);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
-  console.log("dataUser", dataUser);
-  console.log("dataUserfn", dataUser.firstName);
-  //setFirstName(dataUser.firstName);
-  // console.log("firstName", firstName);
-  const [dataPosts, setDataPosts] = useState([]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -99,18 +97,16 @@ const Welcome = () => {
               </NavLink>
             </div>
           </div>
-          <div>
-            <Post />
+
+          <div className="item_post_welcome">
+            <ul>
+              {dataPost.map((post) => (
+                <NavLink to={`/Innerpost?id=${post._id}`}>
+                  <Post key={post._id} post={post} />
+                </NavLink>
+              ))}
+            </ul>
           </div>
-          <NavLink to="/Innerpost">
-            <div className="item_post_welcome">
-              <ul>
-                {dataPost.map((post, index) => (
-                  <Post key={index} post={post} />
-                ))}
-              </ul>
-            </div>
-          </NavLink>
         </div>
       </div>
     </ThemeProvider>

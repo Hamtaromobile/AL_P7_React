@@ -82,7 +82,7 @@ export default function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(email);
+
     if (allowSendEmail && allowSendPassword) {
       const dataLogin = {
         email: email,
