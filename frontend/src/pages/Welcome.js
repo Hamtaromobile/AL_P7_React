@@ -30,7 +30,7 @@ const theme = createTheme({
 
 const Welcome = () => {
   let params = new URL(document.location).searchParams;
-  let id = params.get("id");
+  let idUser = params.get("id");
 
   const [dataUser, setDataUser] = useState([]);
   const [dataPost, setDataPost] = useState([]);
@@ -42,7 +42,7 @@ const Welcome = () => {
 
   useEffect(() => {
     axios
-      .get(urlGetUser + id, {
+      .get(urlGetUser + idUser, {
         headers: {
           authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -77,20 +77,20 @@ const Welcome = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navigation id={id} />
+      <Navigation idUser={idUser} />
       <div className="container_welcome">
         <div className="container_tt_welcome">
           <h1>Groupomania post</h1>
         </div>
         <div className="container_imgbtn_post_welcome">
           <div className="container_imgbtn_welcome">
-            <NavLink to={`/Profile?id=${id}`}>
+            <NavLink to={`/Profile?id=${idUser}`}>
               <div className="item_profileimg_welcome">
                 <Profileimg dataUser={dataUser} />
               </div>
             </NavLink>
             <div>
-              <NavLink to={`/createPost?id=${id}`}>
+              <NavLink to={`/createPost?id=${idUser}`}>
                 <button type="button" className="btn btn-primary">
                   Creat post
                 </button>

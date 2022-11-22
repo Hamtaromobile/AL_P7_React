@@ -49,12 +49,11 @@ const Creatpost = () => {
   const urlPost = "http://localhost:3001/api/post/createPost";
 
   let params = new URL(document.location).searchParams;
-  const id = params.get("id");
-  console.log("idcreatpost", id);
+  const idUser = params.get("id");
 
   useEffect(() => {
     axios
-      .get(urlGetUser + id)
+      .get(urlGetUser + idUser)
       .then((res) => {
         setDataUser(res.data);
         console.log("res", res);
@@ -86,7 +85,7 @@ const Creatpost = () => {
     console.log("date", date);
     const formData = new FormData();
     formData.append("image", file);
-    formData.append("userId", id);
+    formData.append("userId", idUser);
     formData.append("title", title);
     formData.append("text", text);
     formData.append("date", date);
@@ -120,7 +119,7 @@ const Creatpost = () => {
     <section>
       <ThemeProvider theme={theme}>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <Navigation id={id} />
+          <Navigation idUser={idUser} />
           <div className="container_tt_creatpost">
             <Typography component="h1" variant="h3">
               Create post
@@ -157,7 +156,15 @@ const Creatpost = () => {
                 />
               </div>
               <div>
-                <input type="file" onChange={handleChange} />
+                <label for="image">
+                  choose picture
+                  <input
+                    name="image"
+                    id="image"
+                    type="file"
+                    onChange={handleChange}
+                  />
+                </label>
               </div>
               <div>
                 <button className="btn btn-primary" type="submit">

@@ -24,14 +24,12 @@ const Post = ({ post }) => {
       })
       .then((res) => {
         setDataUser(res.data);
-        console.log("res", res.data);
-        console.log("dataUser", dataUser);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-  console.log("dataUser", dataUser);
+
   return (
     <section>
       <div className="container_post">

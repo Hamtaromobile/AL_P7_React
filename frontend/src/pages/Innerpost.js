@@ -7,14 +7,14 @@ import Responsepost from "../components/Responsepost";
 
 const Innerpost = () => {
   let params = new URL(document.location).searchParams;
-  let id = params.get("id");
-  
+  let idPost = params.get("id");
+
   return (
     <div>
-      <Navigation id={id} />
+      <Navigation />
       <div className="container_post_innerpost">
         <div>
-          <Mainpost id={id} />
+          <Mainpost idPost={idPost} />
         </div>
       </div>
     </div>

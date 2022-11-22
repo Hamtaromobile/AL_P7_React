@@ -21,7 +21,7 @@ router.get("/getOnePost/:id", auth, postCtrl.getOnePost);
 router.put("/:id", auth, multer, postCtrl.modifyPost);
 
 //supp.
-router.delete("/:id", auth, postCtrl.deletePost);
+router.delete("/deletePost/:id", auth, postCtrl.deletePost);
 
 //like, dislike
 router.post("/:id/like", auth, postCtrl.likeDislike);
