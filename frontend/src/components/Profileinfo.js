@@ -25,15 +25,15 @@ const Profileinfo = ({ id }) => {
   const [dataUser, setDataUser] = useState([]);
   const [dataResAxios, setDataResAxios] = useState("");
   const [newPassword, setNewPassword] = useState(false);
-  const urlGet = "http://localhost:3001/api/auth/getUser/";
-  const urlPut = "http://localhost:3001/api/auth/modifyUser/";
+  const urlGetUser = "http://localhost:3001/api/auth/getUser/";
+  const urlPutUser = "http://localhost:3001/api/auth/modifyUser/";
   console.log("id", id);
 
   console.log("fn", firstName);
   console.log("fnlenght", firstName.length);
   useEffect(() => {
     axios
-      .get(urlGet + id)
+      .get(urlGetUser + id)
       .then((res) => {
         setDataUser(res.data);
         console.log("res", res);
@@ -187,7 +187,7 @@ const Profileinfo = ({ id }) => {
       };
       console.log("modifyData", modifyData);
       axios
-        .put(urlPut + id, modifyData, {
+        .put(urlPutUser + id, modifyData, {
           headers: {
             authorization: `Bearer ${token}`,
             Accept: "application/json",
@@ -215,7 +215,7 @@ const Profileinfo = ({ id }) => {
       console.log("modifyDataPswd", modifyDataP);
 
       axios
-        .put(urlPut + id, modifyDataP, {
+        .put(urlPutUser + id, modifyDataP, {
           headers: {
             authorization: `Bearer ${token}`,
             Accept: "application/json",

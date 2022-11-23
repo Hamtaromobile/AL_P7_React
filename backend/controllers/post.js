@@ -13,6 +13,7 @@ exports.createPost = (req, res, next) => {
   delete postObject._userId; //remove _userId, protection contre mauvais id envoyé
 
   if (req.file) {
+    //req.file existe ?
     const newPost = new Post({
       //créa new instance
       ...postObject, //copy champ de req.body
@@ -24,6 +25,7 @@ exports.createPost = (req, res, next) => {
       dislikes: 0,
       usersLiked: "",
       usersDisliked: "",
+      editDate: "",
     });
     newPost
       .save()
@@ -39,6 +41,7 @@ exports.createPost = (req, res, next) => {
       dislikes: 0,
       usersLiked: "",
       usersDisliked: "",
+      editDate: "",
     });
     newPost
       .save()
@@ -64,10 +67,11 @@ exports.getAllPost = (req, res, next) => {
 //modif., route put
 exports.modifyPost = (req, res, next) => {
   //modif. img
+  console.log("req.file", req.file);
   const postObject = req.file // req.file existe ?
     ? {
         //si oui
-        ...JSON.parse(req.body.post),
+        //...JSON.parse(req.body.post),
         imageUrl: `${req.protocol}://${req.get("host")}/images/${
           req.file.filename
         }`,

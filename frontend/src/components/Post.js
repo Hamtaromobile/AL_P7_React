@@ -55,7 +55,9 @@ const Post = ({ post }) => {
           <MessageIcon />
         </div>
         <div className="container_auth_img_date_post">
-          <div>author</div>
+          <p>
+            {dataUser.firstName} {dataUser.lastName}
+          </p>
           <div>
             <img
               className="item_img_post"

@@ -46,7 +46,7 @@ const Creatpost = () => {
   const [dataResAxios, setDataResAxios] = useState("");
 
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
-  const urlPost = "http://localhost:3001/api/post/createPost";
+  const urlPostPost = "http://localhost:3001/api/post/createPost";
 
   let params = new URL(document.location).searchParams;
   const idUser = params.get("id");
@@ -89,14 +89,9 @@ const Creatpost = () => {
     formData.append("title", title);
     formData.append("text", text);
     formData.append("date", date);
-    /*const dataCreatePost = {
-      userId: id,
-      title: title,
-      text: text,
-    };*/
 
     axios
-      .post(urlPost, formData, {
+      .post(urlPostPost, formData, {
         headers: {
           authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -111,8 +106,6 @@ const Creatpost = () => {
         console.log(err);
         setDataErrorAxios(err);
       });
-    console.log("DataResAxiossatus", dataResAxios.status);
-    console.log("DataErrorAxiosmsg", dataErrorAxios.message);
   };
 
   return (

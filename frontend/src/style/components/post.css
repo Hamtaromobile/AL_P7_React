@@ -47,6 +47,7 @@
     border-radius: 50%;
     height: 2.5em;
     width: 2.5em;
+    margin-top: -1em;
 }
 
 .container_auth_img_date_post{
@@ -58,7 +59,7 @@
 }
 
 .container_date{
-    margin-top: 4em;
+    margin-top: 3.5em;
 }
 
 .container_text_post{

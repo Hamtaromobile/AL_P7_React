@@ -49,9 +49,56 @@
     outline: none;
   }
 
-  txt_area_title{
+  .txt_area_title{
     width: 100%;
     resize: none;
-    height: 20px;
+    height: 60px;
     outline: none;
+  }
+
+  .container_button_mp{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    align-items:flex-start;
+    width: 40em;
+  }
+
+  .item_btn{
+    margin-top: 0.4em;
+    margin-left: 1em;
+  }
+
+  .container_btn_like_dis{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content:space-between;
+  }
+
+  .container_like_dis{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    width: 7em;
+  }
+
+  .item_like{
+    color:darkgreen;
+  }
+
+  .item_like:hover{
+    color:lightgreen;
+    cursor: pointer
+    
+  }
+
+  .item_dislike{
+    color:darkred
+  }
+
+  .item_dislike:hover{
+    color:lightcoral;
+    cursor: pointer;
   }

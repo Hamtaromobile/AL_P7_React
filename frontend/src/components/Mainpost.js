@@ -8,6 +8,7 @@ const Mainpost = ({ idPost }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
   const urlDeletePost = "http://localhost:3001/api/post/deletePost/";
+  const urlPutPost = "http://localhost:3001/api/post/modifyPost/";
   const token = JSON.parse(localStorage.getItem("token"));
   const [dataUser, setDataUser] = useState([]);
   const [dataPost, setDataPost] = useState([]);
@@ -16,6 +17,7 @@ const Mainpost = ({ idPost }) => {
   const [editTitle, setEditTitle] = useState("");
   const [statusGetPost, setStatusGetPost] = useState("");
   const [file, setFile] = useState();
+  const [dataResAxios, setDataResAxios] = useState("");
 
   //Get data main post
   useEffect(() => {
@@ -50,7 +52,7 @@ const Mainpost = ({ idPost }) => {
           },
         });
         setDataUser(res.data);
-        console.log("resUser", res);
+        // console.log("resUser", res);
       } catch (err) {
         console.log(err);
       }
@@ -74,7 +76,7 @@ const Mainpost = ({ idPost }) => {
       .catch((err) => {
         console.log(err);
       });
-    // window.location.reload();
+    window.location.reload();
   };
 
   //submit change
@@ -82,30 +84,25 @@ const Mainpost = ({ idPost }) => {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
     const editDate = new Date().toLocaleString();
-    console.log("date", date);
+    console.log("date", editDate);
     const formData = new FormData();
-
-    if (firstName.length === 0) {
-      firstName = dataUser.firstName;
+    //keep data
+    if (editTitle.length === 0) {
+      formData.append("title", dataPost.title);
+    } else {
+      formData.append("title", editTitle);
     }
-    if (lastName.length === 0) {
-      lastName = dataUser.lastName;
+    if (editText.length === 0) {
+      formData.append("text", dataPost.text);
+    } else {
+      formData.append("text", editText);
     }
-    if (employment.length === 0) {
-      employment = dataUser.employment;
-    }
-    if (email.length === 0) {
-      email = dataUser.email;
-    }
-
     formData.append("image", file);
     formData.append("userId", dataPost.userId);
-    formData.append("title", editTitle);
-    formData.append("text", editText);
-    formData.append("date", editDate);
+    formData.append("editDate", editDate);
 
     axios
-      .post(urlPost, formData, {
+      .put(urlPutPost + idPost, formData, {
         headers: {
           authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -115,10 +112,10 @@ const Mainpost = ({ idPost }) => {
       .then((res) => {
         console.log(res);
         setDataResAxios(res);
+        //- window.location.reload();
       })
       .catch((err) => {
         console.log(err);
-        setDataErrorAxios(err);
       });
   };
 
@@ -126,6 +123,8 @@ const Mainpost = ({ idPost }) => {
     setFile(e.target.files[0]);
   }
 
+  const handleLike = () => {};
+  const handledisLike = () => {};
   return (
     <div>
       <link
@@ -151,6 +150,7 @@ const Mainpost = ({ idPost }) => {
             <p>
               le {dataPost.date} par {dataUser.firstName} {dataUser.lastName}{" "}
             </p>
+            {dataPost.editDate ? <em>édité le {dataPost.editDate}</em> : ""}
             <img
               src={dataPost.imageUrl}
               alt="post img"
@@ -168,53 +168,83 @@ const Mainpost = ({ idPost }) => {
                 <p>{editText ? editText : dataPost.text}</p>
               )}
             </article>
-            <button
-              onClick={() => {
-                if (
-                  window.confirm("Voulez-vous vraiment supprimer ce post ?")
-                ) {
-                  handleDelete();
-                }
-              }}
-            >
-              Delete
-            </button>
-            {editing ? (
-              <button
-                type="button"
-                onClick={() => setEditing(false)}
-                className="btn btn-primary"
-              >
-                annul Edit text
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setEditing(true)}
-                className="btn btn-primary"
-              >
-                Edit
-              </button>
-            )}
-            {editing ? (
-              <button type="button" className="btn btn-primary">
-                change picture
-              </button>
-            ) : (
-              ""
-            )}
-            {editing ? (
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onSubmit={handleSubmit}
-              >
-                confirm
-              </button>
-            ) : (
-              ""
-            )}
-            {editing ? <input type="file" onChange={handleChange} /> : ""}
+            <div className="container_btn_like_dis">
+              <div className="container_button_mp">
+                <div>
+                  <button
+                    type="button"
+                    className="btn btn-danger item_btn"
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Voulez-vous vraiment supprimer ce post ?"
+                        )
+                      ) {
+                        handleDelete();
+                      }
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+                <div>
+                  {editing ? (
+                    <button
+                      type="button"
+                      onClick={() => setEditing(false)}
+                      className="btn btn-secondary item_btn"
+                    >
+                      cancel
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setEditing(true)}
+                      className="btn btn-primary item_btn"
+                    >
+                      Edit
+                    </button>
+                  )}
+                </div>
+                <div>
+                  {editing ? (
+                    <button
+                      type="submit"
+                      className="btn btn-success item_btn"
+                      onClick={handleSubmit}
+                    >
+                      confirm
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div>
+                  {editing ? (
+                    <input
+                      className="btn btn-light item_btn"
+                      xxx
+                      type="file"
+                      onChang
+                      e={handleChange}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+              <div className="container_like_dis">
+                <button type="submit" onClick={handleLike}>
+                  <ThumbUpAltIcon className="item_like" sx={{ fontSize: 40 }} />
+                </button>
+                <button type="submit" onClick={handledisLike}>
+                  <ThumbDownAltIcon
+                    className="item_dislike"
+                    sx={{ fontSize: 40 }}
+                  />
+                </button>
+              </div>
+            </div>
           </div>
 
           <div class="col-md-12 gap10"></div>

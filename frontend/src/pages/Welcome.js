@@ -91,7 +91,7 @@ const Welcome = () => {
             </NavLink>
             <div>
               <NavLink to={`/createPost?id=${idUser}`}>
-                <button type="button" className="btn btn-primary">
+                <button type="button" className="btn btn-success btn-lg">
                   Creat post
                 </button>
               </NavLink>
