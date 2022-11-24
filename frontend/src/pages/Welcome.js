@@ -101,7 +101,7 @@ const Welcome = () => {
           <div className="item_post_welcome">
             <ul>
               {dataPost.map((post) => (
-                <NavLink to={`/Innerpost?id=${post._id}`}>
+                <NavLink to={`/Innerpost?idP=${post._id}?idU=${idUser}`}>
                   <Post key={post._id} post={post} />
                 </NavLink>
               ))}

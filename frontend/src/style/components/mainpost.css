@@ -45,7 +45,7 @@
  .txt_area_text {
     width: 100%;
     resize: none;
-    height: 90px;
+    height: 15em;
     outline: none;
   }
 
@@ -86,6 +86,7 @@
 
   .item_like{
     color:darkgreen;
+    border: none;
   }
 
   .item_like:hover{
@@ -95,6 +96,7 @@
   }
 
   .item_dislike{
+    text-decoration:none;
     color:darkred
   }
 

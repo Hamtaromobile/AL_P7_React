@@ -44,13 +44,14 @@ const Creatpost = () => {
   //const [date, setDate] = useState("");
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const [dataResAxios, setDataResAxios] = useState("");
-
+  const [dataResStatAxios, setDataResStatAxios] = useState("");
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlPostPost = "http://localhost:3001/api/post/createPost";
 
   let params = new URL(document.location).searchParams;
   const idUser = params.get("id");
 
+  //get data user
   useEffect(() => {
     axios
       .get(urlGetUser + idUser)
@@ -75,14 +76,18 @@ const Creatpost = () => {
     setFile(e.target.files[0]);
   }
 
+  //chgt page
+  useEffect(() => {
+    if (dataResStatAxios === 201) {
+      window.location.href = "/Innerpost" + "?id=" + dataResAxios.postId;
+    }
+  }, [dataResStatAxios === 201]); //window.location.href = "/Welcome" + "?id=" + dataIdUser;
+
+  //submit create post
   const handleSubmit = (event) => {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
-    //const today = new Date();
-    //setDate(JSON.stringify(today.toString()));
     const date = new Date().toLocaleString();
-    //console.log("today.toString()", today.toString());
-    console.log("date", date);
     const formData = new FormData();
     formData.append("image", file);
     formData.append("userId", idUser);
@@ -100,7 +105,8 @@ const Creatpost = () => {
       })
       .then((res) => {
         console.log(res);
-        setDataResAxios(res);
+        setDataResAxios(res.data);
+        setDataResStatAxios(res.status);
       })
       .catch((err) => {
         console.log(err);
@@ -163,6 +169,11 @@ const Creatpost = () => {
                 <button className="btn btn-primary" type="submit">
                   Submit
                 </button>
+                <div>
+                  <Typography color="#FD2D01">
+                    {dataErrorAxios.message}
+                  </Typography>
+                </div>
               </div>
             </div>
           </div>

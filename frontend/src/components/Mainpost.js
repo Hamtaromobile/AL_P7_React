@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
-const Mainpost = ({ idPost }) => {
+const Mainpost = ({ idPost }, { idUser }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
   const urlDeletePost = "http://localhost:3001/api/post/deletePost/";
@@ -18,6 +18,8 @@ const Mainpost = ({ idPost }) => {
   const [statusGetPost, setStatusGetPost] = useState("");
   const [file, setFile] = useState();
   const [dataResAxios, setDataResAxios] = useState("");
+  console.log("idUser", idUser);
+  console.log("idPost", idPost);
 
   //Get data main post
   useEffect(() => {
@@ -38,9 +40,8 @@ const Mainpost = ({ idPost }) => {
         console.log(err);
       });
   }, []);
-  console.log("dataPost.userId", dataPost.userId);
 
-  //Get user data main post
+  //Get user data for main post
   useEffect(() => {
     const getUserReq = async () => {
       try {
@@ -72,11 +73,11 @@ const Mainpost = ({ idPost }) => {
       })
       .then((res) => {
         console.log("resDeletePost", res);
+        window.location.href = "/Welcome" + "?id=" + dataPost.userId;
       })
       .catch((err) => {
         console.log(err);
       });
-    window.location.reload();
   };
 
   //submit change
@@ -84,7 +85,6 @@ const Mainpost = ({ idPost }) => {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
     const editDate = new Date().toLocaleString();
-    console.log("date", editDate);
     const formData = new FormData();
     //keep data
     if (editTitle.length === 0) {
@@ -101,6 +101,7 @@ const Mainpost = ({ idPost }) => {
     formData.append("userId", dataPost.userId);
     formData.append("editDate", editDate);
 
+    console.log("formData", formData);
     axios
       .put(urlPutPost + idPost, formData, {
         headers: {
@@ -134,7 +135,7 @@ const Mainpost = ({ idPost }) => {
       />
       <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
       <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-      <div class="container">
+      <div className="container">
         <div id="blog" class="row">
           <div class="col-md-10 blogShort">
             {editing ? (
@@ -223,10 +224,8 @@ const Mainpost = ({ idPost }) => {
                   {editing ? (
                     <input
                       className="btn btn-light item_btn"
-                      xxx
                       type="file"
-                      onChang
-                      e={handleChange}
+                      onChange={handleChange}
                     />
                   ) : (
                     ""

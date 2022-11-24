@@ -27,18 +27,13 @@ const Profileinfo = ({ id }) => {
   const [newPassword, setNewPassword] = useState(false);
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlPutUser = "http://localhost:3001/api/auth/modifyUser/";
-  console.log("id", id);
 
-  console.log("fn", firstName);
-  console.log("fnlenght", firstName.length);
   useEffect(() => {
     axios
       .get(urlGetUser + id)
       .then((res) => {
         setDataUser(res.data);
         console.log("res", res);
-        console.log("dataUser", dataUser);
-        console.log("dataUserfn", dataUser.firstName);
       })
       .catch((err) => {
         console.log(err);
@@ -62,7 +57,6 @@ const Profileinfo = ({ id }) => {
     ) {
       setNewPassword(true);
     }
-    console.log("newPassword", newPassword);
   }, [
     confirmPassword.length > 0 &&
       password === confirmPassword &&
@@ -150,10 +144,8 @@ const Profileinfo = ({ id }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //let token = [];
 
     const token = JSON.parse(localStorage.getItem("token"));
-    console.log("token", token);
 
     if (firstName.length === 0) {
       firstName = dataUser.firstName;
@@ -176,7 +168,6 @@ const Profileinfo = ({ id }) => {
     ) {
       setNewPassword(false);
     }
-    console.log("NewPassword", newPassword);
     if (newPassword === false) {
       const modifyData = {
         firstName,
@@ -185,7 +176,7 @@ const Profileinfo = ({ id }) => {
         email,
         imageUrl: dataUser.imageUrl,
       };
-      console.log("modifyData", modifyData);
+
       axios
         .put(urlPutUser + id, modifyData, {
           headers: {
@@ -197,7 +188,6 @@ const Profileinfo = ({ id }) => {
         .then((res) => {
           console.log(res);
           setDataResAxios(res);
-          console.log("dataResAxios.status", dataResAxios.data);
         })
         .catch((err) => {
           console.log(err);
@@ -212,8 +202,6 @@ const Profileinfo = ({ id }) => {
         //imageUrl: dataUser.imageUrl,
       };
 
-      console.log("modifyDataPswd", modifyDataP);
-
       axios
         .put(urlPutUser + id, modifyDataP, {
           headers: {
@@ -225,7 +213,6 @@ const Profileinfo = ({ id }) => {
         .then((res) => {
           console.log(res);
           setDataResAxios(res);
-          console.log("dataResAxios", dataResAxios);
         })
         .catch((error) => {
           console.log(error);

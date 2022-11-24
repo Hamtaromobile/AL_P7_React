@@ -2,6 +2,7 @@
 
 const Post = require("../models/post");
 const fs = require("fs");
+const postId = "";
 // fonction replace
 
 //creation, route post
@@ -14,6 +15,7 @@ exports.createPost = (req, res, next) => {
 
   if (req.file) {
     //req.file existe ?
+
     const newPost = new Post({
       //créa new instance
       ...postObject, //copy champ de req.body
@@ -29,7 +31,11 @@ exports.createPost = (req, res, next) => {
     });
     newPost
       .save()
-      .then(() => res.status(201).json({ message: "post enregistré!" }))
+      .then(() =>
+        res
+          .status(201)
+          .json({ message: "post enregistré!", postId: newPost._id })
+      )
       .catch((error) => res.status(400).json({ error }));
   } else {
     const newPost = new Post({
@@ -45,7 +51,11 @@ exports.createPost = (req, res, next) => {
     });
     newPost
       .save()
-      .then(() => res.status(201).json({ message: "post enregistré!" }))
+      .then(() =>
+        res
+          .status(201)
+          .json({ message: "post enregistré!", postId: newPost._id })
+      )
       .catch((error) => res.status(400).json({ error }));
   }
 };
@@ -67,11 +77,10 @@ exports.getAllPost = (req, res, next) => {
 //modif., route put
 exports.modifyPost = (req, res, next) => {
   //modif. img
-  console.log("req.file", req.file);
   const postObject = req.file // req.file existe ?
     ? {
         //si oui
-        //...JSON.parse(req.body.post),
+        // ...JSON.parse(req.body.post),
         imageUrl: `${req.protocol}://${req.get("host")}/images/${
           req.file.filename
         }`,
