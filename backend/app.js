@@ -12,6 +12,9 @@ const postRoutes = require("./routes/post");
 // import route user
 const userRoutes = require("./routes/user");
 
+// import route reply
+const replyRoutes = require("./routes/reply");
+
 const cors = require("cors");
 
 //permet la connexion à mongodb
@@ -71,6 +74,9 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 //router pour ttes req. vers /api/posts
 app.use("/api/post", postRoutes);
+
+//router pour ttes req. vers /api/reply
+app.use("/api/reply", replyRoutes);
 
 //router pr ttes req. vers /api/auth
 app.use("/api/auth", userRoutes);

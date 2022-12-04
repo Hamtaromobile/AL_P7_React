@@ -79,7 +79,8 @@ const Creatpost = () => {
   //chgt page
   useEffect(() => {
     if (dataResStatAxios === 201) {
-      window.location.href = "/Innerpost" + "?id=" + dataResAxios.postId;
+      window.location.href =
+        "/Innerpost" + "?idP=" + dataResAxios.postId + "&idU=" + idUser;
     }
   }, [dataResStatAxios === 201]); //window.location.href = "/Welcome" + "?id=" + dataIdUser;
 

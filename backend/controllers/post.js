@@ -120,6 +120,7 @@ exports.deletePost = (req, res, next) => {
 //like, dislike route post
 exports.likeDislike = (req, res, next) => {
   console.log("req.body.like:", req.body.like);
+  console.log("req.body.:", req.body);
   //like
   if (req.body.like === 1) {
     Post.updateOne(

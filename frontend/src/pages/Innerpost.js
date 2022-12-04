@@ -9,7 +9,7 @@ const Innerpost = () => {
   const params = new URL(document.location).searchParams;
   const idPost = params.get("idP");
   const idUser = params.get("idU");
-  console.log("idUserinner", idUser);
+  console.log("idUserInnerpost", idUser);
 
   return (
     <div>

@@ -73,7 +73,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap:wrap;
-    justify-content:space-between;
+
   }
 
   .container_like_dis{
@@ -81,26 +81,56 @@
     flex-direction: row;
     flex-wrap:wrap;
     justify-content:space-between;
-    width: 7em;
-  }
-
-  .item_like{
-    color:darkgreen;
-    border: none;
+    width:9em;
+    margin-top: 0.5em;
   }
 
   .item_like:hover{
-    color:lightgreen;
+    font-size:3em;
+    filter: brightness(0.5);
     cursor: pointer
-    
   }
 
-  .item_dislike{
-    text-decoration:none;
-    color:darkred
+  .item_nbr_like{
+    color:grey;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 0.65em;
   }
 
   .item_dislike:hover{
-    color:lightcoral;
+    font-size:3em;
+    filter: brightness(0.5);
     cursor: pointer;
+  }
+
+  .item_nbr_dislike{
+    color:grey;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 0.65em;
+  }
+
+  .item_txt_area_reply{
+    width: 100%;
+    resize: none;
+    height: 15em;
+    outline: none;
+    margin-top: 5em;
+  }
+
+  .container_btn_reply{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    width: 30em;
+  }
+
+  .err_send{
+    color: red;
+  }
+
+  .item_tt_reply{
+    margin-top: 1em;
+    margin-bottom: -1em;
   }

@@ -40,6 +40,7 @@ const Welcome = () => {
   const urlGetPost = "http://localhost:3001/api/post/getAllPost/";
   const token = JSON.parse(localStorage.getItem("token"));
 
+  //Get user
   useEffect(() => {
     axios
       .get(urlGetUser + idUser, {
@@ -57,6 +58,7 @@ const Welcome = () => {
       });
   }, []);
 
+  //Get post
   useEffect(() => {
     axios
       .get(urlGetPost, {
@@ -101,7 +103,7 @@ const Welcome = () => {
           <div className="item_post_welcome">
             <ul>
               {dataPost.map((post) => (
-                <NavLink to={`/Innerpost?idP=${post._id}?idU=${idUser}`}>
+                <NavLink to={`/Innerpost?idP=${post._id}&idU=${idUser}`}>
                   <Post key={post._id} post={post} />
                 </NavLink>
               ))}

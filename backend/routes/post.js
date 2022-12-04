@@ -9,7 +9,7 @@ const postCtrl = require("../controllers/post");
 const auth = require("../middleware/auth");
 
 //création
-router.post("/createPost", auth, multer, postCtrl.createPost); //auth
+router.post("/createPost", auth, multer, postCtrl.createPost);
 
 //lecture
 router.get("/getAllPost", auth, postCtrl.getAllPost);
@@ -24,6 +24,6 @@ router.put("/modifyPost/:id", auth, multer, postCtrl.modifyPost);
 router.delete("/deletePost/:id", auth, postCtrl.deletePost);
 
 //like, dislike
-router.post("/:id/like", auth, postCtrl.likeDislike);
+router.post("/likeDislike/:id", auth, postCtrl.likeDislike);
 
 module.exports = router;
