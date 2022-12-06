@@ -12,6 +12,7 @@ const postSchema = mongoose.Schema({
   usersLiked: { type: [String] },
   usersDisliked: { type: [String] },
   editDate: { type: String },
+  idReplies: { type: [String] },
 });
 
 module.exports = mongoose.model("Post", postSchema); // 1 arg. : Post ; 2 arg. : postSchema

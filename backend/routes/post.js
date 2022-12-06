@@ -26,4 +26,7 @@ router.delete("/deletePost/:id", auth, postCtrl.deletePost);
 //like, dislike
 router.post("/likeDislike/:id", auth, postCtrl.likeDislike);
 
+//reply
+router.post("/idReply/:id", auth, postCtrl.idReply);
+
 module.exports = router;

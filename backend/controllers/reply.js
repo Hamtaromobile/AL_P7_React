@@ -59,3 +59,122 @@ exports.createReply = (req, res, next) => {
       .catch((error) => res.status(400).json({ error }));
   }
 };
+
+//recup. 1 reply, route get
+exports.getOneReply = (req, res, next) => {
+  Reply.findOne({ _id: req.params.id })
+    .then((reply) => res.status(200).json(reply))
+    .catch((error) => res.status(404).json({ error }));
+};
+
+//recup. tous les replies, route get
+exports.getAllReply = (req, res, next) => {
+  Reply.find()
+    .then((replies) => res.status(200).json(replies))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+//modif., route put
+exports.modifyReply = (req, res, next) => {
+  //modif. img
+  const replyObject = req.file // req.file existe ?
+    ? {
+        //si oui
+        // ...JSON.parse(req.body.reply),
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
+      }
+    : { ...req.body }; //si non
+  //maj reply à modif., new reply
+  Reply.updateOne(
+    { _id: req.params.id },
+    { ...replyObject, _id: req.params.id }
+  )
+    .then(() => res.status(200).json({ message: "Objet modifié !" }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+//delete, route delete
+exports.deleteReply = (req, res, next) => {
+  Reply.findOne({ _id: req.params.id }) //
+    .then((reply) => {
+      //si user n'est pas le créateur
+      if (reply.userId != req.auth.userId) {
+        res.status(401).json({ message: "Non authorisé" });
+      } else {
+        //delete img
+        const filename = reply.imageUrl.split("/images/")[1];
+        fs.unlink(`images/${filename}`, () => {
+          //callback, delete reply
+          Reply.deleteOne({ _id: req.params.id })
+            .then(() => {
+              res.status(200).json({ message: "reply supprimé !" });
+            })
+            .catch((error) => res.status(401).json({ error }));
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+};
+
+//like, dislike route reply
+exports.likeDislikeReply = (req, res, next) => {
+  //like
+  if (req.body.like === 1) {
+    Reply.updateOne(
+      { _id: req.params.id },
+      {
+        $push: { usersLiked: req.body.userId },
+        $inc: { likes: +1 },
+      }
+    )
+      .then(() => res.status(200).json({ message: "like" }))
+      .catch((error) => res.status(400).json({ error }));
+  }
+  //dislike
+  if (req.body.like === -1) {
+    Reply.updateOne(
+      { _id: req.params.id },
+      {
+        $push: { usersDisliked: req.body.userId },
+        $inc: { dislikes: +1 },
+      }
+    )
+      .then(() => res.status(200).json({ message: "Dislike" }))
+      .catch((error) => res.status(400).json({ error }));
+  }
+  //annuler like, dislike
+  if (req.body.like === 0) {
+    Reply.findOne({ _id: req.params.id })
+      .then((reply) => {
+        //annuler like
+        if (reply.usersLiked.includes(req.body.userId)) {
+          Reply.updateOne(
+            { _id: req.params.id },
+            {
+              $pull: { usersLiked: req.body.userId },
+              $inc: { likes: -1 },
+            }
+          )
+            .then(() => res.status(200).json({ message: "remove Like" }))
+            .catch((error) => res.status(400).json({ error }));
+        }
+        //annuler dislike
+        if (reply.usersDisliked.includes(req.body.userId)) {
+          Reply.updateOne(
+            { _id: req.params.id },
+            {
+              $pull: { usersDisliked: req.body.userId },
+              $inc: { dislikes: -1 },
+            }
+          )
+            .then(() => res.status(200).json({ message: "remove Dislike" }))
+            .catch((error) => res.status(400).json({ error }));
+        }
+      })
+      .catch((error) => res.status(404).json({ error }));
+  }
+};

@@ -10,8 +10,9 @@ const auth = require("../middleware/auth");
 
 //création
 router.post("/createReply", auth, multer, replyCtrl.createReply);
+
 //lecture
-/*router.get("/getAllReply", auth, replyCtrl.getAllReply);
+router.get("/getAllReply", auth, replyCtrl.getAllReply);
 
 //recup. un post
 router.get("/getOneReply/:id", auth, replyCtrl.getOneReply);
@@ -23,6 +24,6 @@ router.put("/modifyReply/:id", auth, multer, replyCtrl.modifyReply);
 router.delete("/deleteReply/:id", auth, replyCtrl.deleteReply);
 
 //like, dislike
-router.post("/likeDislikeReply/:id", auth, replyCtrl.likeDislikeReply);*/
+//router.post("/likeDislikeReply/:id", auth, replyCtrl.likeDislikeReply);
 
 module.exports = router;

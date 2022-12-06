@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 //schéma de données : reply pr mongoDb
 const replySchema = mongoose.Schema({
   userId: { type: String },
-  mainPostId: { type: String },
   date: { type: String },
   text: { type: String, required: true },
   imageUrl: { type: String },

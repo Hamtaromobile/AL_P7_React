@@ -8,9 +8,11 @@ const Mainpost = ({ idPost }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
   const urlDeletePost = "http://localhost:3001/api/post/deletePost/";
-  const urlPutPost = "http://localhost:3001/api/post/modifyPost/";
-  const urlPutLikeDisPost = "http://localhost:3001/api/post/likeDislike/";
+  const urlPostPost = "http://localhost:3001/api/post/modifyPost/";
+  const urlPostLikeDisPost = "http://localhost:3001/api/post/likeDislike/";
   const urlPostReply = "http://localhost:3001/api/reply/createReply";
+  const urlPostIdReplyPost = "http://localhost:3001/api/post/idReply/";
+
   const token = JSON.parse(localStorage.getItem("token"));
   const [dataUser, setDataUser] = useState([]);
   const [dataPost, setDataPost] = useState([]);
@@ -18,6 +20,7 @@ const Mainpost = ({ idPost }) => {
   const [editText, setEditText] = useState("");
   const [editTitle, setEditTitle] = useState("");
   const [statusGetPost, setStatusGetPost] = useState("");
+  const [statusPostReply, setStatusPostReply] = useState("");
   const [file, setFile] = useState();
   const [dataResReplyAxios, setDataResReplyAxios] = useState("");
   let like;
@@ -27,7 +30,8 @@ const Mainpost = ({ idPost }) => {
   const [disLikeHere, setDisLikeHere] = useState(false);
   const [reply, setReply] = useState(false);
   const [text, setText] = useState("");
-  const [dataErrorAxios, setDataErrorAxios] = useState("");
+  const [dataErrorAxios, setDataErrorReplyAxios] = useState("");
+  const [dataErrorReplyAxios, setDataErrorAxios] = useState("");
   const params = new URL(document.location).searchParams;
   const idUserConnected = params.get("idU");
 
@@ -44,7 +48,7 @@ const Mainpost = ({ idPost }) => {
       .then((res) => {
         setDataPost(res.data);
         setStatusGetPost(res.status);
-        console.log("resPost", res);
+        console.log("resMainPost", res);
       })
       .catch((err) => {
         console.log(err);
@@ -65,7 +69,6 @@ const Mainpost = ({ idPost }) => {
     }
   }, [statusGetPost === 200]);
 
-  console.log("LikeHere", likeHere);
   //Get user data for main post
   useEffect(() => {
     const getUserReq = async () => {
@@ -78,7 +81,6 @@ const Mainpost = ({ idPost }) => {
           },
         });
         setDataUser(res.data);
-        // console.log("resUser", res);
       } catch (err) {
         console.log(err);
       }
@@ -125,10 +127,8 @@ const Mainpost = ({ idPost }) => {
     formData.append("image", file);
     formData.append("userId", dataPost.userId);
     formData.append("editDate", editDate);
-
-    console.log("formData", formData);
     axios
-      .put(urlPutPost + idPost, formData, {
+      .put(urlPostPost + idPost, formData, {
         headers: {
           authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -148,11 +148,6 @@ const Mainpost = ({ idPost }) => {
   function handleChange(e) {
     setFile(e.target.files[0]);
   }
-  console.log("dataPost.userId", dataPost.userId);
-  console.log("idUserConnected", idUserConnected);
-
-  console.log("dataPost.usersLiked", dataPost.usersLiked);
-  console.log("dataPost.usersDisLiked", dataPost.usersDisLiked);
 
   //submit like
   const handleLike = () => {
@@ -170,7 +165,7 @@ const Mainpost = ({ idPost }) => {
       };
 
       axios
-        .post(urlPutLikeDisPost + idPost, dataLike, {
+        .post(urlPostLikeDisPost + idPost, dataLike, {
           headers: {
             authorization: `Bearer ${token}`,
             Accept: "application/json",
@@ -201,9 +196,8 @@ const Mainpost = ({ idPost }) => {
         like,
         userId: idUserConnected,
       };
-      console.log("dataLike,", dataLike);
       axios
-        .post(urlPutLikeDisPost + idPost, dataLike, {
+        .post(urlPostLikeDisPost + idPost, dataLike, {
           headers: {
             authorization: `Bearer ${token}`,
             Accept: "application/json",
@@ -227,14 +221,12 @@ const Mainpost = ({ idPost }) => {
   //submit reply
   const handleReply = (e) => {
     e.preventDefault();
-
     const date = new Date().toLocaleString();
     const formData = new FormData();
     formData.append("image", file);
     formData.append("userId", idUserConnected);
     formData.append("text", text);
     formData.append("date", date);
-    formData.append("mainPostId", idPost);
     axios
       .post(urlPostReply, formData, {
         headers: {
@@ -246,12 +238,37 @@ const Mainpost = ({ idPost }) => {
       .then((res) => {
         console.log(res);
         setDataResReplyAxios(res.data);
+        setStatusPostReply(res.status);
       })
       .catch((err) => {
         console.log(err);
-        setDataErrorAxios(err);
+        setDataErrorReplyAxios(err);
       });
   };
+
+  //submit idRpley for MainPost
+  useEffect(() => {
+    if (statusPostReply === 201) {
+      const dataIdReply = {
+        idReplies: dataResReplyAxios.replyId,
+      };
+      axios
+        .post(urlPostIdReplyPost + idPost, dataIdReply, {
+          headers: {
+            authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          console.log("pushidreply", res);
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [statusPostReply === 201]);
 
   return (
     <article>
@@ -263,8 +280,8 @@ const Mainpost = ({ idPost }) => {
       <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
       <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
       <div className="container">
-        <div id="blog" class="row">
-          <div class="col-md-10 blogShort">
+        <div id="blog" className="row">
+          <div className="col-md-10 blogShort">
             {editing ? (
               <textarea
                 className="txt_area_title"
@@ -283,7 +300,7 @@ const Mainpost = ({ idPost }) => {
               <img
                 src={dataPost.imageUrl}
                 alt="post img"
-                class="pull-left img-responsive thumb margin10 img-thumbnail"
+                className="pull-left img-responsive thumb margin10 img-thumbnail"
               />
             ) : (
               ""
@@ -327,95 +344,94 @@ const Mainpost = ({ idPost }) => {
                   </span>
                 </div>
               )}
-              {dataPost.userId === idUserConnected ? (
-                <div className="container_button_mp">
-                  <div>
-                    {editing || reply ? (
-                      ""
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => setEditing(true)}
-                        className="btn btn-primary item_btn"
-                      >
-                        Edit
-                      </button>
-                    )}
-                    {reply || editing ? (
-                      ""
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => setReply(true)}
-                        className="btn btn-success item_btn"
-                      >
-                        reply
-                      </button>
-                    )}
-                    {editing ? (
-                      <button
-                        type="button"
-                        onClick={() => setEditing(false)}
-                        className="btn btn-secondary item_btn"
-                      >
-                        cancel
-                      </button>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div>
-                    {editing ? (
-                      <button
-                        type="button"
-                        className="btn btn-danger item_btn"
-                        onClick={() => {
-                          if (
-                            window.confirm(
-                              "Voulez-vous vraiment supprimer ce post ?"
-                            )
-                          ) {
-                            handleDelete();
-                          }
-                        }}
-                      >
-                        Delete
-                      </button>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div>
-                    {editing ? (
-                      <button
-                        type="submit"
-                        className="btn btn-success item_btn"
-                        onClick={handleSubmit}
-                      >
-                        confirm
-                      </button>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div>
-                    {editing ? (
-                      <input
-                        className="btn btn-light item_btn"
-                        type="file"
-                        onChange={handleChange}
-                      />
-                    ) : (
-                      ""
-                    )}
-                  </div>
+
+              <div className="container_button_mp">
+                <div>
+                  {editing || reply || dataPost.userId !== idUserConnected ? (
+                    ""
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setEditing(true)}
+                      className="btn btn-primary item_btn"
+                    >
+                      Edit
+                    </button>
+                  )}
+                  {reply || editing ? (
+                    ""
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setReply(true)}
+                      className="btn btn-success item_btn"
+                    >
+                      reply
+                    </button>
+                  )}
+
+                  {editing ? (
+                    <button
+                      type="button"
+                      onClick={() => setEditing(false)}
+                      className="btn btn-secondary item_btn"
+                    >
+                      cancel
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </div>
-              ) : (
-                ""
-              )}
+
+                <div>
+                  {editing ? (
+                    <button
+                      type="button"
+                      className="btn btn-danger item_btn"
+                      onClick={() => {
+                        if (
+                          window.confirm(
+                            "Voulez-vous vraiment supprimer ce post ?"
+                          )
+                        ) {
+                          handleDelete();
+                        }
+                      }}
+                    >
+                      Delete
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div>
+                  {editing ? (
+                    <button
+                      type="submit"
+                      className="btn btn-success item_btn"
+                      onClick={handleSubmit}
+                    >
+                      confirm
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div>
+                  {editing ? (
+                    <input
+                      className="btn btn-light item_btn"
+                      type="file"
+                      onChange={handleChange}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
             </div>
           </div>
-
+          <p className="err_send">{dataErrorReplyAxios}</p>
           {reply ? (
             <div class="col-md-12 ">
               <h2 className="item_tt_reply">Reply</h2>
