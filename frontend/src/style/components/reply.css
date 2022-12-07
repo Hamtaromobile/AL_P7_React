@@ -1,0 +1,92 @@
+
+ .txt_area_text {
+    width: 100%;
+    resize: none;
+    height: 15em;
+    outline: none;
+  }
+
+
+  .container_button_mp_reply{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    align-items:flex-start;
+    width: 40em;
+  }
+
+  .item_btn_reply{
+    margin-top: 0.4em;
+    margin-left: 1em;
+  }
+
+  .container_btn_like_dis_reply{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+
+  }
+
+  .container_like_dis_reply{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    width:9em;
+    margin-top: 0.5em;
+  }
+
+  .item_like_reply:hover{
+    font-size:3em;
+    filter: brightness(0.5);
+    cursor: pointer
+  }
+
+  .item_nbr_like_reply{
+    color:grey;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 0.65em;
+  }
+
+  .item_dislike_reply:hover{
+    font-size:3em;
+    filter: brightness(0.5);
+    cursor: pointer;
+  }
+
+  .item_nbr_dislike_reply{
+    color:grey;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 0.65em;
+  }
+
+  .item_txt_area_reply{
+    width: 100%;
+    resize: none;
+    height: 15em;
+    outline: none;
+    margin-top: 5em;
+  }
+
+  .container_btn_reply{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    width: 30em;
+  }
+
+  .err_send_reply{
+    color: red;
+  }
+
+  .item_tt_reply{
+    margin-top: 1em;
+    margin-bottom: -1em;
+  }
+
+  .container_reply{
+    margin-left: 1em;
+    padding-top: 1em;
+  }

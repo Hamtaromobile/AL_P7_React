@@ -118,7 +118,7 @@ exports.deletePost = (req, res, next) => {
 };
 
 //like, dislike route post
-exports.likeDislike = (req, res, next) => {
+exports.likeDislikePost = (req, res, next) => {
   //like
   if (req.body.like === 1) {
     Post.updateOne(
@@ -176,10 +176,11 @@ exports.likeDislike = (req, res, next) => {
   }
 };
 
-//Save id reply in Post
+//Save id reply in Post or delete
 exports.idReply = (req, res, next) => {
   console.log("req.body", req.body);
   console.log("req.body.idReplies", req.body.idReplies);
+  //save
   if (req.body.idReplies) {
     Post.findOne({ _id: req.params.id })
       .then(() => {
@@ -187,6 +188,18 @@ exports.idReply = (req, res, next) => {
           $push: { idReplies: req.body.idReplies },
         })
           .then(() => res.status(200).json({ message: "push reply ok" }))
+          .catch((error) => res.status(400).json({ error }));
+      })
+      .catch((error) => res.status(404).json({ error }));
+  }
+  //delete
+  if (req.body.idRepliesDeleted) {
+    Post.findOne({ _id: req.params.id })
+      .then(() => {
+        Post.updateOne({
+          $pull: { idReplies: req.body.idRepliesDeleted },
+        })
+          .then(() => res.status(200).json({ message: "pull reply ok" }))
           .catch((error) => res.status(400).json({ error }));
       })
       .catch((error) => res.status(404).json({ error }));

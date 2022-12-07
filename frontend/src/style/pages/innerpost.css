@@ -1,4 +1,4 @@
-.container_post_innerpost{
+.container_post__reply_innerpost{
     display: flex;
     flex-direction: column;
     flex-wrap:wrap;
@@ -7,3 +7,9 @@
     gap: 3em;
     margin: 2em;
 }
+
+    .container_reply_innerpost{
+        background-color: rgb(246, 246, 246);
+        margin-top: -0.7em;
+        
+    }

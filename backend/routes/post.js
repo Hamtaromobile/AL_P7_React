@@ -24,7 +24,7 @@ router.put("/modifyPost/:id", auth, multer, postCtrl.modifyPost);
 router.delete("/deletePost/:id", auth, postCtrl.deletePost);
 
 //like, dislike
-router.post("/likeDislike/:id", auth, postCtrl.likeDislike);
+router.post("/likeDislikePost/:id", auth, postCtrl.likeDislikePost);
 
 //reply
 router.post("/idReply/:id", auth, postCtrl.idReply);

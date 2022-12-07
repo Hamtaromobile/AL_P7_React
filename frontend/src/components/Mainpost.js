@@ -9,7 +9,7 @@ const Mainpost = ({ idPost }) => {
   const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
   const urlDeletePost = "http://localhost:3001/api/post/deletePost/";
   const urlPostPost = "http://localhost:3001/api/post/modifyPost/";
-  const urlPostLikeDisPost = "http://localhost:3001/api/post/likeDislike/";
+  const urlPostLikeDisPost = "http://localhost:3001/api/post/likeDislikePost/";
   const urlPostReply = "http://localhost:3001/api/reply/createReply";
   const urlPostIdReplyPost = "http://localhost:3001/api/post/idReply/";
 
@@ -35,7 +35,7 @@ const Mainpost = ({ idPost }) => {
   const params = new URL(document.location).searchParams;
   const idUserConnected = params.get("idU");
 
-  //Get data main post
+  console.log("idPostidPost", idPost); //Get data main post
   useEffect(() => {
     axios
       .get(urlGetPost + idPost, {

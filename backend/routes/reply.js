@@ -24,6 +24,6 @@ router.put("/modifyReply/:id", auth, multer, replyCtrl.modifyReply);
 router.delete("/deleteReply/:id", auth, replyCtrl.deleteReply);
 
 //like, dislike
-//router.post("/likeDislikeReply/:id", auth, replyCtrl.likeDislikeReply);
+router.post("/likeDislikeReply/:id", auth, replyCtrl.likeDislikeReply);
 
 module.exports = router;

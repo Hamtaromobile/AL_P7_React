@@ -11,7 +11,6 @@ const Innerpost = () => {
   const params = new URL(document.location).searchParams;
   const idPost = params.get("idP");
   const idUser = params.get("idU");
-  const [dataPost, setDataPost] = useState([]);
   const [dataPostIdReplies, setDataPostIdReplies] = useState([]);
   const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
   const token = JSON.parse(localStorage.getItem("token"));
@@ -28,7 +27,6 @@ const Innerpost = () => {
       })
       .then((res) => {
         setDataPostIdReplies(res.data.idReplies);
-        setDataPost(res.data);
         console.log("resMainPostinnerpost", res.data.idReplies);
       })
       .catch((err) => {
@@ -39,16 +37,16 @@ const Innerpost = () => {
   return (
     <div>
       <Navigation />
-      <div className="container_post_innerpost">
+      <div className="container_post_reply_innerpost">
         <div>
           <Mainpost idPost={idPost} />
         </div>
 
-        <div>
+        <div className="container_reply_innerpost">
           {dataPostIdReplies.length !== 0 ? (
             <ul>
-              {dataPostIdReplies.map((dataPost) => (
-                <Reply key={dataPostIdReplies} idReply={dataPost} />
+              {dataPostIdReplies.map((dataPostIdReplies) => (
+                <Reply key={dataPostIdReplies} idReply={dataPostIdReplies} />
               ))}
             </ul>
           ) : (

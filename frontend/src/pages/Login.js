@@ -169,10 +169,6 @@ export default function Login() {
                 )}
               </div>
 
-              <FormControlLabel
-                control={<Checkbox value="remember" color="secondary" />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth

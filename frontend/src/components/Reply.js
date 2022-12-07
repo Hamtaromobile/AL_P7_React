@@ -5,7 +5,7 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
 const Reply = ({ idReply }) => {
-  console.log("IdReply", idReply);
+  console.log("IdReplyIdReply", idReply);
 
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetReply = "http://localhost:3001/api/reply/getOneReply/";
@@ -14,6 +14,7 @@ const Reply = ({ idReply }) => {
   const urlPutLikeDisReply =
     "http://localhost:3001/api/reply/likeDislikeReply/";
   const urlReplyReply = "http://localhost:3001/api/reply/createReply";
+  const urlPostIdReplyDeletePost = "http://localhost:3001/api/post/idReply/";
   const token = JSON.parse(localStorage.getItem("token"));
   const [dataUser, setDataUser] = useState([]);
   const [dataReply, setDataReply] = useState([]);
@@ -33,8 +34,10 @@ const Reply = ({ idReply }) => {
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const params = new URL(document.location).searchParams;
   const idUserConnected = params.get("idU");
+  const idPost = params.get("idP");
+  const [statusDeletedReplyAxios, setStatusDeletedReplyAxios] = useState("");
 
-  //Get data main post
+  //Get data reply
   useEffect(() => {
     axios
       .get(urlGetReply + idReply, {
@@ -101,12 +104,37 @@ const Reply = ({ idReply }) => {
       })
       .then((res) => {
         console.log("resDeleteReply", res);
-        window.location.href = "/Welcome" + "?id=" + dataReply.userId;
+        setStatusDeletedReplyAxios(res.status);
+        // window.location.href = "/Welcome" + "?id=" + dataReply.userId;
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  //delete idReply for mainPost
+  useEffect(() => {
+    if (statusDeletedReplyAxios === 200) {
+      const dataIdReplyDeleted = {
+        idRepliesDeleted: idReply,
+      };
+      axios
+        .post(urlPostIdReplyDeletePost + idPost, dataIdReplyDeleted, {
+          headers: {
+            authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          console.log("pushidreply", res);
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [statusDeletedReplyAxios === 200]);
 
   //submit change
   const handleSubmit = (event) => {
@@ -115,11 +143,7 @@ const Reply = ({ idReply }) => {
     const editDate = new Date().toLocaleString();
     const formData = new FormData();
     //keep data
-    if (editTitle.length === 0) {
-      formData.append("title", dataReply.title);
-    } else {
-      formData.append("title", editTitle);
-    }
+
     if (editText.length === 0) {
       formData.append("text", dataReply.text);
     } else {
@@ -230,7 +254,6 @@ const Reply = ({ idReply }) => {
   //submit reply
   const handleReply = (e) => {
     e.preventDefault();
-
     const date = new Date().toLocaleString();
     const formData = new FormData();
     formData.append("image", file);
@@ -257,7 +280,7 @@ const Reply = ({ idReply }) => {
   };
 
   return (
-    <article>
+    <article className="container_reply">
       <link
         href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
         rel="stylesheet"
@@ -268,16 +291,6 @@ const Reply = ({ idReply }) => {
       <div className="container">
         <div id="blog" className="row">
           <div className="col-md-10 blogShort">
-            {editing ? (
-              <textarea
-                className="txt_area_title"
-                defaultValue={editTitle ? editTitle : dataReply.title}
-                autoFocus
-                onChange={(e) => setEditTitle(e.target.value)}
-              ></textarea>
-            ) : (
-              <h1>{dataReply.title}</h1>
-            )}
             <p>
               le {dataReply.date} par {dataUser.firstName} {dataUser.lastName}{" "}
             </p>
@@ -303,25 +316,25 @@ const Reply = ({ idReply }) => {
                 <p>{editText ? editText : dataReply.text}</p>
               )}
             </article>
-            <div className="container_btn_like_dis">
+            <div className="container_btn_like_dis_reply">
               {editing || reply ? (
                 ""
               ) : (
-                <div className="container_like_dis">
-                  <p className="item_nbr_like">{dataReply.likes}</p>
+                <div className="container_like_dis_reply">
+                  <p className="item_nbr_like_reply">{dataReply.likes}</p>
                   <span onClick={handleLike}>
                     <ThumbUpAltIcon
-                      className="item_like"
+                      className="item_like_reply"
                       sx={{ fontSize: 40 }}
                       style={{
                         color: likeHere ? "darkgreen" : "grey",
                       }}
                     />
                   </span>
-                  <p className="item_nbr_dislike">{dataReply.dislikes}</p>
+                  <p className="item_nbr_dislike_reply">{dataReply.dislikes}</p>
                   <span type="submit" onClick={handledisLike}>
                     <ThumbDownAltIcon
-                      className="item_dislike"
+                      className="item_dislike_reply"
                       sx={{ fontSize: 40 }}
                       style={{
                         color: disLikeHere ? "darkred" : "grey",
@@ -331,35 +344,25 @@ const Reply = ({ idReply }) => {
                 </div>
               )}
 
-              <div className="container_button_mp">
+              <div className="container_button_mp_reply">
                 <div>
-                  {editing || reply || dataReply.userId !== idUserConnected ? (
+                  {editing || dataReply.userId !== idUserConnected ? (
                     ""
                   ) : (
                     <button
                       type="button"
                       onClick={() => setEditing(true)}
-                      className="btn btn-primary item_btn"
+                      className="btn btn-primary item_btn_reply"
                     >
                       Edit
                     </button>
                   )}
-                  {reply || editing ? (
-                    ""
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setReply(true)}
-                      className="btn btn-success item_btn"
-                    >
-                      reply
-                    </button>
-                  )}
+
                   {editing ? (
                     <button
                       type="button"
                       onClick={() => setEditing(false)}
-                      className="btn btn-secondary item_btn"
+                      className="btn btn-secondary item_btn_reply"
                     >
                       cancel
                     </button>
@@ -371,7 +374,7 @@ const Reply = ({ idReply }) => {
                   {editing ? (
                     <button
                       type="button"
-                      className="btn btn-danger item_btn"
+                      className="btn btn-danger item_btn_reply"
                       onClick={() => {
                         if (
                           window.confirm(
@@ -392,7 +395,7 @@ const Reply = ({ idReply }) => {
                   {editing ? (
                     <button
                       type="submit"
-                      className="btn btn-success item_btn"
+                      className="btn btn-success item_btn_reply"
                       onClick={handleSubmit}
                     >
                       confirm
@@ -404,7 +407,7 @@ const Reply = ({ idReply }) => {
                 <div>
                   {editing ? (
                     <input
-                      className="btn btn-light item_btn"
+                      className="btn btn-light item_btn_reply"
                       type="file"
                       onChange={handleChange}
                     />
@@ -417,7 +420,7 @@ const Reply = ({ idReply }) => {
           </div>
 
           {reply ? (
-            <div class="col-md-12 ">
+            <div className="col-md-12 ">
               <h2 className="item_tt_reply">Reply</h2>
               <textarea
                 className="item_txt_area_reply"
@@ -432,14 +435,14 @@ const Reply = ({ idReply }) => {
                   <button
                     type="button"
                     onClick={() => setReply(false)}
-                    className="btn btn-secondary item_btn"
+                    className="btn btn-secondary item_btn_reply"
                   >
                     cancel
                   </button>
                 </div>
                 <div>
                   <input
-                    className="btn btn-light item_btn"
+                    className="btn btn-light item_btn_reply"
                     type="file"
                     onChange={handleChange}
                   />
@@ -448,7 +451,7 @@ const Reply = ({ idReply }) => {
                   <button
                     type="submit"
                     onClick={(e) => handleReply(e)}
-                    className="btn btn-primary item_btn"
+                    className="btn btn-primary item_btn_reply"
                   >
                     send
                   </button>
@@ -459,7 +462,7 @@ const Reply = ({ idReply }) => {
             ""
           )}
         </div>
-        <div className="err_send">{dataErrorAxios}</div>
+        <div className="err_send_reply">{dataErrorAxios}</div>
       </div>
     </article>
   );
