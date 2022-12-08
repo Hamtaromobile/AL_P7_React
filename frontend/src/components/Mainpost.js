@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
-const Mainpost = ({ idPost }) => {
+const Mainpost = ({ idPost, reply }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
   const urlDeletePost = "http://localhost:3001/api/post/deletePost/";
@@ -28,10 +28,10 @@ const Mainpost = ({ idPost }) => {
   const tabUserDisLike = dataPost.usersDisliked;
   const [likeHere, setLikeHere] = useState(false);
   const [disLikeHere, setDisLikeHere] = useState(false);
-  const [reply, setReply] = useState(false);
+  // const [reply, setReply] = useState(false);
   const [text, setText] = useState("");
-  const [dataErrorAxios, setDataErrorReplyAxios] = useState("");
-  const [dataErrorReplyAxios, setDataErrorAxios] = useState("");
+  const [dataErrorAxios, setDataErrorAxios] = useState("");
+  const [dataErrorReplyAxios, setDataErrorReplyAxios] = useState("");
   const params = new URL(document.location).searchParams;
   const idUserConnected = params.get("idU");
 
@@ -137,8 +137,7 @@ const Mainpost = ({ idPost }) => {
       })
       .then((res) => {
         console.log(res);
-
-        //- window.location.reload();
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -358,17 +357,6 @@ const Mainpost = ({ idPost }) => {
                       Edit
                     </button>
                   )}
-                  {reply || editing ? (
-                    ""
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setReply(true)}
-                      className="btn btn-success item_btn"
-                    >
-                      reply
-                    </button>
-                  )}
 
                   {editing ? (
                     <button
@@ -432,48 +420,6 @@ const Mainpost = ({ idPost }) => {
             </div>
           </div>
           <p className="err_send">{dataErrorReplyAxios}</p>
-          {reply ? (
-            <div class="col-md-12 ">
-              <h2 className="item_tt_reply">Reply</h2>
-              <textarea
-                className="item_txt_area_reply"
-                autoFocus
-                value={text}
-                onChange={(e) => textOnChange(e)}
-              >
-                texte
-              </textarea>
-              <div className="container_btn_reply">
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => setReply(false)}
-                    className="btn btn-secondary item_btn"
-                  >
-                    cancel
-                  </button>
-                </div>
-                <div>
-                  <input
-                    className="btn btn-light item_btn"
-                    type="file"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    onClick={(e) => handleReply(e)}
-                    className="btn btn-primary item_btn"
-                  >
-                    send
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
         </div>
         <div className="err_send">{dataErrorAxios}</div>
       </div>

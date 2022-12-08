@@ -62,21 +62,6 @@
     margin-top: 0.65em;
   }
 
-  .item_txt_area_reply{
-    width: 100%;
-    resize: none;
-    height: 15em;
-    outline: none;
-    margin-top: 5em;
-  }
-
-  .container_btn_reply{
-    display: flex;
-    flex-direction: row;
-    flex-wrap:wrap;
-    width: 30em;
-  }
-
   .err_send_reply{
     color: red;
   }

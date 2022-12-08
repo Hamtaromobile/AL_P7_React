@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
-const Reply = ({ idReply }) => {
-  console.log("IdReplyIdReply", idReply);
+const Reply = ({ idReply }, { reply }) => {
+  console.log("replyreplyreply", <reply></reply>);
 
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetReply = "http://localhost:3001/api/reply/getOneReply/";
@@ -13,7 +13,7 @@ const Reply = ({ idReply }) => {
   const urlPutReply = "http://localhost:3001/api/reply/modifyReply/";
   const urlPutLikeDisReply =
     "http://localhost:3001/api/reply/likeDislikeReply/";
-  const urlReplyReply = "http://localhost:3001/api/reply/createReply";
+
   const urlPostIdReplyDeletePost = "http://localhost:3001/api/post/idReply/";
   const token = JSON.parse(localStorage.getItem("token"));
   const [dataUser, setDataUser] = useState([]);
@@ -29,7 +29,7 @@ const Reply = ({ idReply }) => {
   const tabUserDisLike = dataReply.usersDisliked;
   const [likeHere, setLikeHere] = useState(false);
   const [disLikeHere, setDisLikeHere] = useState(false);
-  const [reply, setReply] = useState(false);
+  //const [reply, setReply] = useState(false);
   const [text, setText] = useState("");
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const params = new URL(document.location).searchParams;
@@ -92,7 +92,7 @@ const Reply = ({ idReply }) => {
     getUserReq();
   }, [statusGetReply === 200]);
 
-  //Delete main post
+  //Delete reply
   const handleDelete = () => {
     axios
       .delete(urlDeleteReply + idReply, {
@@ -105,7 +105,6 @@ const Reply = ({ idReply }) => {
       .then((res) => {
         console.log("resDeleteReply", res);
         setStatusDeletedReplyAxios(res.status);
-        // window.location.href = "/Welcome" + "?id=" + dataReply.userId;
       })
       .catch((err) => {
         console.log(err);
@@ -164,8 +163,7 @@ const Reply = ({ idReply }) => {
       })
       .then((res) => {
         console.log(res);
-
-        //- window.location.reload();
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -251,34 +249,6 @@ const Reply = ({ idReply }) => {
     setText(e.target.value);
   };
 
-  //submit reply
-  const handleReply = (e) => {
-    e.preventDefault();
-    const date = new Date().toLocaleString();
-    const formData = new FormData();
-    formData.append("image", file);
-    formData.append("userId", idUserConnected);
-    formData.append("text", text);
-    formData.append("date", date);
-    formData.append("mainReplyId", dataReply._id);
-    axios
-      .post(urlReplyReply, formData, {
-        headers: {
-          authorization: `Bearer ${token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setDataResReplyAxios(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        setDataErrorAxios(err);
-      });
-  };
-
   return (
     <article className="container_reply">
       <link
@@ -346,7 +316,7 @@ const Reply = ({ idReply }) => {
 
               <div className="container_button_mp_reply">
                 <div>
-                  {editing || dataReply.userId !== idUserConnected ? (
+                  {editing || reply || dataReply.userId !== idUserConnected ? (
                     ""
                   ) : (
                     <button
@@ -418,49 +388,6 @@ const Reply = ({ idReply }) => {
               </div>
             </div>
           </div>
-
-          {reply ? (
-            <div className="col-md-12 ">
-              <h2 className="item_tt_reply">Reply</h2>
-              <textarea
-                className="item_txt_area_reply"
-                autoFocus
-                value={text}
-                onChange={(e) => textOnChange(e)}
-              >
-                texte
-              </textarea>
-              <div className="container_btn_reply">
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => setReply(false)}
-                    className="btn btn-secondary item_btn_reply"
-                  >
-                    cancel
-                  </button>
-                </div>
-                <div>
-                  <input
-                    className="btn btn-light item_btn_reply"
-                    type="file"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    onClick={(e) => handleReply(e)}
-                    className="btn btn-primary item_btn_reply"
-                  >
-                    send
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
         </div>
         <div className="err_send_reply">{dataErrorAxios}</div>
       </div>

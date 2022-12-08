@@ -2,7 +2,6 @@
 
 const Post = require("../models/post");
 const fs = require("fs");
-const postId = "";
 // fonction replace
 
 //creation, route post
@@ -180,17 +179,17 @@ exports.likeDislikePost = (req, res, next) => {
 exports.idReply = (req, res, next) => {
   console.log("req.body", req.body);
   console.log("req.body.idReplies", req.body.idReplies);
+  console.log("req.params.id", req.params.id);
   //save
   if (req.body.idReplies) {
-    Post.findOne({ _id: req.params.id })
-      .then(() => {
-        Post.updateOne({
-          $push: { idReplies: req.body.idReplies },
-        })
-          .then(() => res.status(200).json({ message: "push reply ok" }))
-          .catch((error) => res.status(400).json({ error }));
-      })
-      .catch((error) => res.status(404).json({ error }));
+    Post.updateOne(
+      { _id: req.params.id },
+      {
+        $push: { idReplies: req.body.idReplies },
+      }
+    )
+      .then(() => res.status(200).json({ message: "push reply ok" }))
+      .catch((error) => res.status(400).json({ error }));
   }
   //delete
   if (req.body.idRepliesDeleted) {
