@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import { NavLink } from "react-router-dom";
 
 const Mainpost = ({ idPost, reply }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
@@ -291,10 +292,13 @@ const Mainpost = ({ idPost, reply }) => {
             ) : (
               <h1>{dataPost.title}</h1>
             )}
+
             <p>
               le {dataPost.date} par {dataUser.firstName} {dataUser.lastName}{" "}
             </p>
-            {dataPost.editDate ? <em>édité le {dataPost.editDate}</em> : ""}
+            <div className="container_edit_mainpost">
+              {dataPost.editDate ? <em>édité le {dataPost.editDate}</em> : ""}
+            </div>
             {dataPost.imageUrl ? (
               <img
                 src={dataPost.imageUrl}

@@ -1,6 +1,8 @@
 //import React, { useEffect, useState } from "react";
 import Navigation from "../components/Navigation";
+import Navigation2 from "../components/Navigation2";
 import Profileimg from "../components/Profileimg";
+import Footer from "../components/Footer";
 import Post from "../components/Post";
 import Button from "@mui/material/Button";
 import { NavLink } from "react-router-dom";
@@ -80,6 +82,7 @@ const Welcome = () => {
   return (
     <ThemeProvider theme={theme}>
       <Navigation idUser={idUser} />
+
       <div className="container_welcome">
         <div className="container_tt_welcome">
           <h1>Groupomania post</h1>
@@ -100,10 +103,13 @@ const Welcome = () => {
             </div>
           </div>
 
-          <div className="item_post_welcome">
+          <div>
             <ul>
               {dataPost.map((post) => (
-                <NavLink to={`/Innerpost?idP=${post._id}&idU=${idUser}`}>
+                <NavLink
+                  to={`/Innerpost?idP=${post._id}&idU=${idUser}`}
+                  className="item_post_welcome"
+                >
                   <Post key={post._id} post={post} />
                 </NavLink>
               ))}
@@ -111,6 +117,7 @@ const Welcome = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </ThemeProvider>
   );
 };

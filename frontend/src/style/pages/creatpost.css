@@ -31,3 +31,25 @@
     margin-top: 2em;
     text-align: center;
 }
+
+
+.container_btn_reply_creatpost{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    width: 30em;
+  }
+
+  .container_nav_back_creatpost{
+    margin-left: 1em;
+    margin-top: 0.5em;
+  }
+
+  .nav_back_creatpost{
+    color:grey;
+  }
+
+  .icone_arrowback_creatpost:hover{
+    cursor: pointer;
+    color:red;
+  }

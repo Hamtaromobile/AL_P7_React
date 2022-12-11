@@ -27,15 +27,16 @@
     }
 
     .item_profileimg_welcome:hover{
-        opacity: 40%;
+        filter: brightness(120%) saturate(120%);
     }
 
-   /* .item_post_welcome{
-        margin-top: 5em;
-    }*/
-
     .item_post_welcome:hover{
-        opacity: 40%;
+        -webkit-filter: brightness(70%);
+        -webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        -ms-transition: all 1s ease;
+        transition: all 1s ease;
     }
 
     .button_welcome:hover{

@@ -3,8 +3,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Navigation from "../components/Navigation";
 import Mainpost from "../components/Mainpost";
-
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import Reply from "../components/Reply";
+import { NavLink } from "react-router-dom";
 
 const Innerpost = () => {
   const params = new URL(document.location).searchParams;
@@ -109,6 +110,14 @@ const Innerpost = () => {
     <div>
       <Navigation />
       <div className="container_post_reply_innerpost">
+        <div className="container_nav_back_innerpost">
+          <NavLink className="nav_back_innerpost" to={`/Welcome?id=${idUser}`}>
+            <ArrowBackOutlinedIcon
+              className="icone_arrowback_innerpost"
+              sx={{ fontSize: 35 }}
+            />
+          </NavLink>
+        </div>
         <div>
           <Mainpost idPost={idPost} reply={reply} />
         </div>
@@ -119,8 +128,8 @@ const Innerpost = () => {
               {dataPostIdReplies.map((dataPostIdReplies) => (
                 <Reply
                   key={dataPostIdReplies}
-                  idReply={dataPostIdReplies}
                   reply={reply}
+                  idReply={dataPostIdReplies}
                 />
               ))}
             </ul>

@@ -5,7 +5,7 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
 const Reply = ({ idReply }, { reply }) => {
-  console.log("replyreplyreply", <reply></reply>);
+  console.log("replyreplyreply", reply);
 
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetReply = "http://localhost:3001/api/reply/getOneReply/";
@@ -13,7 +13,6 @@ const Reply = ({ idReply }, { reply }) => {
   const urlPutReply = "http://localhost:3001/api/reply/modifyReply/";
   const urlPutLikeDisReply =
     "http://localhost:3001/api/reply/likeDislikeReply/";
-
   const urlPostIdReplyDeletePost = "http://localhost:3001/api/post/idReply/";
   const token = JSON.parse(localStorage.getItem("token"));
   const [dataUser, setDataUser] = useState([]);

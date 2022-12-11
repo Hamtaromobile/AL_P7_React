@@ -15,3 +15,21 @@
     margin-left: 3em;
 }
 
+.tt_profile{
+    text-align: center;
+    margin-top: 1em;
+}
+
+  .container_nav_back_profile{
+    margin-left: 1em;
+    margin-top: 1em;
+  }
+
+  .nav_back_profile{
+    color:grey;
+  }
+
+  .icone_arrowback_profile:hover{
+    cursor: pointer;
+    color:red;
+  }

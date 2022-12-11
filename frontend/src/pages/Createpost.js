@@ -8,6 +8,8 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import UploadingPost from "../components/UploadingPost";
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -120,6 +122,17 @@ const Creatpost = () => {
       <ThemeProvider theme={theme}>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <Navigation idUser={idUser} />
+          <div className="container_nav_back_creatpost">
+            <NavLink
+              className="nav_back_creatpost"
+              to={`/Welcome?id=${idUser}`}
+            >
+              <ArrowBackOutlinedIcon
+                className="icone_arrowback_creatpost"
+                sx={{ fontSize: 35 }}
+              />
+            </NavLink>
+          </div>
           <div className="container_tt_creatpost">
             <Typography component="h1" variant="h3">
               Create post

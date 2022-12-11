@@ -27,3 +27,19 @@
     flex-wrap:wrap;
     width: 30em;
   }
+
+  .container_nav_back_innerpost{
+    margin-left: 1em;
+    
+  }
+
+  .nav_back_innerpost{
+    color:grey;
+  }
+
+  .icone_arrowback_innerpost:hover{
+    cursor: pointer;
+    color:red;
+  }
+
+  

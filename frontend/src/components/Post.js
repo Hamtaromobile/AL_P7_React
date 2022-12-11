@@ -36,8 +36,8 @@ const Post = ({ post }) => {
         <div className="container_logo_post">
           <img
             className="logo_post"
-            src="/images/icon-left-font-monochrome-black.png"
-            alt="icon-left-font-monochrome-black.png"
+            src="/images/icon-left-font.png"
+            alt="icone groupomania"
           />
         </div>
 
