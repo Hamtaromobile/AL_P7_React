@@ -84,12 +84,14 @@ const Creatpost = () => {
       window.location.href =
         "/Innerpost" + "?idP=" + dataResAxios.postId + "&idU=" + idUser;
     }
-  }, [dataResStatAxios === 201]); //window.location.href = "/Welcome" + "?id=" + dataIdUser;
+  }, [dataResStatAxios === 201]);
 
   //submit create post
   const handleSubmit = (event) => {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
+    const token2 = JSON.parse(localStorage.getItem("token2"));
+    console.log("token2", token2);
     const date = new Date().toLocaleString();
     const formData = new FormData();
     formData.append("image", file);
@@ -97,11 +99,11 @@ const Creatpost = () => {
     formData.append("title", title);
     formData.append("text", text);
     formData.append("date", date);
-
     axios
       .post(urlPostPost, formData, {
         headers: {
           authorization: `Bearer ${token}`,
+          authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -123,10 +125,7 @@ const Creatpost = () => {
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <Navigation idUser={idUser} />
           <div className="container_nav_back_creatpost">
-            <NavLink
-              className="nav_back_creatpost"
-              to={`/Welcome?id=${idUser}`}
-            >
+            <NavLink className="nav_back_creatpost" to={`/Home?id=${idUser}`}>
               <ArrowBackOutlinedIcon
                 className="icone_arrowback_creatpost"
                 sx={{ fontSize: 35 }}

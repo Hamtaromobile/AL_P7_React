@@ -30,16 +30,14 @@ const theme = createTheme({
   },
 });
 
-const Welcome = () => {
+const Home = () => {
   let params = new URL(document.location).searchParams;
   let idUser = params.get("id");
 
   const [dataUser, setDataUser] = useState([]);
   const [dataPost, setDataPost] = useState([]);
-  const [firstName, setFirstName] = useState("");
-  const [employment, setEmployment] = useState("");
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
-  const urlGetPost = "http://localhost:3001/api/post/getAllPost/";
+  const urlGetAllPost = "http://localhost:3001/api/post/getAllPost/";
   const token = JSON.parse(localStorage.getItem("token"));
 
   //Get user
@@ -60,37 +58,32 @@ const Welcome = () => {
       });
   }, []);
 
-  //Get post
+  //Get all post
   useEffect(() => {
     axios
-      .get(urlGetPost, {
-        headers: {
-          authorization: `Bearer ${token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
+      .get(urlGetAllPost)
       .then((res) => {
         setDataPost(res.data);
-        console.log("datapost", dataPost);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
+  console.log("datapost123", dataPost);
+
   return (
     <ThemeProvider theme={theme}>
       <Navigation idUser={idUser} />
 
-      <div className="container_welcome">
-        <div className="container_tt_welcome">
+      <div className="container_home">
+        <div className="container_tt_home">
           <h1>Groupomania post</h1>
         </div>
-        <div className="container_imgbtn_post_welcome">
-          <div className="container_imgbtn_welcome">
+        <div className="container_imgbtn_post_home">
+          <div className="container_imgbtn_home">
             <NavLink to={`/Profile?id=${idUser}`}>
-              <div className="item_profileimg_welcome">
+              <div className="item_profileimg_home">
                 <Profileimg dataUser={dataUser} />
               </div>
             </NavLink>
@@ -105,12 +98,12 @@ const Welcome = () => {
 
           <div>
             <ul>
-              {dataPost.map((post) => (
+              {dataPost.map((dataPost) => (
                 <NavLink
-                  to={`/Innerpost?idP=${post._id}&idU=${idUser}`}
-                  className="item_post_welcome"
+                  to={`/Innerpost?idP=${dataPost._id}&idU=${idUser}`}
+                  className="item_post_home"
                 >
-                  <Post key={post._id} post={post} />
+                  <Post key={dataPost._id} dataPost={dataPost} />
                 </NavLink>
               ))}
             </ul>
@@ -122,4 +115,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
+export default Home;

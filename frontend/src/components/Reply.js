@@ -15,6 +15,7 @@ const Reply = ({ idReply }, { reply }) => {
     "http://localhost:3001/api/reply/likeDislikeReply/";
   const urlPostIdReplyDeletePost = "http://localhost:3001/api/post/idReply/";
   const token = JSON.parse(localStorage.getItem("token"));
+  const token2 = JSON.parse(localStorage.getItem("token2"));
   const [dataUser, setDataUser] = useState([]);
   const [dataReply, setDataReply] = useState([]);
   const [editing, setEditing] = useState(false);
@@ -39,13 +40,7 @@ const Reply = ({ idReply }, { reply }) => {
   //Get data reply
   useEffect(() => {
     axios
-      .get(urlGetReply + idReply, {
-        headers: {
-          authorization: `Bearer ${token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
+      .get(urlGetReply + idReply)
       .then((res) => {
         setDataReply(res.data);
         setStatusGetReply(res.status);
@@ -70,8 +65,7 @@ const Reply = ({ idReply }, { reply }) => {
     }
   }, [statusGetReply === 200]);
 
-  console.log("LikeHere", likeHere);
-  //Get user data for main post
+  //Get user data for reply
   useEffect(() => {
     const getUserReq = async () => {
       try {
@@ -97,6 +91,7 @@ const Reply = ({ idReply }, { reply }) => {
       .delete(urlDeleteReply + idReply, {
         headers: {
           authorization: `Bearer ${token}`,
+          authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -137,11 +132,9 @@ const Reply = ({ idReply }, { reply }) => {
   //submit change
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const editDate = new Date().toLocaleString();
     const formData = new FormData();
     //keep data
-
     if (editText.length === 0) {
       formData.append("text", dataReply.text);
     } else {
@@ -156,6 +149,7 @@ const Reply = ({ idReply }, { reply }) => {
       .put(urlPutReply + idReply, formData, {
         headers: {
           authorization: `Bearer ${token}`,
+          authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },

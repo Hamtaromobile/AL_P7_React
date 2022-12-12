@@ -15,6 +15,7 @@ const Mainpost = ({ idPost, reply }) => {
   const urlPostIdReplyPost = "http://localhost:3001/api/post/idReply/";
 
   const token = JSON.parse(localStorage.getItem("token"));
+  const token2 = JSON.parse(localStorage.getItem("token2"));
   const [dataUser, setDataUser] = useState([]);
   const [dataPost, setDataPost] = useState([]);
   const [editing, setEditing] = useState(false);
@@ -36,16 +37,10 @@ const Mainpost = ({ idPost, reply }) => {
   const params = new URL(document.location).searchParams;
   const idUserConnected = params.get("idU");
 
-  console.log("idPostidPost", idPost); //Get data main post
+  //get data post
   useEffect(() => {
     axios
-      .get(urlGetPost + idPost, {
-        headers: {
-          authorization: `Bearer ${token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
+      .get(urlGetPost + idPost)
       .then((res) => {
         setDataPost(res.data);
         setStatusGetPost(res.status);
@@ -77,6 +72,7 @@ const Mainpost = ({ idPost, reply }) => {
         const res = await axios.get(urlGetUser + dataPost.userId, {
           headers: {
             authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -95,13 +91,14 @@ const Mainpost = ({ idPost, reply }) => {
       .delete(urlDeletePost + idPost, {
         headers: {
           authorization: `Bearer ${token}`,
+          authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
       })
       .then((res) => {
         console.log("resDeletePost", res);
-        window.location.href = "/Welcome" + "?id=" + dataPost.userId;
+        window.location.href = "/Home" + "?id=" + dataPost.userId;
       })
       .catch((err) => {
         console.log(err);
@@ -111,7 +108,6 @@ const Mainpost = ({ idPost, reply }) => {
   //submit change
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const editDate = new Date().toLocaleString();
     const formData = new FormData();
     //keep data
@@ -132,6 +128,7 @@ const Mainpost = ({ idPost, reply }) => {
       .put(urlPostPost + idPost, formData, {
         headers: {
           authorization: `Bearer ${token}`,
+          authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -163,11 +160,11 @@ const Mainpost = ({ idPost, reply }) => {
         like,
         userId: idUserConnected,
       };
-
       axios
         .post(urlPostLikeDisPost + idPost, dataLike, {
           headers: {
             authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -199,7 +196,8 @@ const Mainpost = ({ idPost, reply }) => {
       axios
         .post(urlPostLikeDisPost + idPost, dataLike, {
           headers: {
-            authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
+
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -230,7 +228,8 @@ const Mainpost = ({ idPost, reply }) => {
     axios
       .post(urlPostReply, formData, {
         headers: {
-          authorization: `Bearer ${token}`,
+          authorization2: `Bearer ${token2}`,
+
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -256,6 +255,7 @@ const Mainpost = ({ idPost, reply }) => {
         .post(urlPostIdReplyPost + idPost, dataIdReply, {
           headers: {
             authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },

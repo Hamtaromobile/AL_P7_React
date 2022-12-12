@@ -54,7 +54,7 @@ export default function Login() {
   //chgt page
   useEffect(() => {
     if (dataResAxios.status === 200) {
-      (window.location.href = "/Welcome" + "?id=" + dataIdUser).load();
+      (window.location.href = "/Home" + "?id=" + dataIdUser).load();
     }
   }, [dataResAxios.status === 200]);
 
@@ -95,7 +95,7 @@ export default function Login() {
           setDataResAxios(res);
           setDataIdUser(res.data.userId);
           localStorage.setItem("token", JSON.stringify(res.data.token));
-
+          localStorage.setItem("token2", JSON.stringify(res.data.token2));
           console.log("res", res);
         })
         .catch((err) => {

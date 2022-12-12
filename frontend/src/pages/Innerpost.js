@@ -111,7 +111,7 @@ const Innerpost = () => {
       <Navigation />
       <div className="container_post_reply_innerpost">
         <div className="container_nav_back_innerpost">
-          <NavLink className="nav_back_innerpost" to={`/Welcome?id=${idUser}`}>
+          <NavLink className="nav_back_innerpost" to={`/Home?id=${idUser}`}>
             <ArrowBackOutlinedIcon
               className="icone_arrowback_innerpost"
               sx={{ fontSize: 35 }}

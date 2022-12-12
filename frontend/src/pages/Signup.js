@@ -28,12 +28,12 @@ const Signup = () => {
   const [dataResAxios, setDataResAxios] = useState("");
   const [dataIdUser, setDataIdUser] = useState("");
   const urlPost = "http://localhost:3001/api/auth/signup";
-  //const [allowSend, setAllowSend] = useState(false);
 
   //chgt page
   useEffect(() => {
     if (dataResAxios.status === 201) {
-      window.location.href = "/Welcome" + "?id=" + dataIdUser; //!!pas de route / nom de page
+      console.log("res.data.token2", dataResAxios);
+      window.location.href = "/Home" + "?id=" + dataIdUser; //!!pas de route / nom de page
     }
   }, [dataResAxios.status === 201]);
 
@@ -139,6 +139,7 @@ const Signup = () => {
         .then((res) => {
           console.log(res);
           localStorage.setItem("token", JSON.stringify(res.data.token));
+          localStorage.setItem("token2", JSON.stringify(res.data.token2));
           setDataResAxios(res);
           setDataIdUser(res.data.userId);
         })

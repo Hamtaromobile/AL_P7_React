@@ -49,10 +49,10 @@ const Navigation = ({ id }) => {
               <li className="nav-item">
                 <a
                   className="nav-link"
-                  href={id != undefined ? "/Welcome" + "?id=" + id : "/Welcome"}
+                  href={id != undefined ? "/Home" + "?id=" + id : "/Home"}
                   aria-current="page"
                 >
-                  Welcome
+                  Home
                 </a>
               </li>
             </ul>

@@ -29,7 +29,7 @@ const Newprofile = () => {
     <div className="container-body">
       <Navigation idUser={idUser} />
       <div className="container_nav_back_profile">
-        <NavLink className="nav_back_profile" to={`/Welcome?id=${idUser}`}>
+        <NavLink className="nav_back_profile" to={`/Home?id=${idUser}`}>
           <ArrowBackOutlinedIcon
             className="icone_arrowback_profile"
             sx={{ fontSize: 35 }}

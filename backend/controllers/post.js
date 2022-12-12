@@ -6,15 +6,11 @@ const fs = require("fs");
 
 //creation, route post
 exports.createPost = (req, res, next) => {
-  //const postObject = JSON.parse(req.body.post); // "form-data" parse en JSON
   const postObject = req.body;
-
   delete postObject._id; //remove id de la req, remplacer par l'id de mongoDb
   delete postObject._userId; //remove _userId, protection contre mauvais id envoyé
-
   if (req.file) {
     //req.file existe ?
-
     const newPost = new Post({
       //créa new instance
       ...postObject, //copy champ de req.body
@@ -76,27 +72,43 @@ exports.getAllPost = (req, res, next) => {
 //modif., route put
 exports.modifyPost = (req, res, next) => {
   //modif. img
-  const postObject = req.file // req.file existe ?
-    ? {
-        //si oui
-        // ...JSON.parse(req.body.post),
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${
-          req.file.filename
-        }`,
+  Post.findOne({ _id: req.params.id }) //
+    .then((post) => {
+      //si user n'est pas le créateur
+      console.log(" req.auth", req.auth);
+      if (post.userId != req.auth.userId && req.auth.userisAdmin != true) {
+        res.status(401).json({ message: "Non authorisé" });
+      } else {
+        const postObject = req.file // req.file existe ?
+          ? {
+              //si oui
+              // ...JSON.parse(req.body.post),
+              imageUrl: `${req.protocol}://${req.get("host")}/images/${
+                req.file.filename
+              }`,
+            }
+          : { ...req.body }; //si non
+        //maj post à modif., new post
+        Post.updateOne(
+          { _id: req.params.id },
+          { ...postObject, _id: req.params.id }
+        )
+          .then(() => res.status(200).json({ message: "Objet modifié !" }))
+          .catch((error) => res.status(400).json({ error }));
       }
-    : { ...req.body }; //si non
-  //maj post à modif., new post
-  Post.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
-    .then(() => res.status(200).json({ message: "Objet modifié !" }))
-    .catch((error) => res.status(400).json({ error }));
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };
 
 //delete, route delete
 exports.deletePost = (req, res, next) => {
-  Post.findOne({ _id: req.params.id }) //
+  Post.findOne({ _id: req.params.id })
     .then((post) => {
       //si user n'est pas le créateur
-      if (post.userId != req.auth.userId) {
+      console.log(" req.auth", req.auth);
+      if (post.userId != req.auth.userId && req.auth.userisAdmin != true) {
         res.status(401).json({ message: "Non authorisé" });
       } else {
         //delete img
@@ -177,9 +189,6 @@ exports.likeDislikePost = (req, res, next) => {
 
 //Save id reply in Post or delete
 exports.idReply = (req, res, next) => {
-  console.log("req.body", req.body);
-  console.log("req.body.idReplies", req.body.idReplies);
-  console.log("req.params.id", req.params.id);
   //save
   if (req.body.idReplies) {
     Post.updateOne(

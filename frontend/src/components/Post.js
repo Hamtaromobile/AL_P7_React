@@ -6,16 +6,17 @@ import TableRowsIcon from "@mui/icons-material/TableRows";
 import TitleIcon from "@mui/icons-material/Title";
 import { useState, useEffect } from "react";
 
-const Post = ({ post }) => {
-  //console.log("post", post);
+const Post = ({ dataPost }) => {
+  console.log("dataPostdataPost", dataPost);
 
   const [dataUser, setDataUser] = useState("");
   const urlGetProf = "http://localhost:3001/api/auth/getUser/";
   const token = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
+    console.log("dataPost.userId", dataPost.userId);
     axios
-      .get(urlGetProf + post.userId, {
+      .get(urlGetProf + dataPost.userId, {
         headers: {
           authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -24,6 +25,7 @@ const Post = ({ post }) => {
       })
       .then((res) => {
         setDataUser(res.data);
+        console.log("resPost", res);
       })
       .catch((err) => {
         console.log(err);
@@ -44,10 +46,10 @@ const Post = ({ post }) => {
         <div className="container_tt_txt_post">
           <div className="container_tt_ico_post">
             <TableRowsIcon />
-            <h2>{post.title}</h2>
+            <h2>{dataPost.title}</h2>
           </div>
           <div className="container_text_post">
-            <p>{post.text}</p>
+            <p>{dataPost.text}</p>
           </div>
         </div>
         <VisibilityIcon />
@@ -69,7 +71,7 @@ const Post = ({ post }) => {
               }}
             />
           </div>
-          <div className="container_date">{post.date}</div>
+          <div className="container_date">{dataPost.date}</div>
         </div>
       </div>
     </section>

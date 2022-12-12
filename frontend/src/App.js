@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Welcome from "./pages/Welcome";
+import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Innerpost from "./pages/Innerpost";
 import Createpost from "./pages/Createpost";
@@ -14,7 +14,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
-        <Route path="/Welcome" element={<Welcome />} />
+        <Route path="/Home" element={<Home />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Innerpost" element={<Innerpost />} />
         <Route path="/Createpost" element={<Createpost />} />
