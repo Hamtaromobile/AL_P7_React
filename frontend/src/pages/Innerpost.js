@@ -13,6 +13,7 @@ const Innerpost = () => {
   const idUser = params.get("idU");
   const [dataPostIdReplies, setDataPostIdReplies] = useState([]);
   const token = JSON.parse(localStorage.getItem("token"));
+  const token2 = JSON.parse(localStorage.getItem("token2"));
   const [reply, setReply] = useState(false);
   const [text, setText] = useState("");
   const [file, setFile] = useState();
@@ -53,7 +54,6 @@ const Innerpost = () => {
   //submit reply
   const handleReply = (e) => {
     e.preventDefault();
-
     const date = new Date().toLocaleString();
     const formData = new FormData();
     formData.append("image", file);
@@ -64,6 +64,7 @@ const Innerpost = () => {
       .post(urlPostReply, formData, {
         headers: {
           authorization: `Bearer ${token}`,
+          authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -86,12 +87,11 @@ const Innerpost = () => {
       const dataIdReply = {
         idReplies: dataResReplyAxios.replyId,
       };
-      console.log("idPost", idPost);
-      alert("idreply");
       axios
         .post(urlPostIdReplyPost + idPost, dataIdReply, {
           headers: {
             authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },

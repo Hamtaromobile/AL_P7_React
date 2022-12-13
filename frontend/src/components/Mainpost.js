@@ -13,7 +13,6 @@ const Mainpost = ({ idPost, reply }) => {
   const urlPostLikeDisPost = "http://localhost:3001/api/post/likeDislikePost/";
   const urlPostReply = "http://localhost:3001/api/reply/createReply";
   const urlPostIdReplyPost = "http://localhost:3001/api/post/idReply/";
-
   const token = JSON.parse(localStorage.getItem("token"));
   const token2 = JSON.parse(localStorage.getItem("token2"));
   const [dataUser, setDataUser] = useState([]);
@@ -36,6 +35,10 @@ const Mainpost = ({ idPost, reply }) => {
   const [dataErrorReplyAxios, setDataErrorReplyAxios] = useState("");
   const params = new URL(document.location).searchParams;
   const idUserConnected = params.get("idU");
+  const [userConnected, setUserConnected] = useState("");
+  const [statusDeletedPost, setStatusDeletedPost] = useState("");
+  const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
+  const [dataPostIdReplies, setDataPostIdReplies] = useState([]);
 
   //get data post
   useEffect(() => {
@@ -44,6 +47,7 @@ const Mainpost = ({ idPost, reply }) => {
       .then((res) => {
         setDataPost(res.data);
         setStatusGetPost(res.status);
+        setDataPostIdReplies(res.data.idReplies);
         console.log("resMainPost", res);
       })
       .catch((err) => {
@@ -65,7 +69,7 @@ const Mainpost = ({ idPost, reply }) => {
     }
   }, [statusGetPost === 200]);
 
-  //Get user data for main post
+  //Get data user who created main post
   useEffect(() => {
     const getUserReq = async () => {
       try {
@@ -78,6 +82,27 @@ const Mainpost = ({ idPost, reply }) => {
           },
         });
         setDataUser(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUserReq();
+  }, [statusGetPost === 200]);
+
+  //Get data user connected
+  useEffect(() => {
+    const getUserReq = async () => {
+      try {
+        const res = await axios.get(urlGetUser + idUserConnected, {
+          headers: {
+            authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+        setUserConnected(res.data);
+        console.log("setUserConnected(res.data);", res.data);
       } catch (err) {
         console.log(err);
       }
@@ -98,12 +123,36 @@ const Mainpost = ({ idPost, reply }) => {
       })
       .then((res) => {
         console.log("resDeletePost", res);
-        window.location.href = "/Home" + "?id=" + dataPost.userId;
+        setStatusDeletedPost(res.status);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  //delete replies link's to "delete main post"
+  useEffect(() => {
+    if (dataPostIdReplies !== null && statusDeletedPost === 200) {
+      dataPostIdReplies.map((dataPostIdReplies) =>
+        axios
+          .delete(urlDeleteReply + dataPostIdReplies, {
+            headers: {
+              authorization: `Bearer ${token}`,
+              authorization2: `Bearer ${token2}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          })
+          .then((res) => {
+            console.log("resDeleteALLLLReply", res);
+            window.location.href = "/Home" + "?id=" + idUserConnected;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      );
+    }
+  }, [statusDeletedPost === 200]);
 
   //submit change
   const handleSubmit = (event) => {
@@ -196,8 +245,8 @@ const Mainpost = ({ idPost, reply }) => {
       axios
         .post(urlPostLikeDisPost + idPost, dataLike, {
           headers: {
+            authorization: `Bearer ${token}`,
             authorization2: `Bearer ${token2}`,
-
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -347,12 +396,12 @@ const Mainpost = ({ idPost, reply }) => {
                   </span>
                 </div>
               )}
-
               <div className="container_button_mp">
                 <div>
-                  {editing || reply || dataPost.userId !== idUserConnected ? (
-                    ""
-                  ) : (
+                  {!editing &&
+                  !reply &&
+                  (dataPost.userId === idUserConnected ||
+                    userConnected.isAdmin) ? (
                     <button
                       type="button"
                       onClick={() => setEditing(true)}
@@ -360,8 +409,9 @@ const Mainpost = ({ idPost, reply }) => {
                     >
                       Edit
                     </button>
+                  ) : (
+                    ""
                   )}
-
                   {editing ? (
                     <button
                       type="button"
@@ -374,7 +424,6 @@ const Mainpost = ({ idPost, reply }) => {
                     ""
                   )}
                 </div>
-
                 <div>
                   {editing ? (
                     <button

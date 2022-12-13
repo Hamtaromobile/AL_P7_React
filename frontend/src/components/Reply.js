@@ -36,6 +36,7 @@ const Reply = ({ idReply }, { reply }) => {
   const idUserConnected = params.get("idU");
   const idPost = params.get("idP");
   const [statusDeletedReplyAxios, setStatusDeletedReplyAxios] = useState("");
+  const [UserConnected, setUserConnected] = useState("");
 
   //Get data reply
   useEffect(() => {
@@ -65,7 +66,7 @@ const Reply = ({ idReply }, { reply }) => {
     }
   }, [statusGetReply === 200]);
 
-  //Get user data for reply
+  //Get data user who created reply
   useEffect(() => {
     const getUserReq = async () => {
       try {
@@ -78,6 +79,27 @@ const Reply = ({ idReply }, { reply }) => {
         });
         setDataUser(res.data);
         // console.log("resUser", res);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUserReq();
+  }, [statusGetReply === 200]);
+
+  //Get data user connected
+  useEffect(() => {
+    const getUserReq = async () => {
+      try {
+        const res = await axios.get(urlGetUser + idUserConnected, {
+          headers: {
+            authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+        setUserConnected(res.data);
+        console.log("setUserConnected(res.data);", res.data);
       } catch (err) {
         console.log(err);
       }
@@ -115,6 +137,7 @@ const Reply = ({ idReply }, { reply }) => {
         .post(urlPostIdReplyDeletePost + idPost, dataIdReplyDeleted, {
           headers: {
             authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -143,7 +166,6 @@ const Reply = ({ idReply }, { reply }) => {
     formData.append("image", file);
     formData.append("userId", dataReply.userId);
     formData.append("editDate", editDate);
-
     console.log("formData", formData);
     axios
       .put(urlPutReply + idReply, formData, {
@@ -186,11 +208,11 @@ const Reply = ({ idReply }, { reply }) => {
         like,
         userId: idUserConnected,
       };
-
       axios
         .post(urlPutLikeDisReply + idReply, dataLike, {
           headers: {
             authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -224,6 +246,7 @@ const Reply = ({ idReply }, { reply }) => {
         .post(urlPutLikeDisReply + idReply, dataLike, {
           headers: {
             authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -309,9 +332,10 @@ const Reply = ({ idReply }, { reply }) => {
 
               <div className="container_button_mp_reply">
                 <div>
-                  {editing || reply || dataReply.userId !== idUserConnected ? (
-                    ""
-                  ) : (
+                  {!editing &&
+                  !reply &&
+                  (dataReply.userId === idUserConnected ||
+                    UserConnected.isAdmin) ? (
                     <button
                       type="button"
                       onClick={() => setEditing(true)}
@@ -319,6 +343,8 @@ const Reply = ({ idReply }, { reply }) => {
                     >
                       Edit
                     </button>
+                  ) : (
+                    ""
                   )}
 
                   {editing ? (

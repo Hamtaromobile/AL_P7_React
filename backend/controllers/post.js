@@ -72,22 +72,30 @@ exports.getAllPost = (req, res, next) => {
 //modif., route put
 exports.modifyPost = (req, res, next) => {
   //modif. img
+  let postObject = {};
   Post.findOne({ _id: req.params.id }) //
     .then((post) => {
       //si user n'est pas le créateur
       console.log(" req.auth", req.auth);
-      if (post.userId != req.auth.userId && req.auth.userisAdmin != true) {
+      if (post.userId != req.auth.userId && req.auth.userIsAdmin != true) {
         res.status(401).json({ message: "Non authorisé" });
       } else {
-        const postObject = req.file // req.file existe ?
-          ? {
-              //si oui
-              // ...JSON.parse(req.body.post),
+        req.file // req.file existe ?
+          ? //si oui
+            (Post.findOne({
+              _id: req.params.id,
+            }).then((post) => {
+              post.imageUrl //existe ?
+                ? fs.unlinkSync(`images/${post.imageUrl.split("/images/")[1]}`) //supp. img
+                : "";
+            }),
+            (postObject = {
+              ...req.body,
               imageUrl: `${req.protocol}://${req.get("host")}/images/${
                 req.file.filename
               }`,
-            }
-          : { ...req.body }; //si non
+            }))
+          : (postObject = { ...req.body }); //si non
         //maj post à modif., new post
         Post.updateOne(
           { _id: req.params.id },
@@ -107,8 +115,7 @@ exports.deletePost = (req, res, next) => {
   Post.findOne({ _id: req.params.id })
     .then((post) => {
       //si user n'est pas le créateur
-      console.log(" req.auth", req.auth);
-      if (post.userId != req.auth.userId && req.auth.userisAdmin != true) {
+      if (post.userId != req.auth.userId && req.auth.userIsAdmin != true) {
         res.status(401).json({ message: "Non authorisé" });
       } else {
         //delete img

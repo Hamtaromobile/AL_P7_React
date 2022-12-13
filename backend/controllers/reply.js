@@ -74,30 +74,51 @@ exports.getAllReply = (req, res, next) => {
 //modif., route put
 exports.modifyReply = (req, res, next) => {
   //modif. img
-  const replyObject = req.file // req.file existe ?
-    ? {
-        //si oui
-        // ...JSON.parse(req.body.reply),
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${
-          req.file.filename
-        }`,
+  let replyObject = {};
+  Reply.findOne({ _id: req.params.id }) //
+    .then((reply) => {
+      //si user n'est pas le créateur
+      console.log(" req.auth", req.auth);
+      if (reply.userId != req.auth.userId && req.auth.userIsAdmin != true) {
+        res.status(401).json({ message: "Non authorisé" });
+      } else {
+        req.file // req.file existe ?
+          ? //si oui
+            (Reply.findOne({
+              _id: req.params.id,
+            }).then((reply) => {
+              reply.imageUrl //existe ?
+                ? fs.unlinkSync(`images/${reply.imageUrl.split("/images/")[1]}`) //supp. img
+                : "";
+            }),
+            (replyObject = {
+              ...req.body,
+              imageUrl: `${req.protocol}://${req.get("host")}/images/${
+                req.file.filename
+              }`,
+            }))
+          : (replyObject = { ...req.body }); //si non
+        //maj reply à modif., new reply
+        Reply.updateOne(
+          { _id: req.params.id },
+          { ...replyObject, _id: req.params.id }
+        )
+          .then(() => res.status(200).json({ message: "Objet modifié !" }))
+          .catch((error) => res.status(400).json({ error }));
       }
-    : { ...req.body }; //si non
-  //maj reply à modif., new reply
-  Reply.updateOne(
-    { _id: req.params.id },
-    { ...replyObject, _id: req.params.id }
-  )
-    .then(() => res.status(200).json({ message: "Objet modifié !" }))
-    .catch((error) => res.status(400).json({ error }));
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };
 
 //delete, route delete
 exports.deleteReply = (req, res, next) => {
-  Reply.findOne({ _id: req.params.id }) //
+  Reply.findOne({ _id: req.params.id })
     .then((reply) => {
       //si user n'est pas le créateur
-      if (reply.userId != req.auth.userId) {
+      console.log(" req.auth", req.auth);
+      if (reply.userId != req.auth.userId && req.auth.userIsAdmin != true) {
         res.status(401).json({ message: "Non authorisé" });
       } else {
         //delete img

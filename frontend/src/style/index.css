@@ -6,6 +6,7 @@
 @import "./pages/signup";
 @import "./components/footer";
 @import "./components/navigation";
+@import "./components/navigation2";
 @import "./components/profileimg";
 @import "./components/post";
 @import "./components/mainpost";

@@ -74,8 +74,7 @@ const Home = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navigation idUser={idUser} />
-
+      <Navigation2 />
       <div className="container_home">
         <div className="container_tt_home">
           <h1>Groupomania post</h1>
@@ -90,7 +89,7 @@ const Home = () => {
             <div>
               <NavLink to={`/createPost?id=${idUser}`}>
                 <button type="button" className="btn btn-success btn-lg">
-                  Creat post
+                  Create post
                 </button>
               </NavLink>
             </div>
