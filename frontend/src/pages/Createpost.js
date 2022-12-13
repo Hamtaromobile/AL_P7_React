@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation from "../components/Navigation";
+import Navigation2 from "../components/Navigation2";
 import Profileimg from "../components/Profileimg";
 import { saveAs } from "file-saver";
 import TextField from "@mui/material/TextField";
@@ -49,9 +49,13 @@ const Creatpost = () => {
   const [dataResStatAxios, setDataResStatAxios] = useState("");
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlPostPost = "http://localhost:3001/api/post/createPost";
-
   let params = new URL(document.location).searchParams;
   const idUser = params.get("id");
+  const [navBarBurger, setNavBarBurger] = useState(false);
+  const dataChild = {
+    setNavBarBurger: setNavBarBurger,
+    idUser: { idUser },
+  };
 
   //get data user
   useEffect(() => {
@@ -122,75 +126,84 @@ const Creatpost = () => {
   return (
     <section>
       <ThemeProvider theme={theme}>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <Navigation idUser={idUser} />
-          <div className="container_nav_back_creatpost">
-            <NavLink className="nav_back_creatpost" to={`/Home?id=${idUser}`}>
-              <ArrowBackOutlinedIcon
-                className="icone_arrowback_creatpost"
-                sx={{ fontSize: 35 }}
-              />
-            </NavLink>
-          </div>
-          <div className="container_tt_creatpost">
-            <Typography component="h1" variant="h3">
-              Create post
-            </Typography>
-          </div>
-          <div className="container_creatpost">
-            <div>
-              <Profileimg dataUser={dataUser} />
+        <Navigation2 dataChild={dataChild} />
+        {!navBarBurger ? (
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <div className="container_nav_back_creatpost">
+              <NavLink className="nav_back_creatpost" to={`/Home?id=${idUser}`}>
+                <ArrowBackOutlinedIcon
+                  className="icone_arrowback_creatpost"
+                  sx={{ fontSize: 35 }}
+                />
+              </NavLink>
             </div>
-            <div className="container_titletextsub_creatpost">
+            <div className="container_tt_creatpost">
+              <Typography component="h1" variant="h3">
+                Create post
+              </Typography>
+            </div>
+            <div className="container_creatpost">
               <div>
-                <TextField
-                  color="secondary"
-                  required
-                  id="title"
-                  label="title"
-                  defaultValue="title"
-                  value={title}
-                  onChange={(e) => titleOnChange(e)}
-                />
+                <Profileimg dataUser={dataUser} />
               </div>
-              <div className="container_textfield_text">
-                <TextField
-                  color="secondary"
-                  fullWidth
-                  multiline
-                  rows={9}
-                  required
-                  id="text"
-                  label="text"
-                  defaultValue="text"
-                  value={text}
-                  onChange={(e) => textOnChange(e)}
-                />
-              </div>
-              <div>
-                <label for="image">
-                  choose picture
-                  <input
-                    name="image"
-                    id="image"
-                    type="file"
-                    onChange={handleChange}
-                  />
-                </label>
-              </div>
-              <div>
-                <button className="btn btn-primary" type="submit">
-                  Submit
-                </button>
+              <div className="container_titletextsub_creatpost">
                 <div>
-                  <Typography color="#FD2D01">
-                    {dataErrorAxios.message}
-                  </Typography>
+                  <TextField
+                    color="secondary"
+                    required
+                    id="title"
+                    label="title"
+                    defaultValue="title"
+                    value={title}
+                    onChange={(e) => titleOnChange(e)}
+                  />
+                </div>
+                <div className="container_textfield_text">
+                  <TextField
+                    color="secondary"
+                    fullWidth
+                    multiline
+                    rows={9}
+                    required
+                    id="text"
+                    label="text"
+                    defaultValue="text"
+                    value={text}
+                    onChange={(e) => textOnChange(e)}
+                  />
+                </div>
+                <div>
+                  <label for="image">
+                    choose picture
+                    <input
+                      name="image"
+                      id="image"
+                      type="file"
+                      onChange={handleChange}
+                    />
+                  </label>
+                </div>
+                <div>
+                  <button className="btn btn-primary" type="submit">
+                    Submit
+                  </button>
+                  <div>
+                    <Typography color="#FD2D01">
+                      {dataErrorAxios.message}
+                    </Typography>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </Box>
+          </Box>
+        ) : (
+          ""
+        )}
       </ThemeProvider>
     </section>
   );

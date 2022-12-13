@@ -11,8 +11,8 @@ const Mainpost = ({ idPost, reply }) => {
   const urlDeletePost = "http://localhost:3001/api/post/deletePost/";
   const urlPostPost = "http://localhost:3001/api/post/modifyPost/";
   const urlPostLikeDisPost = "http://localhost:3001/api/post/likeDislikePost/";
-  const urlPostReply = "http://localhost:3001/api/reply/createReply";
   const urlPostIdReplyPost = "http://localhost:3001/api/post/idReply/";
+  const urlPostViewsPost = "http://localhost:3001/api/post/views/";
   const token = JSON.parse(localStorage.getItem("token"));
   const token2 = JSON.parse(localStorage.getItem("token2"));
   const [dataUser, setDataUser] = useState([]);
@@ -29,7 +29,6 @@ const Mainpost = ({ idPost, reply }) => {
   const tabUserDisLike = dataPost.usersDisliked;
   const [likeHere, setLikeHere] = useState(false);
   const [disLikeHere, setDisLikeHere] = useState(false);
-  // const [reply, setReply] = useState(false);
   const [text, setText] = useState("");
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const [dataErrorReplyAxios, setDataErrorReplyAxios] = useState("");
@@ -39,6 +38,22 @@ const Mainpost = ({ idPost, reply }) => {
   const [statusDeletedPost, setStatusDeletedPost] = useState("");
   const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
   const [dataPostIdReplies, setDataPostIdReplies] = useState([]);
+  let sendPostViews = new Boolean(false);
+
+  //event on "load"; Number views
+  useEffect(() => {
+    if (sendPostViews) {
+      axios
+        .post(urlPostViewsPost + idPost)
+        .then((res) => {
+          console.log("resViews", res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      sendPostViews = false;
+    }
+  }, []);
 
   //get data post
   useEffect(() => {
@@ -151,6 +166,8 @@ const Mainpost = ({ idPost, reply }) => {
             console.log(err);
           })
       );
+    } else if (dataPostIdReplies === null && statusDeletedPost === 200) {
+      window.location.href = "/Home" + "?id=" + idUserConnected;
     }
   }, [statusDeletedPost === 200]);
 
@@ -263,35 +280,6 @@ const Mainpost = ({ idPost, reply }) => {
 
   const textOnChange = (e) => {
     setText(e.target.value);
-  };
-
-  //submit reply
-  const handleReply = (e) => {
-    e.preventDefault();
-    const date = new Date().toLocaleString();
-    const formData = new FormData();
-    formData.append("image", file);
-    formData.append("userId", idUserConnected);
-    formData.append("text", text);
-    formData.append("date", date);
-    axios
-      .post(urlPostReply, formData, {
-        headers: {
-          authorization2: `Bearer ${token2}`,
-
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setDataResReplyAxios(res.data);
-        setStatusPostReply(res.status);
-      })
-      .catch((err) => {
-        console.log(err);
-        setDataErrorReplyAxios(err);
-      });
   };
 
   //submit idRpley for MainPost

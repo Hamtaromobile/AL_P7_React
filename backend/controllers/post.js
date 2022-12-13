@@ -23,6 +23,8 @@ exports.createPost = (req, res, next) => {
       usersLiked: "",
       usersDisliked: "",
       editDate: "",
+      replies: 0,
+      views: 0,
     });
     newPost
       .save()
@@ -76,7 +78,7 @@ exports.modifyPost = (req, res, next) => {
   Post.findOne({ _id: req.params.id }) //
     .then((post) => {
       //si user n'est pas le créateur
-      console.log(" req.auth", req.auth);
+
       if (post.userId != req.auth.userId && req.auth.userIsAdmin != true) {
         res.status(401).json({ message: "Non authorisé" });
       } else {
@@ -219,4 +221,29 @@ exports.idReply = (req, res, next) => {
       })
       .catch((error) => res.status(404).json({ error }));
   }
+};
+
+//nbr views main post
+exports.views = (req, res, next) => {
+  Post.updateOne(
+    { _id: req.params.id },
+    {
+      $inc: { views: +1 },
+    }
+  )
+    .then(() => res.status(200).json({ message: "views +1 ok" }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+//nbr replies main post
+exports.replies = (req, res, next) => {
+  console.log(" req.body", req.body);
+  Post.updateOne(
+    { _id: req.params.id },
+    {
+      $inc: { replies: +1 },
+    }
+  )
+    .then(() => res.status(200).json({ message: "post +1 ok" }))
+    .catch((error) => res.status(400).json({ error }));
 };

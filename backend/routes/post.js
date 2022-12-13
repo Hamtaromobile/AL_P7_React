@@ -29,4 +29,10 @@ router.post("/likeDislikePost/:id", auth, postCtrl.likeDislikePost);
 //Id reply
 router.post("/idReply/:id", auth, postCtrl.idReply);
 
+//Number views
+router.post("/views/:id", postCtrl.views);
+
+//Number replies
+router.post("/replies/:id", postCtrl.replies);
+
 module.exports = router;

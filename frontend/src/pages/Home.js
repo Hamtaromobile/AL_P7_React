@@ -33,13 +33,16 @@ const theme = createTheme({
 const Home = () => {
   let params = new URL(document.location).searchParams;
   let idUser = params.get("id");
-
   const [dataUser, setDataUser] = useState([]);
   const [dataPost, setDataPost] = useState([]);
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetAllPost = "http://localhost:3001/api/post/getAllPost/";
   const token = JSON.parse(localStorage.getItem("token"));
-
+  const [navBarBurger, setNavBarBurger] = useState(false);
+  const dataChild = {
+    setNavBarBurger: setNavBarBurger,
+    idUser: { idUser },
+  };
   //Get user
   useEffect(() => {
     axios
@@ -70,31 +73,34 @@ const Home = () => {
       });
   }, []);
 
-  console.log("datapost123", dataPost);
+  console.log("idUserHome", idUser);
 
   return (
     <ThemeProvider theme={theme}>
-      <Navigation2 />
+      <Navigation2 dataChild={dataChild} />
       <div className="container_home">
         <div className="container_tt_home">
           <h1>Groupomania post</h1>
         </div>
         <div className="container_imgbtn_post_home">
-          <div className="container_imgbtn_home">
-            <NavLink to={`/Profile?id=${idUser}`}>
-              <div className="item_profileimg_home">
-                <Profileimg dataUser={dataUser} />
-              </div>
-            </NavLink>
-            <div>
-              <NavLink to={`/createPost?id=${idUser}`}>
-                <button type="button" className="btn btn-success btn-lg">
-                  Create post
-                </button>
+          {!navBarBurger ? (
+            <div className="container_imgbtn_home">
+              <NavLink to={`/Profile?id=${idUser}`}>
+                <div className="item_profileimg_home">
+                  <Profileimg dataUser={dataUser} />
+                </div>
               </NavLink>
+              <div>
+                <NavLink to={`/createPost?id=${idUser}`}>
+                  <button type="button" className="btn btn-success btn-lg">
+                    Create post
+                  </button>
+                </NavLink>
+              </div>
             </div>
-          </div>
-
+          ) : (
+            ""
+          )}
           <div>
             <ul>
               {dataPost.map((dataPost) => (

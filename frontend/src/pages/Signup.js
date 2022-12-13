@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Navigation from "../components/Navigation";
+import Navigation2 from "../components/Navigation2";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -28,6 +28,11 @@ const Signup = () => {
   const [dataResAxios, setDataResAxios] = useState("");
   const [dataIdUser, setDataIdUser] = useState("");
   const urlPost = "http://localhost:3001/api/auth/signup";
+  const [navBarBurger, setNavBarBurger] = useState(false);
+  const dataChild = {
+    setNavBarBurger: setNavBarBurger,
+    idUser: "",
+  };
 
   //chgt page
   useEffect(() => {
@@ -153,7 +158,7 @@ const Signup = () => {
 
   return (
     <section>
-      <Navigation />
+      <Navigation2 dataChild={dataChild} />
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <div className="container_signup">
           <h3>Sign Up</h3>
@@ -333,22 +338,26 @@ const Signup = () => {
             <Typography color="#FD2D01">{dataErrorAxios.message}</Typography>
           </div>
           <div className="d-grid">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={
-                !allowSendFn ||
-                !allowSendLn ||
-                !allowSendE ||
-                !allowSendEmail ||
-                !allowSendPassword ||
-                !allowSendConfirmPassword
-                  ? true
-                  : false
-              }
-            >
-              Sign Up
-            </button>
+            {!navBarBurger ? (
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={
+                  !allowSendFn ||
+                  !allowSendLn ||
+                  !allowSendE ||
+                  !allowSendEmail ||
+                  !allowSendPassword ||
+                  !allowSendConfirmPassword
+                    ? true
+                    : false
+                }
+              >
+                Sign Up
+              </button>
+            ) : (
+              ""
+            )}
           </div>
           <p className="forgot-password text-right">
             Already registered <a href="/Login">Login?</a>

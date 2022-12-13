@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { useState } from "react";
 
-const Navigation2 = () => {
+const Navigation2 = ({ dataChild }) => {
   const [showLinks, setShowLinks] = useState(false);
   const handleShowLinks = () => {
     setShowLinks(!showLinks);
   };
-  console.log(showLinks);
+  showLinks
+    ? dataChild.setNavBarBurger(true)
+    : dataChild.setNavBarBurger(false); //go up state
   return (
-    <nav className={`navbar ${showLinks ? "show_nav" : "hide_nav"}`}>
+    <nav className={`nav_bar ${showLinks ? "show_nav" : "hide_nav"}`}>
       <div className="navbar_logo">
         <img
           className="img_nav"
@@ -17,26 +19,51 @@ const Navigation2 = () => {
         />
       </div>
       <ul className="navbar_ul">
-        <li className="navbar_item">
-          <a href="" className="navbar_link">
-            Accueil
-          </a>
-        </li>
-        <li className="navbar_item">
-          <a href="" className="navbar_link">
-            Login
-          </a>
-        </li>
-        <li className="navbar_item">
-          <a href="" className="navbar_link">
-            Signup
-          </a>
-        </li>
-        <li className="navbar_item">
-          <a href="" className="navbar_link">
-            Exite
-          </a>
-        </li>
+        {!dataChild.idUser ? (
+          <li className="navbar_item">
+            <a href="/Login" className="navbar_link">
+              Login
+            </a>
+          </li>
+        ) : (
+          ""
+        )}
+        {!dataChild.idUser ? (
+          <li className="navbar_item">
+            <a href="/Signup" className="navbar_link">
+              Signup
+            </a>
+          </li>
+        ) : (
+          ""
+        )}
+        {dataChild.idUser ? (
+          <li className="navbar_item">
+            <a href="/Home" className="navbar_link">
+              Home
+            </a>
+          </li>
+        ) : (
+          ""
+        )}
+        {dataChild.idUser ? (
+          <li className="navbar_item">
+            <a href="/Profil" className="navbar_link">
+              Profil
+            </a>
+          </li>
+        ) : (
+          ""
+        )}
+        {dataChild.idUser ? (
+          <li className="navbar_item">
+            <a href="/Login" className="navbar_link">
+              Exit
+            </a>
+          </li>
+        ) : (
+          ""
+        )}
       </ul>
       <button className="navbar_burger" onClick={handleShowLinks}>
         <span className="burger_bar"></span>

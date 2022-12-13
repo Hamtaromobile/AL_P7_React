@@ -52,9 +52,13 @@ const Post = ({ dataPost }) => {
             <p>{dataPost.text}</p>
           </div>
         </div>
-        <VisibilityIcon />
+        <div>
+          <VisibilityIcon />
+          {dataPost.views}
+        </div>
         <div>
           <MessageIcon />
+          {dataPost.replies}
         </div>
         <div className="container_auth_img_date_post">
           <p>

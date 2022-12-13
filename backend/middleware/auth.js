@@ -4,8 +4,6 @@ const jwt = require("jsonwebtoken");
 
 //extraction info. du token
 module.exports = (req, res, next) => {
-  //console.log("req.headers.authorization", req.headers.authorization);
-  //console.log("req.headers.authorization2dansauth", req.headers.authorization2);
   try {
     // tab. [0] "bear", [1] token
     const token = req.headers.authorization.split(" ")[1];
@@ -23,7 +21,7 @@ module.exports = (req, res, next) => {
       userId: userId,
       userIsAdmin: userIsAdmin,
     };
-    console.log("req.authdansauth", req.auth);
+
     next();
   } catch (error) {
     res.status(401).json({ message: "non auth", error });

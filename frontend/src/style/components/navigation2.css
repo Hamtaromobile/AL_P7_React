@@ -1,20 +1,20 @@
-*{
+  *{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     outline: none;
 }
 
-.navbar{
+.nav_bar{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between; 
-    position: fixed;
     width: 100%;
     min-height: 75px;
     padding: 1rem;
     background-color:#FFD7D7;
+    font-weight: bold;
 }
 
 .navbar_ul{
@@ -66,8 +66,9 @@
         bottom: 0;
         height: 100vh;
         padding: 2rem;
-        background-color:#FFD7D7;
+        background-color:#ff9e9e;
         visibility: hidden;
+        font-weight: bold;
     }
 
     .show_nav .navbar_ul{
@@ -77,7 +78,7 @@
     }
 
     .navbar_link{
-        display:block ;
+        display:inline-block ;
         padding: 1.5rem;
         font-size: 5vw;
     }
