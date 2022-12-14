@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 
-const Profileinfo = ({ id }) => {
+const Profileinfo = ({ idUser }) => {
   let [firstName, setFirstName] = useState("");
   const [errorFn, setErrorFn] = useState(false);
   const [allowSendFn, setAllowSendFn] = useState(false);
@@ -23,14 +23,13 @@ const Profileinfo = ({ id }) => {
   const [allowSendConfirmPassword, setAllowSendConfirmPassword] =
     useState(false);
   const [dataUser, setDataUser] = useState([]);
-  const [dataResAxios, setDataResAxios] = useState("");
   const [newPassword, setNewPassword] = useState(false);
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlPutUser = "http://localhost:3001/api/auth/modifyUser/";
 
-  useEffect(() => {
+  useEffect((idUser) => {
     axios
-      .get(urlGetUser + id)
+      .get(urlGetUser + idUser)
       .then((res) => {
         setDataUser(res.data);
         console.log("res", res);
@@ -40,30 +39,15 @@ const Profileinfo = ({ id }) => {
       });
   }, []);
 
-  //chgt page
-  useEffect(() => {
-    if (dataResAxios.status === 200) {
-      window.location.href = `/Profile?id=${id}`; //!!pas de route / nom de page
-    }
-  }, [dataResAxios.status === 200]);
-
-  useEffect(() => {
-    if (
-      confirmPassword.length > 0 &&
-      password === confirmPassword &&
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
-        password
-      )
-    ) {
-      setNewPassword(true);
-    }
-  }, [
+  if (
     confirmPassword.length > 0 &&
-      password === confirmPassword &&
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
-        password
-      ),
-  ]);
+    password === confirmPassword &&
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
+      password
+    )
+  ) {
+    setNewPassword(true);
+  }
 
   const firstNameOnChange = (e) => {
     setFirstName(e.target.value);
@@ -142,10 +126,11 @@ const Profileinfo = ({ id }) => {
     }
   };
 
+  //submit change
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const token = JSON.parse(localStorage.getItem("token"));
+    const token2 = JSON.parse(localStorage.getItem("token2"));
 
     if (firstName.length === 0) {
       firstName = dataUser.firstName;
@@ -178,16 +163,17 @@ const Profileinfo = ({ id }) => {
       };
 
       axios
-        .put(urlPutUser + id, modifyData, {
+        .put(urlPutUser + idUser, modifyData, {
           headers: {
             authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
         })
         .then((res) => {
           console.log(res);
-          setDataResAxios(res);
+          window.location.href = `/Profile?idUser=${idUser}`;
         })
         .catch((err) => {
           console.log(err);
@@ -201,9 +187,8 @@ const Profileinfo = ({ id }) => {
         password,
         //imageUrl: dataUser.imageUrl,
       };
-
       axios
-        .put(urlPutUser + id, modifyDataP, {
+        .put(urlPutUser + idUser, modifyDataP, {
           headers: {
             authorization: `Bearer ${token}`,
             Accept: "application/json",
@@ -212,7 +197,7 @@ const Profileinfo = ({ id }) => {
         })
         .then((res) => {
           console.log(res);
-          setDataResAxios(res);
+          window.location.href = `/Profile?idUser=${idUser}`;
         })
         .catch((error) => {
           console.log(error);
@@ -234,12 +219,12 @@ const Profileinfo = ({ id }) => {
             >
               <div className="row gx-3 mb-3">
                 <div className="col-md-6">
-                  <label className="small mb-1" for="firstName">
+                  <label className="small mb-1" htmlFor="firstName">
                     First name
                   </label>
                   <input
                     className="form-control"
-                    id="firstName"
+                    idUser="firstName"
                     type="text"
                     placeholder={dataUser.firstName}
                     value={firstName}
@@ -261,7 +246,7 @@ const Profileinfo = ({ id }) => {
                   )}
                 </div>
                 <div className="col-md-6">
-                  <label className="small mb-1" for="inputLastName">
+                  <label className="small mb-1" htmlFor="inputLastName">
                     Last name
                   </label>
                   <input
@@ -292,7 +277,7 @@ const Profileinfo = ({ id }) => {
 
               <div className="row gx-3 mb-3">
                 <div className="col-md-6">
-                  <label className="small mb-1" for="inputEmpName">
+                  <label className="small mb-1" htmlFor="inputEmpName">
                     Employment
                   </label>
                   <input
@@ -321,7 +306,7 @@ const Profileinfo = ({ id }) => {
               </div>
 
               <div className="mb-3">
-                <label className="small mb-1" for="inputEmailAddress">
+                <label className="small mb-1" htmlFor="inputEmailAddress">
                   Email address
                 </label>
                 <input
@@ -353,7 +338,7 @@ const Profileinfo = ({ id }) => {
                   <label
                     type="password"
                     className="small mb-1"
-                    for="inputNewPassword"
+                    htmlFor="inputNewPassword"
                     style={{
                       color:
                         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
@@ -379,7 +364,7 @@ const Profileinfo = ({ id }) => {
                   <label
                     type="password"
                     className="small mb-1"
-                    for="inputConfirmNewpassword"
+                    htmlFor="inputConfirmNewpassword"
                     style={{
                       color:
                         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
@@ -409,6 +394,7 @@ const Profileinfo = ({ id }) => {
                   !allowSendLn &&
                   !allowSendE &&
                   !allowSendEmail &&
+                  !allowSendPassword &&
                   !allowSendConfirmPassword
                     ? true
                     : false

@@ -18,7 +18,7 @@ const Newprofile = () => {
     idUser: { idUser },
   };
 
-  useEffect(() => {
+  useEffect((idUser) => {
     axios
       .get(urlGet + idUser)
       .then((res) => {
@@ -53,7 +53,7 @@ const Newprofile = () => {
         )}
         {!navBarBurger ? (
           <div className="container_profileinfo">
-            <Profileinfo id={idUser} />
+            <Profileinfo idUser={idUser} />
             <div>
               <UploadingProf id={idUser} />
             </div>

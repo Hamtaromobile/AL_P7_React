@@ -4,17 +4,13 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Navigation2 from "../components/Navigation2";
-import { useEffect } from "react";
 import axios from "axios";
 import Footer from "../components/Footer";
 
@@ -43,25 +39,13 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [allowSendEmail, setAllowSendEmail] = useState(false);
   const [allowSendPassword, setAllowSendPassword] = useState(false);
-  const [errorAxios, setErrorAxios] = useState(false);
-  let [dataErrorAxios, setDataErrorAxios] = useState("");
-  const [dataResAxios, setDataResAxios] = useState("");
-  const [dataIdUser, setDataIdUser] = useState("");
+  const [dataErrorAxios, setDataErrorAxios] = useState("");
   const urlPost = "http://localhost:3001/api/auth/Login";
   const [navBarBurger, setNavBarBurger] = useState(false);
   const dataChild = {
     setNavBarBurger: setNavBarBurger,
     idUser: "",
   };
-
-  //const [loginData, setLoginData] = useState([]);
-
-  //chgt page
-  useEffect(() => {
-    if (dataResAxios.status === 200) {
-      (window.location.href = "/Home" + "?id=" + dataIdUser).load();
-    }
-  }, [dataResAxios.status === 200]);
 
   const emailOnChange = (e) => {
     setEmail(e.target.value);
@@ -87,21 +71,17 @@ export default function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     if (allowSendEmail && allowSendPassword) {
       const dataLogin = {
         email: email,
         password: password,
       };
-
       axios
         .post(urlPost, dataLogin)
         .then((res) => {
-          setDataResAxios(res);
-          setDataIdUser(res.data.userId);
           localStorage.setItem("token", JSON.stringify(res.data.token));
           localStorage.setItem("token2", JSON.stringify(res.data.token2));
-          console.log("res", res);
+          window.location.href = "/Home?id=" + res.data.userId;
         })
         .catch((err) => {
           setDataErrorAxios(err);
@@ -130,9 +110,7 @@ export default function Login() {
               <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
                 <LockOutlinedIcon />
               </Avatar>
-              <Typography component="h1" variant="h5">
-                Login
-              </Typography>
+              <h1>Login</h1>
               <Box
                 component="form"
                 onSubmit={handleSubmit}
@@ -167,13 +145,6 @@ export default function Login() {
                   onChange={(e) => passwordOnChange(e)}
                   color="secondary"
                 />
-                <div>
-                  {!errorAxios && (
-                    <Typography color="#FD2D01">
-                      {dataErrorAxios.valueOf}
-                    </Typography>
-                  )}
-                </div>
 
                 <Button
                   type="submit"
@@ -187,9 +158,7 @@ export default function Login() {
                   Login
                 </Button>
                 <div>
-                  <Typography color="#FD2D01">
-                    {dataErrorAxios.message}
-                  </Typography>
+                  <p className="error_login">{dataErrorAxios.message}</p>
                 </div>
 
                 <Grid container>

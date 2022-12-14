@@ -3,7 +3,6 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
-import { NavLink } from "react-router-dom";
 
 const Mainpost = ({ idPost, reply }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
@@ -11,7 +10,6 @@ const Mainpost = ({ idPost, reply }) => {
   const urlDeletePost = "http://localhost:3001/api/post/deletePost/";
   const urlPostPost = "http://localhost:3001/api/post/modifyPost/";
   const urlPostLikeDisPost = "http://localhost:3001/api/post/likeDislikePost/";
-  const urlPostIdReplyPost = "http://localhost:3001/api/post/idReply/";
   const urlPostViewsPost = "http://localhost:3001/api/post/views/";
   const token = JSON.parse(localStorage.getItem("token"));
   const token2 = JSON.parse(localStorage.getItem("token2"));
@@ -21,17 +19,13 @@ const Mainpost = ({ idPost, reply }) => {
   const [editText, setEditText] = useState("");
   const [editTitle, setEditTitle] = useState("");
   const [statusGetPost, setStatusGetPost] = useState("");
-  const [statusPostReply, setStatusPostReply] = useState("");
   const [file, setFile] = useState();
-  const [dataResReplyAxios, setDataResReplyAxios] = useState("");
   let like;
   const tabUserLike = dataPost.usersLiked;
   const tabUserDisLike = dataPost.usersDisliked;
   const [likeHere, setLikeHere] = useState(false);
   const [disLikeHere, setDisLikeHere] = useState(false);
-  const [text, setText] = useState("");
   const [dataErrorAxios, setDataErrorAxios] = useState("");
-  const [dataErrorReplyAxios, setDataErrorReplyAxios] = useState("");
   const params = new URL(document.location).searchParams;
   const idUserConnected = params.get("idU");
   const [userConnected, setUserConnected] = useState("");
@@ -205,6 +199,7 @@ const Mainpost = ({ idPost, reply }) => {
       })
       .catch((err) => {
         console.log(err);
+        setDataErrorAxios(err);
       });
   };
 
@@ -241,6 +236,7 @@ const Mainpost = ({ idPost, reply }) => {
         })
         .catch((err) => {
           console.log(err);
+          setDataErrorAxios(err);
         });
     }
   };
@@ -274,38 +270,10 @@ const Mainpost = ({ idPost, reply }) => {
         })
         .catch((err) => {
           console.log(err);
+          setDataErrorAxios(err);
         });
     }
   };
-
-  const textOnChange = (e) => {
-    setText(e.target.value);
-  };
-
-  //submit idRpley for MainPost
-  useEffect(() => {
-    if (statusPostReply === 201) {
-      const dataIdReply = {
-        idReplies: dataResReplyAxios.replyId,
-      };
-      axios
-        .post(urlPostIdReplyPost + idPost, dataIdReply, {
-          headers: {
-            authorization: `Bearer ${token}`,
-            authorization2: `Bearer ${token2}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          console.log("pushidreply", res);
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [statusPostReply === 201]);
 
   return (
     <article>
@@ -460,7 +428,6 @@ const Mainpost = ({ idPost, reply }) => {
               </div>
             </div>
           </div>
-          <p className="err_send">{dataErrorReplyAxios}</p>
         </div>
         <div className="err_send">{dataErrorAxios}</div>
       </div>

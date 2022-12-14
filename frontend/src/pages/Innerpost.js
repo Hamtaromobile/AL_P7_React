@@ -209,6 +209,7 @@ const Innerpost = () => {
               reply
             </button>
           )}
+          <p className="error_innerpost">{dataErrorReplyAxios}</p>
         </div>
       ) : (
         ""

@@ -1,22 +1,14 @@
 import React from "react";
 import Navigation2 from "../components/Navigation2";
 import Profileimg from "../components/Profileimg";
-import { saveAs } from "file-saver";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import axios from "axios";
-import UploadingPost from "../components/UploadingPost";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
-
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-/*
-const downloadImage = () => {
-  saveAs("image_url", "image.jpg"); // Put your image url here.
-};*/
 
 const theme = createTheme({
   palette: {
@@ -43,7 +35,6 @@ const Creatpost = () => {
   const [dataUser, setDataUser] = useState([]);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  //const [date, setDate] = useState("");
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const [dataResAxios, setDataResAxios] = useState("");
   const [dataResStatAxios, setDataResStatAxios] = useState("");
