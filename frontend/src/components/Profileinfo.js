@@ -27,7 +27,7 @@ const Profileinfo = ({ idUser }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlPutUser = "http://localhost:3001/api/auth/modifyUser/";
 
-  useEffect((idUser) => {
+  useEffect(() => {
     axios
       .get(urlGetUser + idUser)
       .then((res) => {
@@ -37,7 +37,10 @@ const Profileinfo = ({ idUser }) => {
       .catch((err) => {
         console.log(err);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log("idUseridUseridUser", idUser);
 
   if (
     confirmPassword.length > 0 &&
@@ -131,7 +134,6 @@ const Profileinfo = ({ idUser }) => {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
     const token2 = JSON.parse(localStorage.getItem("token2"));
-
     if (firstName.length === 0) {
       firstName = dataUser.firstName;
     }
@@ -161,7 +163,6 @@ const Profileinfo = ({ idUser }) => {
         email,
         imageUrl: dataUser.imageUrl,
       };
-
       axios
         .put(urlPutUser + idUser, modifyData, {
           headers: {
@@ -173,7 +174,8 @@ const Profileinfo = ({ idUser }) => {
         })
         .then((res) => {
           console.log(res);
-          window.location.href = `/Profile?idUser=${idUser}`;
+          //window.location.href = `/Profile?idUser=${idUser}`;
+          window.location.reload();
         })
         .catch((err) => {
           console.log(err);
@@ -224,7 +226,7 @@ const Profileinfo = ({ idUser }) => {
                   </label>
                   <input
                     className="form-control"
-                    idUser="firstName"
+                    id="firstName"
                     type="text"
                     placeholder={dataUser.firstName}
                     value={firstName}

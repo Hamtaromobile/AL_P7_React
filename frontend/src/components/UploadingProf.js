@@ -21,6 +21,7 @@ function App({ id }) {
       .catch((err) => {
         console.log(err);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //chgt page
@@ -28,12 +29,13 @@ function App({ id }) {
     if (dataResAxios.status === 200) {
       window.location.href = `/Profile?id=${id}`; //!!pas de route / nom de page
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataResAxios.status === 200]);
 
   function handleSubmit(event) {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
-    console.log("file", file);
+    const token2 = JSON.parse(localStorage.getItem("token2"));
     const url = "http://localhost:3001/api/auth/modifyUser/" + id;
     const formData = new FormData();
 
@@ -43,6 +45,7 @@ function App({ id }) {
       .put(url, formData, {
         headers: {
           authorization: `Bearer ${token}`,
+          authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -59,7 +62,7 @@ function App({ id }) {
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
-        <h1>Image du profile</h1>
+        <p>Image du profile</p>
         <input type="file" onChange={handleChange} />
         <button type="submit">Upload</button>
       </form>

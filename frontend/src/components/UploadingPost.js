@@ -3,11 +3,6 @@ import axios from "axios";
 
 function App({ id }) {
   const [file, setFile] = useState();
-  let [firstName, setFirstName] = useState("");
-  let [lastName, setLastName] = useState("");
-  let [employment, setEmployment] = useState("");
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
   const [dataUser, setDataUser] = useState([]);
 
   function handleChange(event) {
@@ -29,23 +24,9 @@ function App({ id }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    //  console.log("file", file);
     const url = "http://localhost:3001/api/post/createPost" + id;
     const formData = new FormData();
-    /*const modifyData = {
-      firstName,
-      lastName,
-      employment,
-      email,
-      password,
-    };*/
     formData.append("image", file);
-    //formData.append("fileName", file.name);
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    };
     axios
       .put(url, formData)
       .then((response) => {

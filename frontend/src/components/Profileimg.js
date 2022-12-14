@@ -1,6 +1,4 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
 
 const Profileimg = ({ dataUser }) => {
   //console.log("dataUserimg", dataUser);
@@ -13,11 +11,11 @@ const Profileimg = ({ dataUser }) => {
           <div className="container-img">
             <img
               className="img-account-profile rounded-circle mb-2"
-              src={dataUser.imageUrl != undefined ? dataUser.imageUrl : ""}
-              alt="Photo de profil"
+              src={dataUser.imageUrl !== undefined ? dataUser.imageUrl : ""}
+              alt="Profil"
               style={{
                 border:
-                  dataUser.imageUrl != undefined ? "1px  solid #FD2D01" : "",
+                  dataUser.imageUrl !== undefined ? "1px  solid #FD2D01" : "",
               }}
             />
           </div>

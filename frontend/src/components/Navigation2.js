@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { useState } from "react";
 
 const Navigation2 = ({ dataChild }) => {

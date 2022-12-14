@@ -20,17 +20,13 @@ const Reply = ({ idReply }, { reply }) => {
   const [dataReply, setDataReply] = useState([]);
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState("");
-  const [editTitle, setEditTitle] = useState("");
   const [statusGetReply, setStatusGetReply] = useState("");
   const [file, setFile] = useState();
-  const [dataResReplyAxios, setDataResReplyAxios] = useState("");
   let like;
   const tabUserLike = dataReply.usersLiked;
   const tabUserDisLike = dataReply.usersDisliked;
   const [likeHere, setLikeHere] = useState(false);
   const [disLikeHere, setDisLikeHere] = useState(false);
-  //const [reply, setReply] = useState(false);
-  const [text, setText] = useState("");
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const params = new URL(document.location).searchParams;
   const idUserConnected = params.get("idU");
@@ -45,11 +41,11 @@ const Reply = ({ idReply }, { reply }) => {
       .then((res) => {
         setDataReply(res.data);
         setStatusGetReply(res.status);
-        console.log("resReply", res);
       })
       .catch((err) => {
         console.log(err);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // présence like/dis pr couleurs icones
@@ -64,6 +60,7 @@ const Reply = ({ idReply }, { reply }) => {
         ? setDisLikeHere(true)
         : setDisLikeHere(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusGetReply === 200]);
 
   //Get data user who created reply
@@ -78,12 +75,12 @@ const Reply = ({ idReply }, { reply }) => {
           },
         });
         setDataUser(res.data);
-        // console.log("resUser", res);
       } catch (err) {
         console.log(err);
       }
     };
     getUserReq();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusGetReply === 200]);
 
   //Get data user connected
@@ -99,12 +96,12 @@ const Reply = ({ idReply }, { reply }) => {
           },
         });
         setUserConnected(res.data);
-        console.log("setUserConnected(res.data);", res.data);
       } catch (err) {
         console.log(err);
       }
     };
     getUserReq();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusGetReply === 200]);
 
   //Delete reply
@@ -119,10 +116,10 @@ const Reply = ({ idReply }, { reply }) => {
         },
       })
       .then((res) => {
-        console.log("resDeleteReply", res);
         setStatusDeletedReplyAxios(res.status);
       })
       .catch((err) => {
+        setDataErrorAxios(err);
         console.log(err);
       });
   };
@@ -143,13 +140,14 @@ const Reply = ({ idReply }, { reply }) => {
           },
         })
         .then((res) => {
-          console.log("pushidreply", res);
           window.location.reload();
         })
         .catch((err) => {
           console.log(err);
+          setDataErrorAxios(err);
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusDeletedReplyAxios === 200]);
 
   //submit change
@@ -177,22 +175,17 @@ const Reply = ({ idReply }, { reply }) => {
         },
       })
       .then((res) => {
-        console.log(res);
         window.location.reload();
       })
       .catch((err) => {
         console.log(err);
+        setDataErrorAxios(err);
       });
   };
 
   function handleChange(e) {
     setFile(e.target.files[0]);
   }
-  console.log("dataReply.userId", dataReply.userId);
-  console.log("idUserConnected", idUserConnected);
-
-  console.log("dataReply.usersLiked", dataReply.usersLiked);
-  console.log("dataReply.usersDisLiked", dataReply.usersDisLiked);
 
   //submit like
   const handleLike = () => {
@@ -218,11 +211,11 @@ const Reply = ({ idReply }, { reply }) => {
           },
         })
         .then((res) => {
-          console.log(res);
           window.location.reload();
         })
         .catch((err) => {
           console.log(err);
+          setDataErrorAxios(err);
         });
     }
   };
@@ -252,17 +245,13 @@ const Reply = ({ idReply }, { reply }) => {
           },
         })
         .then((res) => {
-          console.log(res);
           window.location.reload();
         })
         .catch((err) => {
           console.log(err);
+          setDataErrorAxios(err);
         });
     }
-  };
-
-  const textOnChange = (e) => {
-    setText(e.target.value);
   };
 
   return (

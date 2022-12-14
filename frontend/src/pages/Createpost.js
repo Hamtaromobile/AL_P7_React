@@ -59,6 +59,7 @@ const Creatpost = () => {
       .catch((err) => {
         console.log(err);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const titleOnChange = (e) => {
@@ -77,8 +78,9 @@ const Creatpost = () => {
   useEffect(() => {
     if (dataResStatAxios === 201) {
       window.location.href =
-        "/Innerpost" + "?idP=" + dataResAxios.postId + "&idU=" + idUser;
+        "/Innerpost?idP=" + dataResAxios.postId + "&idU=" + idUser;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataResStatAxios === 201]);
 
   //submit create post
@@ -169,7 +171,7 @@ const Creatpost = () => {
                   />
                 </div>
                 <div>
-                  <label for="image">
+                  <label htmlFor="image">
                     choose picture
                     <input
                       name="image"

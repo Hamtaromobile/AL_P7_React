@@ -1,10 +1,8 @@
 //import React, { useEffect, useState } from "react";
-import Navigation from "../components/Navigation";
 import Navigation2 from "../components/Navigation2";
 import Profileimg from "../components/Profileimg";
 import Footer from "../components/Footer";
 import Post from "../components/Post";
-import Button from "@mui/material/Button";
 import { NavLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, useEffect } from "react";
@@ -59,6 +57,7 @@ const Home = () => {
       .catch((err) => {
         console.log(err);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //Get all post
@@ -92,7 +91,7 @@ const Home = () => {
               </NavLink>
               <div>
                 <NavLink to={`/createPost?id=${idUser}`}>
-                  <button type="button" className="btn btn-success btn-lg">
+                  <button type="button" className="btn_crtp_home">
                     Create post
                   </button>
                 </NavLink>

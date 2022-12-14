@@ -32,7 +32,7 @@ const Mainpost = ({ idPost, reply }) => {
   const [statusDeletedPost, setStatusDeletedPost] = useState("");
   const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
   const [dataPostIdReplies, setDataPostIdReplies] = useState([]);
-  let sendPostViews = new Boolean(false);
+  const [sendPostViews, SetsendPostViews] = useState(false);
 
   //event on "load"; Number views
   useEffect(() => {
@@ -45,23 +45,27 @@ const Mainpost = ({ idPost, reply }) => {
         .catch((err) => {
           console.log(err);
         });
-      sendPostViews = false;
+      SetsendPostViews(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //get data post
   useEffect(() => {
-    axios
-      .get(urlGetPost + idPost)
-      .then((res) => {
-        setDataPost(res.data);
-        setStatusGetPost(res.status);
-        setDataPostIdReplies(res.data.idReplies);
-        console.log("resMainPost", res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (idPost !== undefined) {
+      axios
+        .get(urlGetPost + idPost)
+        .then((res) => {
+          setDataPost(res.data);
+          setStatusGetPost(res.status);
+          setDataPostIdReplies(res.data.idReplies);
+          console.log("resMainPost", res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // présence like/dis pr couleurs icones
@@ -76,6 +80,7 @@ const Mainpost = ({ idPost, reply }) => {
         ? setDisLikeHere(true)
         : setDisLikeHere(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusGetPost === 200]);
 
   //Get data user who created main post
@@ -96,6 +101,7 @@ const Mainpost = ({ idPost, reply }) => {
       }
     };
     getUserReq();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusGetPost === 200]);
 
   //Get data user connected
@@ -117,6 +123,7 @@ const Mainpost = ({ idPost, reply }) => {
       }
     };
     getUserReq();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusGetPost === 200]);
 
   //Delete main post
@@ -154,15 +161,16 @@ const Mainpost = ({ idPost, reply }) => {
           })
           .then((res) => {
             console.log("resDeleteALLLLReply", res);
-            window.location.href = "/Home" + "?id=" + idUserConnected;
+            window.location.href = "/Home?id=" + idUserConnected;
           })
           .catch((err) => {
             console.log(err);
           })
       );
     } else if (dataPostIdReplies === null && statusDeletedPost === 200) {
-      window.location.href = "/Home" + "?id=" + idUserConnected;
+      window.location.href = "/Home?id=" + idUserConnected;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusDeletedPost === 200]);
 
   //submit change

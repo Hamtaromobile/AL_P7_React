@@ -9,7 +9,7 @@ import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 
 const Newprofile = () => {
   let params = new URL(document.location).searchParams;
-  let idUser = params.get("id");
+  const idUser = params.get("id");
   const [dataUser, setDataUser] = useState([]);
   const urlGet = "http://localhost:3001/api/auth/getUser/";
   const [navBarBurger, setNavBarBurger] = useState(false);
@@ -18,9 +18,10 @@ const Newprofile = () => {
     idUser: { idUser },
   };
 
-  useEffect((idUser) => {
+  useEffect(() => {
+    const idUserConnected = idUser;
     axios
-      .get(urlGet + idUser)
+      .get(urlGet + idUserConnected)
       .then((res) => {
         setDataUser(res.data);
         console.log("res", res);
@@ -28,12 +29,12 @@ const Newprofile = () => {
       .catch((err) => {
         console.log(err);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="container-body">
       <Navigation2 dataChild={dataChild} />
-
       <div className="container_nav_back_profile">
         <NavLink className="nav_back_profile" to={`/Home?id=${idUser}`}>
           <ArrowBackOutlinedIcon

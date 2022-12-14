@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import Navigation2 from "../components/Navigation2";
-
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import axios from "axios";
+import Footer from "../components/Footer";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -38,8 +38,9 @@ const Signup = () => {
   useEffect(() => {
     if (dataResAxios.status === 201) {
       console.log("res.data.token2", dataResAxios);
-      window.location.href = "/Home" + "?id=" + dataIdUser; //!!pas de route / nom de page
+      window.location.href = "/Home?id=" + dataIdUser; //!!pas de route / nom de page
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataResAxios.status === 201]);
 
   //gestion erreurs
@@ -364,6 +365,7 @@ const Signup = () => {
           </p>
         </div>
       </Box>
+      <Footer />
     </section>
   );
 };

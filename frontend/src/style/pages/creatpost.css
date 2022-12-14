@@ -6,6 +6,7 @@
     justify-content:space-evenly;
     align-items:center;
     margin-top: 3em;
+    min-height: 25em;
 }
 
 .container_titletextsub_creatpost{

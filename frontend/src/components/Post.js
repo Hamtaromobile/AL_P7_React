@@ -1,9 +1,7 @@
 import axios from "axios";
-import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import MessageIcon from "@mui/icons-material/Message";
 import TableRowsIcon from "@mui/icons-material/TableRows";
-import TitleIcon from "@mui/icons-material/Title";
 import { useState, useEffect } from "react";
 
 const Post = ({ dataPost }) => {
@@ -14,7 +12,6 @@ const Post = ({ dataPost }) => {
   const token = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
-    console.log("dataPost.userId", dataPost.userId);
     axios
       .get(urlGetProf + dataPost.userId, {
         headers: {
@@ -30,6 +27,7 @@ const Post = ({ dataPost }) => {
       .catch((err) => {
         console.log(err);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -67,11 +65,11 @@ const Post = ({ dataPost }) => {
           <div>
             <img
               className="item_img_post"
-              src={dataUser.imageUrl != undefined ? dataUser.imageUrl : ""}
-              alt="Photo de profil"
+              src={dataUser.imageUrl !== undefined ? dataUser.imageUrl : ""}
+              alt="Profil"
               style={{
                 border:
-                  dataUser.imageUrl != undefined ? "1px  solid #FD2D01" : "",
+                  dataUser.imageUrl !== undefined ? "1px  solid #FD2D01" : "",
               }}
             />
           </div>
