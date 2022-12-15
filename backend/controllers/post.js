@@ -78,7 +78,6 @@ exports.modifyPost = (req, res, next) => {
   Post.findOne({ _id: req.params.id }) //
     .then((post) => {
       //si user n'est pas le créateur
-
       if (post.userId != req.auth.userId && req.auth.userIsAdmin != true) {
         res.status(401).json({ message: "Non authorisé" });
       } else {
@@ -237,7 +236,6 @@ exports.views = (req, res, next) => {
 
 //nbr replies main post
 exports.replies = (req, res, next) => {
-  console.log(" req.body", req.body);
   Post.updateOne(
     { _id: req.params.id },
     {

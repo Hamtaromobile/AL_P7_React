@@ -24,7 +24,6 @@ const Newprofile = () => {
       .get(urlGet + idUserConnected)
       .then((res) => {
         setDataUser(res.data);
-        console.log("res", res);
       })
       .catch((err) => {
         console.log(err);

@@ -81,15 +81,11 @@ exports.login = (req, res, next) => {
 //modif., route put
 exports.modifyUser = (req, res, next) => {
   //modif. img
-  console.log("req.auth", req.auth);
-
   let userObject = {};
   User.findOne({
     _id: req.params.id,
   }).then((user) => {
-    console.log("user", user);
     if (user._id != req.auth.userId && req.auth.userIsAdmin != true) {
-      console.log("user.userId", user.userId);
       res.status(401).json({ message: "Non authorisé" });
     } else {
       if (req.file) {

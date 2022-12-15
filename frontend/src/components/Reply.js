@@ -5,8 +5,6 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
 const Reply = ({ idReply }, { reply }) => {
-  console.log("replyreplyreply", reply);
-
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetReply = "http://localhost:3001/api/reply/getOneReply/";
   const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
@@ -65,21 +63,23 @@ const Reply = ({ idReply }, { reply }) => {
 
   //Get data user who created reply
   useEffect(() => {
-    const getUserReq = async () => {
-      try {
-        const res = await axios.get(urlGetUser + dataReply.userId, {
-          headers: {
-            authorization: `Bearer ${token}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
-        setDataUser(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getUserReq();
+    if (dataReply.userId !== undefined) {
+      const getUserReq = async () => {
+        try {
+          const res = await axios.get(urlGetUser + dataReply.userId, {
+            headers: {
+              authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          });
+          setDataUser(res.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getUserReq();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusGetReply === 200]);
 
@@ -164,7 +164,6 @@ const Reply = ({ idReply }, { reply }) => {
     formData.append("image", file);
     formData.append("userId", dataReply.userId);
     formData.append("editDate", editDate);
-    console.log("formData", formData);
     axios
       .put(urlPutReply + idReply, formData, {
         headers: {
@@ -234,7 +233,6 @@ const Reply = ({ idReply }, { reply }) => {
         like,
         userId: idUserConnected,
       };
-      console.log("dataLike,", dataLike);
       axios
         .post(urlPutLikeDisReply + idReply, dataLike, {
           headers: {

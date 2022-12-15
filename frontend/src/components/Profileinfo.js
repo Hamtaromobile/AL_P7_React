@@ -32,15 +32,12 @@ const Profileinfo = ({ idUser }) => {
       .get(urlGetUser + idUser)
       .then((res) => {
         setDataUser(res.data);
-        console.log("res", res);
       })
       .catch((err) => {
         console.log(err);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log("idUseridUseridUser", idUser);
 
   if (
     confirmPassword.length > 0 &&
@@ -173,7 +170,6 @@ const Profileinfo = ({ idUser }) => {
           },
         })
         .then((res) => {
-          console.log(res);
           //window.location.href = `/Profile?idUser=${idUser}`;
           window.location.reload();
         })
@@ -198,7 +194,6 @@ const Profileinfo = ({ idUser }) => {
           },
         })
         .then((res) => {
-          console.log(res);
           window.location.href = `/Profile?idUser=${idUser}`;
         })
         .catch((error) => {

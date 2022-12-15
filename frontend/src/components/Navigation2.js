@@ -9,6 +9,8 @@ const Navigation2 = ({ dataChild }) => {
   showLinks
     ? dataChild.setNavBarBurger(true)
     : dataChild.setNavBarBurger(false); //go up state
+
+  // console.log("dataChild.idUserNav2", dataChild.idUser);
   return (
     <nav className={`nav_bar ${showLinks ? "show_nav" : "hide_nav"}`}>
       <div className="navbar_logo">
@@ -39,7 +41,7 @@ const Navigation2 = ({ dataChild }) => {
         )}
         {dataChild.idUser ? (
           <li className="navbar_item">
-            <a href="/Home" className="navbar_link">
+            <a href={"/Home?id=" + dataChild.idUser} className="navbar_link">
               Home
             </a>
           </li>
@@ -48,7 +50,7 @@ const Navigation2 = ({ dataChild }) => {
         )}
         {dataChild.idUser ? (
           <li className="navbar_item">
-            <a href="/Profil" className="navbar_link">
+            <a href={"/Profil?id=" + dataChild.idUser} className="navbar_link">
               Profil
             </a>
           </li>
@@ -58,7 +60,7 @@ const Navigation2 = ({ dataChild }) => {
         {dataChild.idUser ? (
           <li className="navbar_item">
             <a href="/Login" className="navbar_link">
-              Exit
+              Logout
             </a>
           </li>
         ) : (

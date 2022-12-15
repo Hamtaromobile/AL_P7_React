@@ -5,6 +5,7 @@ import Mainpost from "../components/Mainpost";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import Reply from "../components/Reply";
 import { NavLink } from "react-router-dom";
+import Navigation2 from "../components/Navigation2";
 
 const Innerpost = () => {
   const params = new URL(document.location).searchParams;
@@ -24,6 +25,11 @@ const Innerpost = () => {
   const urlPostReply = "http://localhost:3001/api/reply/createReply";
   const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
   const [statusPostIdReplyPost, setStatusPostIdReplyPost] = useState("");
+  const [navBarBurger, setNavBarBurger] = useState(false);
+  const dataChild = {
+    setNavBarBurger: setNavBarBurger,
+    idUser: { idUser },
+  };
 
   //Get data main post
   useEffect(() => {
@@ -38,7 +44,6 @@ const Innerpost = () => {
       })
       .then((res) => {
         setDataPostIdReplies(res.data.idReplies);
-        console.log("resMainPostinnerpost", res.data.idReplies);
       })
       .catch((err) => {
         console.log(err);
@@ -73,7 +78,6 @@ const Innerpost = () => {
         },
       })
       .then((res) => {
-        console.log(res);
         setDataResReplyAxios(res.data);
         setStatusPostReply(res.status);
       })
@@ -86,7 +90,6 @@ const Innerpost = () => {
   //submit idRpley for MainPost
   useEffect(() => {
     if (statusPostReply === 201) {
-      console.log("dataResReplyAxios.replyId", dataResReplyAxios.replyId);
       const dataIdReply = {
         idReplies: dataResReplyAxios.replyId,
       };
@@ -101,7 +104,6 @@ const Innerpost = () => {
         })
         .then((res) => {
           setStatusPostIdReplyPost(res.status);
-          console.log("pushidreply", res);
         })
         .catch((err) => {
           console.log(err);
@@ -113,11 +115,9 @@ const Innerpost = () => {
   //submit nbre replies for MainPost
   useEffect(() => {
     if (statusPostIdReplyPost === 200) {
-      alert("nbrrepliue");
       axios
         .post(urlPostNbrReplyPost + idPost)
         .then((res) => {
-          console.log("pushNbrereply", res);
           window.location.reload();
         })
         .catch((err) => {
@@ -128,20 +128,24 @@ const Innerpost = () => {
   }, [statusPostIdReplyPost === 200]);
 
   return (
-    <div>
-      <div className="container_post_reply_innerpost">
-        <div className="container_nav_back_innerpost">
-          <NavLink className="nav_back_innerpost" to={`/Home?id=${idUser}`}>
-            <ArrowBackOutlinedIcon
-              className="icone_arrowback_innerpost"
-              sx={{ fontSize: 35 }}
-            />
-          </NavLink>
-        </div>
+    <div className="container_post_reply_innerpost">
+      <Navigation2 dataChild={dataChild} />
+      <div className="container_nav_back_innerpost">
+        <NavLink className="nav_back_innerpost" to={`/Home?id=${idUser}`}>
+          <ArrowBackOutlinedIcon
+            className="icone_arrowback_innerpost"
+            sx={{ fontSize: 35 }}
+          />
+        </NavLink>
+      </div>
+      {!navBarBurger ? (
         <div>
           <Mainpost idPost={idPost} reply={reply} />
         </div>
-
+      ) : (
+        ""
+      )}
+      {!navBarBurger ? (
         <div className="container_reply_innerpost">
           {dataPostIdReplies.length !== 0 ? (
             <ul>
@@ -157,56 +161,58 @@ const Innerpost = () => {
             ""
           )}
         </div>
-        {reply ? (
-          <div className="col-md-12 ">
-            <h2 className="item_tt_reply">Reply</h2>
-            <textarea
-              className="item_txt_area_reply_innerpost"
-              autoFocus
-              value={text}
-              onChange={(e) => textOnChange(e)}
-            >
-              texte
-            </textarea>
-            <div className="container_btn_reply_innerpost">
-              <div>
-                <button
-                  type="button"
-                  onClick={() => setReply(false)}
-                  className="btn btn-secondary item_btn"
-                >
-                  cancel
-                </button>
-              </div>
-              <div>
-                <input
-                  className="btn btn-light item_btn"
-                  type="file"
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  onClick={(e) => handleReply(e)}
-                  className="btn btn-primary item_btn"
-                >
-                  send
-                </button>
-              </div>
+      ) : (
+        ""
+      )}
+      {reply ? (
+        <div className="col-md-12 ">
+          <h2 className="item_tt_reply">Reply</h2>
+          <textarea
+            className="item_txt_area_reply_innerpost"
+            autoFocus
+            value={text}
+            onChange={(e) => textOnChange(e)}
+          >
+            texte
+          </textarea>
+          <div className="container_btn_reply_innerpost">
+            <div>
+              <button
+                type="button"
+                onClick={() => setReply(false)}
+                className="btn btn-secondary item_btn"
+              >
+                cancel
+              </button>
+            </div>
+            <div>
+              <input
+                className="btn btn-light item_btn"
+                type="file"
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <button
+                type="submit"
+                onClick={(e) => handleReply(e)}
+                className="btn btn-primary item_btn"
+              >
+                send
+              </button>
             </div>
           </div>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setReply(true)}
-            className="btn btn-success item_btn btn-lg btn-block"
-          >
-            reply
-          </button>
-        )}
-        <p className="error_innerpost">{dataErrorReplyAxios}</p>
-      </div>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setReply(true)}
+          className="btn btn-success item_btn btn-lg btn-block"
+        >
+          reply
+        </button>
+      )}
+      <p className="error_innerpost">{dataErrorReplyAxios}</p>
     </div>
   );
 };

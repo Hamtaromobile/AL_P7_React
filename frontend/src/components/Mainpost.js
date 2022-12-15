@@ -32,16 +32,14 @@ const Mainpost = ({ idPost, reply }) => {
   const [statusDeletedPost, setStatusDeletedPost] = useState("");
   const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
   const [dataPostIdReplies, setDataPostIdReplies] = useState([]);
-  const [sendPostViews, SetsendPostViews] = useState(false);
+  const [sendPostViews, SetsendPostViews] = useState(true);
 
-  //event on "load"; Number views
+  //event on "load"; Number views+1
   useEffect(() => {
     if (sendPostViews) {
       axios
         .post(urlPostViewsPost + idPost)
-        .then((res) => {
-          console.log("resViews", res);
-        })
+        .then((res) => {})
         .catch((err) => {
           console.log(err);
         });
@@ -58,8 +56,8 @@ const Mainpost = ({ idPost, reply }) => {
         .then((res) => {
           setDataPost(res.data);
           setStatusGetPost(res.status);
+          console.log("statusGetPost", statusGetPost);
           setDataPostIdReplies(res.data.idReplies);
-          console.log("resMainPost", res);
         })
         .catch((err) => {
           console.log(err);
@@ -85,22 +83,24 @@ const Mainpost = ({ idPost, reply }) => {
 
   //Get data user who created main post
   useEffect(() => {
-    const getUserReq = async () => {
-      try {
-        const res = await axios.get(urlGetUser + dataPost.userId, {
-          headers: {
-            authorization: `Bearer ${token}`,
-            authorization2: `Bearer ${token2}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
-        setDataUser(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getUserReq();
+    if (dataPost.userId !== undefined) {
+      const getUserReq = async () => {
+        try {
+          const res = await axios.get(urlGetUser + dataPost.userId, {
+            headers: {
+              authorization: `Bearer ${token}`,
+              authorization2: `Bearer ${token2}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          });
+          setDataUser(res.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getUserReq();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusGetPost === 200]);
 
@@ -117,7 +117,6 @@ const Mainpost = ({ idPost, reply }) => {
           },
         });
         setUserConnected(res.data);
-        console.log("setUserConnected(res.data);", res.data);
       } catch (err) {
         console.log(err);
       }
@@ -138,7 +137,6 @@ const Mainpost = ({ idPost, reply }) => {
         },
       })
       .then((res) => {
-        console.log("resDeletePost", res);
         setStatusDeletedPost(res.status);
       })
       .catch((err) => {
@@ -160,7 +158,6 @@ const Mainpost = ({ idPost, reply }) => {
             },
           })
           .then((res) => {
-            console.log("resDeleteALLLLReply", res);
             window.location.href = "/Home?id=" + idUserConnected;
           })
           .catch((err) => {
@@ -202,7 +199,6 @@ const Mainpost = ({ idPost, reply }) => {
         },
       })
       .then((res) => {
-        console.log(res);
         window.location.reload();
       })
       .catch((err) => {
@@ -239,7 +235,6 @@ const Mainpost = ({ idPost, reply }) => {
           },
         })
         .then((res) => {
-          console.log(res);
           window.location.reload();
         })
         .catch((err) => {
@@ -273,7 +268,6 @@ const Mainpost = ({ idPost, reply }) => {
           },
         })
         .then((res) => {
-          console.log(res);
           window.location.reload();
         })
         .catch((err) => {

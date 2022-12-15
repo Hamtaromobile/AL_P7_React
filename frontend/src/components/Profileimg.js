@@ -1,8 +1,6 @@
 import React from "react";
 
 const Profileimg = ({ dataUser }) => {
-  //console.log("dataUserimg", dataUser);
-  // console.log("dataUser.imageUrl", dataUser.imageUrl);
   return (
     <div className="container_profileimg">
       <div className="card mb-4 mb-xl-0">

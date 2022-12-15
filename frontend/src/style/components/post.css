@@ -15,10 +15,8 @@
 
 .container_logo_post{
     width: 10em;
-   
     display: block;
     position: relative;
-   /* overflow: hidden;*/
 }
 
 .logo_post{
@@ -38,8 +36,7 @@
 
 .container_tt_txt_post{
     border-bottom: solid black ;
-    width: 20em;
-    
+    width: 20em;    
 }
 
 .item_img_post{
@@ -55,7 +52,6 @@
     flex-direction: column;
     justify-content: space-between;
     margin-top:-2em;
-    
 }
 
 .container_date{
@@ -65,4 +61,39 @@
 .container_text_post{
     height: 3.2em;
     overflow: hidden;
+}
+
+.icon_visi_post{
+    color:#FD2D01
+}
+
+.icon_mess_post{
+    color:#FD2D01
+}
+
+@media screen and (max-width:767px) {
+
+    .container_post{ 
+        width: 20em;
+        height: 20em;
+        margin-top: 2em;
+        color: black;
+    }
+
+    .container_tt_txt_post{
+        border-bottom: solid black ;
+        width: 10em;    
+    }
+    
+    .container_tt_ico_post{
+        margin-left: 0em;
+    }
+
+    .container_auth_img_date_post{
+        margin-top:0em;
+    }
+
+    .container_date{
+        margin-top: 0em;
+    }
 }

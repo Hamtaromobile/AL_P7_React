@@ -72,8 +72,6 @@ const Home = () => {
       });
   }, []);
 
-  console.log("idUserHome", idUser);
-
   return (
     <ThemeProvider theme={theme}>
       <Navigation2 dataChild={dataChild} />

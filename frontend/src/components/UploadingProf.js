@@ -3,7 +3,7 @@ import axios from "axios";
 
 function App({ id }) {
   const [file, setFile] = useState();
-  const [dataUser, setDataUser] = useState([]);
+
   const [dataResAxios, setDataResAxios] = useState("");
   const urlGet = "http://localhost:3001/api/auth/getUser/";
   function handleChange(event) {
@@ -13,11 +13,7 @@ function App({ id }) {
   useEffect(() => {
     axios
       .get(urlGet + id)
-      .then((res) => {
-        setDataUser(res.data);
-        console.log("res", res);
-        console.log("dataUserimg", dataUser);
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -51,7 +47,6 @@ function App({ id }) {
         },
       })
       .then((response) => {
-        console.log("response.data", response.data);
         setDataResAxios(response);
       })
       .catch((err) => {

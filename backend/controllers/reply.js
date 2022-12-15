@@ -78,7 +78,6 @@ exports.modifyReply = (req, res, next) => {
   Reply.findOne({ _id: req.params.id }) //
     .then((reply) => {
       //si user n'est pas le créateur
-      console.log(" req.auth", req.auth);
       if (reply.userId != req.auth.userId && req.auth.userIsAdmin != true) {
         res.status(401).json({ message: "Non authorisé" });
       } else {
@@ -117,7 +116,6 @@ exports.deleteReply = (req, res, next) => {
   Reply.findOne({ _id: req.params.id })
     .then((reply) => {
       //si user n'est pas le créateur
-      console.log(" req.auth", req.auth);
       if (reply.userId != req.auth.userId && req.auth.userIsAdmin != true) {
         res.status(401).json({ message: "Non authorisé" });
       } else {

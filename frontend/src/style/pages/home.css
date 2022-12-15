@@ -34,7 +34,7 @@
     }
 
     .item_post_home:hover{
-        -webkit-filter: brightness(70%);
+      filter: drop-shadow(16px 16px 20px #ff9e9e) ;
         -webkit-transition: all 1s ease;
         -moz-transition: all 1s ease;
         -o-transition: all 1s ease;
@@ -54,6 +54,7 @@
         font-size: large;
         font-weight: bold;
         border: none;
+        border-radius: 30px;
     }
 
     .btn_crtp_home:hover{

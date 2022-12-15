@@ -37,7 +37,6 @@ const Signup = () => {
   //chgt page
   useEffect(() => {
     if (dataResAxios.status === 201) {
-      console.log("res.data.token2", dataResAxios);
       window.location.href = "/Home?id=" + dataIdUser; //!!pas de route / nom de page
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -143,7 +142,6 @@ const Signup = () => {
       axios
         .post(urlPost, dataSignup)
         .then((res) => {
-          console.log(res);
           localStorage.setItem("token", JSON.stringify(res.data.token));
           localStorage.setItem("token2", JSON.stringify(res.data.token2));
           setDataResAxios(res);

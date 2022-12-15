@@ -5,12 +5,11 @@ import TableRowsIcon from "@mui/icons-material/TableRows";
 import { useState, useEffect } from "react";
 
 const Post = ({ dataPost }) => {
-  console.log("dataPostdataPost", dataPost);
-
   const [dataUser, setDataUser] = useState("");
   const urlGetProf = "http://localhost:3001/api/auth/getUser/";
   const token = JSON.parse(localStorage.getItem("token"));
 
+  //get data post
   useEffect(() => {
     axios
       .get(urlGetProf + dataPost.userId, {
@@ -22,7 +21,6 @@ const Post = ({ dataPost }) => {
       })
       .then((res) => {
         setDataUser(res.data);
-        console.log("resPost", res);
       })
       .catch((err) => {
         console.log(err);
@@ -40,7 +38,6 @@ const Post = ({ dataPost }) => {
             alt="icone groupomania"
           />
         </div>
-
         <div className="container_tt_txt_post">
           <div className="container_tt_ico_post">
             <TableRowsIcon />
@@ -51,11 +48,11 @@ const Post = ({ dataPost }) => {
           </div>
         </div>
         <div>
-          <VisibilityIcon />
+          <VisibilityIcon className="icon_visi_post" />
           {dataPost.views}
         </div>
         <div>
-          <MessageIcon />
+          <MessageIcon className="icon_mess_post" />
           {dataPost.replies}
         </div>
         <div className="container_auth_img_date_post">

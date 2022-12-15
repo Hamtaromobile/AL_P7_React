@@ -88,7 +88,6 @@ const Creatpost = () => {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
     const token2 = JSON.parse(localStorage.getItem("token2"));
-    console.log("token2", token2);
     const date = new Date().toLocaleString();
     const formData = new FormData();
     formData.append("image", file);
@@ -106,7 +105,6 @@ const Creatpost = () => {
         },
       })
       .then((res) => {
-        console.log(res);
         setDataResAxios(res.data);
         setDataResStatAxios(res.status);
       })
@@ -140,7 +138,7 @@ const Creatpost = () => {
                 Create post
               </Typography>
             </div>
-            <div className="container_creatpost">
+            <div className="bloc_creatpost">
               <div>
                 <Profileimg dataUser={dataUser} />
               </div>
@@ -158,8 +156,8 @@ const Creatpost = () => {
                 </div>
                 <div className="container_textfield_text">
                   <TextField
+                    className="text_field_createpost"
                     color="secondary"
-                    fullWidth
                     multiline
                     rows={9}
                     required
