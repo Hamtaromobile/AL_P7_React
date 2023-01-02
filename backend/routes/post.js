@@ -27,7 +27,7 @@ router.delete("/deletePost/:id", auth, postCtrl.deletePost);
 router.post("/likeDislikePost/:id", auth, postCtrl.likeDislikePost);
 
 //Id reply
-router.post("/idReply/:id", auth, postCtrl.idReply);
+//router.post("/idReply/:id", auth, postCtrl.idReply);
 
 //Number views
 router.post("/views/:id", postCtrl.views);

@@ -42,10 +42,11 @@
 
  .margin10{margin-bottom:10px; margin-right:10px;}
 
- .txt_area_text {
-    width: 100%;
+
+ .txt_area_mainpost {
+    width: 70em;
     resize: none;
-    height: 15em;
+    height: 19em;
     outline: none;
   }
 
@@ -138,4 +139,17 @@
 .container_edit_mainpost{
   margin-top: -0.7em;
   padding-bottom: 1em;
+}
+
+@media screen and (max-width:767px) {
+  .txt_area_mainpost {
+    width: 25em;
+    resize: none;
+    height: 19em;
+    outline: none;
+  }
+  
+  .txt_mainpost{
+    width: 27em;
+  }
 }

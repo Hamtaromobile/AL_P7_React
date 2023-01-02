@@ -196,7 +196,7 @@ exports.likeDislikePost = (req, res, next) => {
 };
 
 //Save id reply in Post or delete
-exports.idReply = (req, res, next) => {
+/*exports.idReply = (req, res, next) => {
   //save
   if (req.body.idReplies) {
     Post.updateOne(
@@ -220,7 +220,7 @@ exports.idReply = (req, res, next) => {
       })
       .catch((error) => res.status(404).json({ error }));
   }
-};
+};*/
 
 //nbr views main post
 exports.views = (req, res, next) => {

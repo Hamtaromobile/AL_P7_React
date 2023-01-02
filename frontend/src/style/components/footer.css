@@ -1,9 +1,16 @@
 .footer{
-    margin-top: 1rem;
-    padding: 1rem;
-    background-color: #b1b2b3;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    background-color: #FFD7D7;
+}
+
+
+.btn_footer{
+    background-color: #ff9e9e;
+}
+
+.btn_footer:hover{
+    background-color: #FD2D01;
+}
+
+.txt_footer{
+    background-color: #f87474;
 }

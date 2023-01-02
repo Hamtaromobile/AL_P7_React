@@ -1,15 +1,15 @@
-.container_post__reply_innerpost{
+.tt_Innerpost{
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+.container_innerpost{
     display: flex;
     flex-direction: column;
-    flex-wrap:wrap;
-    justify-content:space-evenly;
-    align-items:center;
-    gap: 3em;
-    margin: 2em;
 }
 
 .container_reply_innerpost{
-    background-color: rgb(246, 246, 246);
+    margin-bottom: 1em;
     }
 
 .item_txt_area_reply_innerpost{
@@ -29,7 +29,7 @@
 
   .container_nav_back_innerpost{
     margin-left: 1em;
-    
+    margin-top: 1em;
   }
 
   .nav_back_innerpost{
@@ -46,4 +46,26 @@
     text-align: center;
   }
 
-  
+  .btn_reply_innerpost{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1em;
+    background-color:#ff9e9e;
+    border-color: red;
+    width: 9em;
+    height: 3em;
+    border-radius: 30px;
+    font-size: large;
+    font-weight: bold;
+  }
+
+  .btn_reply_innerpost:hover{
+    transform: scale(1.1);
+    filter: drop-shadow(8px 8px 8px red) ;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+  }
+

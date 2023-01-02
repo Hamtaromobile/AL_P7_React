@@ -1,0 +1,11 @@
+.pagination{
+    margin-left: 2em;
+}
+
+.page_button{
+    font-weight: bold;
+    width: 2.5em;
+    height: 2.5em;
+    background-color: #FFD7D7;
+    margin-left: -2px;
+}

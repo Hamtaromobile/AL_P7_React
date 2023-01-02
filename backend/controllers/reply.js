@@ -2,6 +2,7 @@
 
 const Reply = require("../models/reply");
 const fs = require("fs");
+
 // fonction replace
 
 //creation, route reply
@@ -10,7 +11,7 @@ exports.createReply = (req, res, next) => {
   const replyObject = req.body;
   delete replyObject._id; //remove id de la req, remplacer par l'id de mongoDb
   delete replyObject._userId; //remove _userId, protection contre mauvais id envoyé
-
+  console.log("req.bodyreply", req.body);
   if (req.file) {
     //req.file existe ?
     const newReply = new Reply({
@@ -64,12 +65,33 @@ exports.getOneReply = (req, res, next) => {
     .catch((error) => res.status(404).json({ error }));
 };
 
-//recup. tous les replies, route get
 exports.getAllReply = (req, res, next) => {
-  Reply.find()
-    .then((replies) => res.status(200).json(replies))
+  Reply.find({ idPost: req.params.id })
+    .then((reply) => res.status(200).json(reply))
     .catch((error) => res.status(400).json({ error }));
 };
+
+//recup. tous les replies lié au "mainpost", route get
+/*exports.getAllReply = (req, res, next) => {
+  Post.findOne({ _id: req.params.id })
+    .then((Post) => {
+      if (Post.idReplies) {
+        let tabIdReplies = [];
+        console.log("Post.idReplies.length", Post.idReplies.length);
+        for (i = 0; i < Post.idReplies.length; i++) {
+          Reply.findOne({ _id: Post.idReplies[i] })
+            .then((reply) => res.status(200).json(reply))
+            .catch((error) => res.status(404).json({ error }));
+          tabIdReplies[i] = Post.idReplies[i];
+        }
+        res
+          .status(200)
+          .json(tabIdReplies)
+          .catch((error) => res.status(404).json({ error }));
+      }
+    })
+    .catch((error) => res.status(404).json({ error }));
+};*/
 
 //modif., route put
 exports.modifyReply = (req, res, next) => {

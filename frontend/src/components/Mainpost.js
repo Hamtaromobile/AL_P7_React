@@ -56,7 +56,6 @@ const Mainpost = ({ idPost, reply }) => {
         .then((res) => {
           setDataPost(res.data);
           setStatusGetPost(res.status);
-          console.log("statusGetPost", statusGetPost);
           setDataPostIdReplies(res.data.idReplies);
         })
         .catch((err) => {
@@ -145,7 +144,7 @@ const Mainpost = ({ idPost, reply }) => {
   };
 
   //delete replies link's to "delete main post"
-  useEffect(() => {
+  /*useEffect(() => {
     if (dataPostIdReplies !== null && statusDeletedPost === 200) {
       dataPostIdReplies.map((dataPostIdReplies) =>
         axios
@@ -168,7 +167,7 @@ const Mainpost = ({ idPost, reply }) => {
       window.location.href = "/Home?id=" + idUserConnected;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusDeletedPost === 200]);
+  }, [statusDeletedPost === 200]);*/
 
   //submit change
   const handleSubmit = (event) => {
@@ -290,14 +289,17 @@ const Mainpost = ({ idPost, reply }) => {
         <div id="blog" className="row">
           <div className="col-md-10 blogShort">
             {editing ? (
-              <textarea
-                className="txt_area_title"
-                defaultValue={editTitle ? editTitle : dataPost.title}
-                autoFocus
-                onChange={(e) => setEditTitle(e.target.value)}
-              ></textarea>
+              <label>
+                title
+                <textarea
+                  className="txt_area_title"
+                  defaultValue={editTitle ? editTitle : dataPost.title}
+                  autoFocus
+                  onChange={(e) => setEditTitle(e.target.value)}
+                ></textarea>
+              </label>
             ) : (
-              <h1>{dataPost.title}</h1>
+              ""
             )}
 
             <p>
@@ -315,18 +317,23 @@ const Mainpost = ({ idPost, reply }) => {
             ) : (
               ""
             )}
-            <article>
+            <div>
               {editing ? (
-                <textarea
-                  className="txt_area_text"
-                  defaultValue={editText ? editText : dataPost.text}
-                  autoFocus
-                  onChange={(e) => setEditText(e.target.value)}
-                ></textarea>
+                <label>
+                  text
+                  <textarea
+                    className="txt_area_mainpost"
+                    defaultValue={editText ? editText : dataPost.text}
+                    autoFocus
+                    onChange={(e) => setEditText(e.target.value)}
+                  ></textarea>
+                </label>
               ) : (
-                <p>{editText ? editText : dataPost.text}</p>
+                <p className="txt_mainpost">
+                  {editText ? editText : dataPost.text}
+                </p>
               )}
-            </article>
+            </div>
             <div className="container_btn_like_dis">
               {editing || reply ? (
                 ""

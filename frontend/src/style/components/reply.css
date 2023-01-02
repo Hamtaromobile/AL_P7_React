@@ -1,11 +1,17 @@
+.reply{
+  list-style: none;
+}
 
- .txt_area_text {
-    width: 100%;
+  .container_reply{
+    background-color: rgb(246, 246, 246);
+  }
+  
+ .txt_area_reply {
+    width: 70em;
     resize: none;
-    height: 15em;
+    height: 19em;
     outline: none;
   }
-
 
   .container_button_mp_reply{
     display: flex;
@@ -24,7 +30,6 @@
     display: flex;
     flex-direction: row;
     flex-wrap:wrap;
-
   }
 
   .container_like_dis_reply{
@@ -71,7 +76,16 @@
     margin-bottom: -1em;
   }
 
-  .container_reply{
-    margin-left: 1em;
-    padding-top: 1em;
+
+  @media screen and (max-width:767px) {
+    .txt_area_reply {
+      width: 25em;
+      resize: none;
+      height: 19em;
+      outline: none;
+    }
+
+    .txt_reply{
+      width: 27em;
+    }
   }

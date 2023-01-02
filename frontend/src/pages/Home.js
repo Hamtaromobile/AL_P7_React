@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Pagination from "../components/Pagination";
 
 const theme = createTheme({
   palette: {
@@ -30,17 +31,32 @@ const theme = createTheme({
 
 const Home = () => {
   let params = new URL(document.location).searchParams;
-  let idUser = params.get("id");
+  const idUser = params.get("id");
   const [dataUser, setDataUser] = useState([]);
+  const [dataUserMainPost, setDataUserMainPost] = useState([]);
   const [dataPost, setDataPost] = useState([]);
+  const [statusGetPost, setStatusGetPost] = useState("");
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetAllPost = "http://localhost:3001/api/post/getAllPost/";
+  const urlGetUserMainPost = "http://localhost:3001/api/post/getUser/";
   const token = JSON.parse(localStorage.getItem("token"));
   const [navBarBurger, setNavBarBurger] = useState(false);
   const dataChild = {
     setNavBarBurger: setNavBarBurger,
     idUser: { idUser },
   };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(3);
+
+  //get current post
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = dataPost.slice(indexOfFirstPost, indexOfLastPost);
+
+  //change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   //Get user
   useEffect(() => {
     axios
@@ -99,17 +115,12 @@ const Home = () => {
             ""
           )}
           <div>
-            <ul>
-              {dataPost.map((dataPost, index) => (
-                <NavLink
-                  to={`/Innerpost?idP=${dataPost._id}&idU=${idUser}`}
-                  className="item_post_home"
-                  key={index}
-                >
-                  <Post key={dataPost._id} dataPost={dataPost} />
-                </NavLink>
-              ))}
-            </ul>
+            <Post dataPost={currentPosts} />
+            <Pagination
+              postsPerPage={postsPerPage}
+              totalPosts={dataPost.length}
+              paginate={paginate}
+            />
           </div>
         </div>
       </div>

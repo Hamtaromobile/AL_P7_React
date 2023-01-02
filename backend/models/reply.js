@@ -11,6 +11,7 @@ const replySchema = mongoose.Schema({
   usersLiked: { type: [String] },
   usersDisliked: { type: [String] },
   editDate: { type: String },
+  idPost: { type: String },
 });
 
 module.exports = mongoose.model("Reply", replySchema); // 1 arg. : Reply ; 2 arg. : replySchema

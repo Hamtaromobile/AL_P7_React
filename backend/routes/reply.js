@@ -12,7 +12,7 @@ const auth = require("../middleware/auth");
 router.post("/createReply", auth, multer, replyCtrl.createReply);
 
 //lecture
-router.get("/getAllReply", replyCtrl.getAllReply);
+router.get("/getAllReply/:id", replyCtrl.getAllReply);
 
 //recup. un post
 router.get("/getOneReply/:id", replyCtrl.getOneReply);

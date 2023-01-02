@@ -6,7 +6,7 @@ import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
 const Reply = ({ idReply }, { reply }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
-  const urlGetReply = "http://localhost:3001/api/reply/getOneReply/";
+  const urlGetAllReply = "http://localhost:3001/api/reply/getAllReply/";
   const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
   const urlPutReply = "http://localhost:3001/api/reply/modifyReply/";
   const urlPutLikeDisReply =
@@ -33,17 +33,32 @@ const Reply = ({ idReply }, { reply }) => {
   const [UserConnected, setUserConnected] = useState("");
 
   //Get data reply
-  useEffect(() => {
+  /* useEffect(() => {
     axios
       .get(urlGetReply + idReply)
       .then((res) => {
         setDataReply(res.data);
         setStatusGetReply(res.status);
+        console.log("resreply", res);
       })
       .catch((err) => {
         console.log(err);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);*/
+
+  //Get data reply
+  useEffect(() => {
+    axios
+      .get(urlGetAllReply + idPost)
+      .then((res) => {
+        setDataReply(res.data);
+        setStatusGetReply(res.status);
+        console.log("resreply", res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   // présence like/dis pr couleurs icones
@@ -253,151 +268,169 @@ const Reply = ({ idReply }, { reply }) => {
   };
 
   return (
-    <article className="container_reply">
-      <link
-        href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
-        rel="stylesheet"
-        id="bootstrap-css"
-      />
-      <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-      <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-      <div className="container">
-        <div id="blog" className="row">
-          <div className="col-md-10 blogShort">
-            <p>
-              le {dataReply.date} par {dataUser.firstName} {dataUser.lastName}{" "}
-            </p>
-            {dataReply.editDate ? <em>édité le {dataReply.editDate}</em> : ""}
-            {dataReply.imageUrl ? (
-              <img
-                src={dataReply.imageUrl}
-                alt="post img"
-                className="pull-left img-responsive thumb margin10 img-thumbnail"
-              />
-            ) : (
-              ""
-            )}
-            <article>
-              {editing ? (
-                <textarea
-                  className="txt_area_text"
-                  defaultValue={editText ? editText : dataReply.text}
-                  autoFocus
-                  onChange={(e) => setEditText(e.target.value)}
-                ></textarea>
-              ) : (
-                <p>{editText ? editText : dataReply.text}</p>
-              )}
-            </article>
-            <div className="container_btn_like_dis_reply">
-              {editing || reply ? (
-                ""
-              ) : (
-                <div className="container_like_dis_reply">
-                  <p className="item_nbr_like_reply">{dataReply.likes}</p>
-                  <span onClick={handleLike}>
-                    <ThumbUpAltIcon
-                      className="item_like_reply"
-                      sx={{ fontSize: 40 }}
-                      style={{
-                        color: likeHere ? "darkgreen" : "grey",
-                      }}
+    <ul className="reply">
+      {dataReply.map((dataReply) => (
+        <li>
+          <article className="container_reply">
+            <link
+              href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+              rel="stylesheet"
+              id="bootstrap-css"
+            />
+            <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+            <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+            <div className="container">
+              <div className="row">
+                <div className="col-md-10 blogShort">
+                  <p>
+                    le {dataReply.date} par {dataUser.firstName}{" "}
+                    {dataUser.lastName}{" "}
+                  </p>
+                  {dataReply.editDate ? (
+                    <em>édité le {dataReply.editDate}</em>
+                  ) : (
+                    ""
+                  )}
+                  {dataReply.imageUrl ? (
+                    <img
+                      src={dataReply.imageUrl}
+                      alt="post img"
+                      className="pull-left img-responsive thumb margin10 img-thumbnail"
                     />
-                  </span>
-                  <p className="item_nbr_dislike_reply">{dataReply.dislikes}</p>
-                  <span type="submit" onClick={handledisLike}>
-                    <ThumbDownAltIcon
-                      className="item_dislike_reply"
-                      sx={{ fontSize: 40 }}
-                      style={{
-                        color: disLikeHere ? "darkred" : "grey",
-                      }}
-                    />
-                  </span>
-                </div>
-              )}
+                  ) : (
+                    ""
+                  )}
+                  <article>
+                    {editing ? (
+                      <label>
+                        text
+                        <textarea
+                          className="txt_area_reply"
+                          defaultValue={editText ? editText : dataReply.text}
+                          autoFocus
+                          onChange={(e) => setEditText(e.target.value)}
+                        ></textarea>
+                      </label>
+                    ) : (
+                      <p className="txt_reply">
+                        {editText ? editText : dataReply.text}
+                      </p>
+                    )}
+                  </article>
+                  <div className="container_btn_like_dis_reply">
+                    {editing || reply ? (
+                      ""
+                    ) : (
+                      <div className="container_like_dis_reply">
+                        <p className="item_nbr_like_reply">{dataReply.likes}</p>
+                        <span onClick={handleLike}>
+                          <ThumbUpAltIcon
+                            className="item_like_reply"
+                            sx={{ fontSize: 40 }}
+                            style={{
+                              color: likeHere ? "darkgreen" : "grey",
+                            }}
+                          />
+                        </span>
+                        <p className="item_nbr_dislike_reply">
+                          {dataReply.dislikes}
+                        </p>
+                        <span type="submit" onClick={handledisLike}>
+                          <ThumbDownAltIcon
+                            className="item_dislike_reply"
+                            sx={{ fontSize: 40 }}
+                            style={{
+                              color: disLikeHere ? "darkred" : "grey",
+                            }}
+                          />
+                        </span>
+                      </div>
+                    )}
 
-              <div className="container_button_mp_reply">
-                <div>
-                  {!editing &&
-                  !reply &&
-                  (dataReply.userId === idUserConnected ||
-                    UserConnected.isAdmin) ? (
-                    <button
-                      type="button"
-                      onClick={() => setEditing(true)}
-                      className="btn btn-primary item_btn_reply"
-                    >
-                      Edit
-                    </button>
-                  ) : (
-                    ""
-                  )}
+                    <div className="container_button_mp_reply">
+                      <div>
+                        {!editing &&
+                        !reply &&
+                        (dataReply.userId === idUserConnected ||
+                          UserConnected.isAdmin) ? (
+                          <button
+                            type="button"
+                            onClick={() => setEditing(true)}
+                            className="btn btn-primary item_btn_reply"
+                          >
+                            Edit
+                          </button>
+                        ) : (
+                          ""
+                        )}
 
-                  {editing ? (
-                    <button
-                      type="button"
-                      onClick={() => setEditing(false)}
-                      className="btn btn-secondary item_btn_reply"
-                    >
-                      cancel
-                    </button>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div>
-                  {editing ? (
-                    <button
-                      type="button"
-                      className="btn btn-danger item_btn_reply"
-                      onClick={() => {
-                        if (
-                          window.confirm(
-                            "Voulez-vous vraiment supprimer ce post ?"
-                          )
-                        ) {
-                          handleDelete();
-                        }
-                      }}
-                    >
-                      Delete
-                    </button>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div>
-                  {editing ? (
-                    <button
-                      type="submit"
-                      className="btn btn-success item_btn_reply"
-                      onClick={handleSubmit}
-                    >
-                      confirm
-                    </button>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div>
-                  {editing ? (
-                    <input
-                      className="btn btn-light item_btn_reply"
-                      type="file"
-                      onChange={handleChange}
-                    />
-                  ) : (
-                    ""
-                  )}
+                        {editing ? (
+                          <button
+                            type="button"
+                            onClick={() => setEditing(false)}
+                            className="btn btn-secondary item_btn_reply"
+                          >
+                            cancel
+                          </button>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                      <div>
+                        {editing ? (
+                          <button
+                            type="button"
+                            className="btn btn-danger item_btn_reply"
+                            onClick={() => {
+                              if (
+                                window.confirm(
+                                  "Voulez-vous vraiment supprimer ce post ?"
+                                )
+                              ) {
+                                handleDelete();
+                              }
+                            }}
+                          >
+                            Delete
+                          </button>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                      <div>
+                        {editing ? (
+                          <button
+                            type="submit"
+                            className="btn btn-success item_btn_reply"
+                            onClick={handleSubmit}
+                          >
+                            confirm
+                          </button>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                      <div>
+                        {editing ? (
+                          <input
+                            className="btn btn-light item_btn_reply"
+                            type="file"
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div className="err_send_reply">{dataErrorAxios}</div>
             </div>
-          </div>
-        </div>
-        <div className="err_send_reply">{dataErrorAxios}</div>
-      </div>
-    </article>
+          </article>
+        </li>
+      ))}
+    </ul>
   );
 };
 

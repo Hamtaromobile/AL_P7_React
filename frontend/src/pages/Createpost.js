@@ -115,7 +115,7 @@ const Creatpost = () => {
   };
 
   return (
-    <section>
+    <section className="creat_post">
       <ThemeProvider theme={theme}>
         <Navigation2 dataChild={dataChild} />
         {!navBarBurger ? (
