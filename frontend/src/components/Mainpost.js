@@ -340,7 +340,7 @@ const Mainpost = ({ idPost, reply }) => {
               ) : (
                 <div className="container_like_dis">
                   <p className="item_nbr_like">{dataPost.likes}</p>
-                  <span onClick={handleLike}>
+                  <span type="submit" onClick={handleLike}>
                     <ThumbUpAltIcon
                       className="item_like"
                       sx={{ fontSize: 40 }}

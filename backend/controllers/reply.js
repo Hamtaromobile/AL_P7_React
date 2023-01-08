@@ -135,6 +135,7 @@ exports.modifyReply = (req, res, next) => {
 
 //delete, route delete
 exports.deleteReply = (req, res, next) => {
+  console.log("req.params.id", req.params.id);
   Reply.findOne({ _id: req.params.id })
     .then((reply) => {
       //si user n'est pas le créateur

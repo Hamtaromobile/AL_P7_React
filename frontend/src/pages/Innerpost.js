@@ -16,15 +16,17 @@ const Innerpost = () => {
   const token = JSON.parse(localStorage.getItem("token"));
   const token2 = JSON.parse(localStorage.getItem("token2"));
   const [reply, setReply] = useState(false);
+  const [statusGetReply, setStatusGetReply] = useState("");
   const [text, setText] = useState("");
   const [file, setFile] = useState();
   const [dataErrorReplyAxios, setDataErrorReplyAxios] = useState("");
-  const [dataReply, setDataReply] = useState("");
+  const [dataReply, setDataReply] = useState([]);
   const [statusPostReply, setStatusPostReply] = useState("");
   const urlPostIdReplyPost = "http://localhost:3001/api/post/idReply/";
   const urlPostNbrReplyPost = "http://localhost:3001/api/post/replies/";
   const urlPostReply = "http://localhost:3001/api/reply/createReply";
   const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
+  const urlGetAllReply = "http://localhost:3001/api/reply/getAllReply/";
   const [statusPostIdReplyPost, setStatusPostIdReplyPost] = useState("");
   const [dataPost, setDataPost] = useState([]);
   const [navBarBurger, setNavBarBurger] = useState(false);
@@ -34,7 +36,7 @@ const Innerpost = () => {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [repliesPerPage] = useState(3);
+  const [repliesPerPage] = useState(2);
 
   //get current reply
   const indexOfLastReply = currentPage * repliesPerPage;
@@ -65,6 +67,20 @@ const Innerpost = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  //Get data reply
+  useEffect(() => {
+    axios
+      .get(urlGetAllReply + idPost)
+      .then((res) => {
+        setDataReply(res.data);
+        setStatusGetReply(res.status);
+        console.log("resreply", res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const textOnChange = (e) => {
     setText(e.target.value);
   };
@@ -76,7 +92,6 @@ const Innerpost = () => {
   //submit reply
   const handleReply = (e) => {
     e.preventDefault();
-    alert("reply");
     const date = new Date().toLocaleString();
     const formData = new FormData();
     formData.append("image", file);
@@ -84,7 +99,6 @@ const Innerpost = () => {
     formData.append("text", text);
     formData.append("date", date);
     formData.append("idPost", idPost);
-
     axios
       .post(urlPostReply, formData, {
         headers: {
@@ -104,6 +118,14 @@ const Innerpost = () => {
         setDataErrorReplyAxios(err);
       });
   };
+
+  //load page
+  useEffect(() => {
+    if (statusPostReply === 201) {
+      window.location.reload();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusPostReply === 201]);
 
   //submit idRpley for MainPost
   /* useEffect(() => {
@@ -168,23 +190,19 @@ const Innerpost = () => {
             />
           </div>*/
           <div className="container_mainpost_innerpost">
-            <Mainpost
-              dataReply={currentReplies}
-              idPost={idPost}
-              reply={reply}
-            />
-            <Pagination
-              repliesPerPage={repliesPerPage}
-              totalReplies={dataReply.length}
-              paginate={paginate}
-            />
+            <Mainpost idPost={idPost} reply={reply} />
           </div>
         ) : (
           ""
         )}
         {!navBarBurger ? (
           <div className="container_reply_innerpost">
-            <Reply reply={reply} />
+            <Reply reply={reply} dataReply={currentReplies} />
+            <Pagination
+              repliesPerPage={repliesPerPage}
+              totalReplies={dataReply.length}
+              paginate={paginate}
+            />
           </div>
         ) : (
           ""

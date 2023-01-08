@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
-const Reply = ({ idReply }, { reply }) => {
+const Reply = ({ dataReply, idReply, reply }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetAllReply = "http://localhost:3001/api/reply/getAllReply/";
   const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
@@ -15,14 +15,14 @@ const Reply = ({ idReply }, { reply }) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const token2 = JSON.parse(localStorage.getItem("token2"));
   const [dataUser, setDataUser] = useState([]);
-  const [dataReply, setDataReply] = useState([]);
+  //const [dataReply, setDataReply] = useState([]);
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState("");
   const [statusGetReply, setStatusGetReply] = useState("");
   const [file, setFile] = useState();
   let like;
-  const tabUserLike = dataReply.usersLiked;
-  const tabUserDisLike = dataReply.usersDisliked;
+  //const tabUserLike = dataReply.usersLiked;
+  //const tabUserDisLike = dataReply.usersDisliked;
   const [likeHere, setLikeHere] = useState(false);
   const [disLikeHere, setDisLikeHere] = useState(false);
   const [dataErrorAxios, setDataErrorAxios] = useState("");
@@ -47,7 +47,7 @@ const Reply = ({ idReply }, { reply }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);*/
 
-  //Get data reply
+  /* //Get data reply
   useEffect(() => {
     axios
       .get(urlGetAllReply + idPost)
@@ -59,10 +59,10 @@ const Reply = ({ idReply }, { reply }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, []);*/
 
   // présence like/dis pr couleurs icones
-  useEffect(() => {
+  /* useEffect(() => {
     if (tabUserLike !== undefined) {
       tabUserLike.includes(idUserConnected)
         ? setLikeHere(true)
@@ -74,7 +74,7 @@ const Reply = ({ idReply }, { reply }) => {
         : setDisLikeHere(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusGetReply === 200]);
+  }, [statusGetReply === 200]);*/
 
   //Get data user who created reply
   useEffect(() => {
@@ -120,9 +120,11 @@ const Reply = ({ idReply }, { reply }) => {
   }, [statusGetReply === 200]);
 
   //Delete reply
-  const handleDelete = () => {
+  function handleDelete(dataReply) {
+    console.log("dataReply._id", dataReply._id);
+    alert("fonctionencours");
     axios
-      .delete(urlDeleteReply + idReply, {
+      .delete(urlDeleteReply + dataReply._id, {
         headers: {
           authorization: `Bearer ${token}`,
           authorization2: `Bearer ${token2}`,
@@ -131,15 +133,24 @@ const Reply = ({ idReply }, { reply }) => {
         },
       })
       .then((res) => {
-        setStatusDeletedReplyAxios(res.status);
+        console.log(res);
+        // setStatusDeletedReplyAxios(res.status);
       })
       .catch((err) => {
         setDataErrorAxios(err);
         console.log(err);
       });
-  };
+  }
 
-  //delete idReply for mainPost
+  //load page
+  useEffect(() => {
+    if (statusDeletedReplyAxios === 200) {
+      window.location.reload();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusDeletedReplyAxios === 200]);
+
+  /* //delete idReply for mainPost
   useEffect(() => {
     if (statusDeletedReplyAxios === 200) {
       const dataIdReplyDeleted = {
@@ -163,11 +174,10 @@ const Reply = ({ idReply }, { reply }) => {
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusDeletedReplyAxios === 200]);
+  }, [statusDeletedReplyAxios === 200]);*/
 
   //submit change
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (dataReply) => {
     const editDate = new Date().toLocaleString();
     const formData = new FormData();
     //keep data
@@ -180,7 +190,7 @@ const Reply = ({ idReply }, { reply }) => {
     formData.append("userId", dataReply.userId);
     formData.append("editDate", editDate);
     axios
-      .put(urlPutReply + idReply, formData, {
+      .put(urlPutReply + dataReply._id, formData, {
         headers: {
           authorization: `Bearer ${token}`,
           authorization2: `Bearer ${token2}`,
@@ -189,7 +199,7 @@ const Reply = ({ idReply }, { reply }) => {
         },
       })
       .then((res) => {
-        window.location.reload();
+        //window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -202,7 +212,10 @@ const Reply = ({ idReply }, { reply }) => {
   }
 
   //submit like
-  const handleLike = () => {
+  const handleLike = (dataReply) => {
+    alert("like");
+    const tabUserLike = dataReply.usersLiked;
+    const tabUserDisLike = dataReply.usersDisliked;
     if (tabUserDisLike.includes(idUserConnected)) {
       return 0;
     } else {
@@ -216,7 +229,7 @@ const Reply = ({ idReply }, { reply }) => {
         userId: idUserConnected,
       };
       axios
-        .post(urlPutLikeDisReply + idReply, dataLike, {
+        .post(urlPutLikeDisReply + dataReply._id, dataLike, {
           headers: {
             authorization: `Bearer ${token}`,
             authorization2: `Bearer ${token2}`,
@@ -225,7 +238,7 @@ const Reply = ({ idReply }, { reply }) => {
           },
         })
         .then((res) => {
-          window.location.reload();
+          // window.location.reload();
         })
         .catch((err) => {
           console.log(err);
@@ -236,6 +249,9 @@ const Reply = ({ idReply }, { reply }) => {
 
   //submit dislike
   const handledisLike = () => {
+    alert("like");
+    const tabUserLike = dataReply.usersLiked;
+    const tabUserDisLike = dataReply.usersDisliked;
     if (tabUserLike.includes(idUserConnected)) {
       return 0;
     } else {
@@ -249,7 +265,7 @@ const Reply = ({ idReply }, { reply }) => {
         userId: idUserConnected,
       };
       axios
-        .post(urlPutLikeDisReply + idReply, dataLike, {
+        .post(urlPutLikeDisReply + dataReply._id, dataLike, {
           headers: {
             authorization: `Bearer ${token}`,
             authorization2: `Bearer ${token2}`,
@@ -258,7 +274,7 @@ const Reply = ({ idReply }, { reply }) => {
           },
         })
         .then((res) => {
-          window.location.reload();
+          //  window.location.reload();
         })
         .catch((err) => {
           console.log(err);
@@ -323,7 +339,13 @@ const Reply = ({ idReply }, { reply }) => {
                     ) : (
                       <div className="container_like_dis_reply">
                         <p className="item_nbr_like_reply">{dataReply.likes}</p>
-                        <span onClick={handleLike}>
+
+                        <span
+                          type="submit"
+                          onClick={() => {
+                            handleLike(dataReply);
+                          }}
+                        >
                           <ThumbUpAltIcon
                             className="item_like_reply"
                             sx={{ fontSize: 40 }}
@@ -335,7 +357,13 @@ const Reply = ({ idReply }, { reply }) => {
                         <p className="item_nbr_dislike_reply">
                           {dataReply.dislikes}
                         </p>
-                        <span type="submit" onClick={handledisLike}>
+
+                        <span
+                          type="submit"
+                          onClick={() => {
+                            handledisLike(dataReply);
+                          }}
+                        >
                           <ThumbDownAltIcon
                             className="item_dislike_reply"
                             sx={{ fontSize: 40 }}
@@ -387,7 +415,7 @@ const Reply = ({ idReply }, { reply }) => {
                                   "Voulez-vous vraiment supprimer ce post ?"
                                 )
                               ) {
-                                handleDelete();
+                                handleDelete(dataReply);
                               }
                             }}
                           >
@@ -402,7 +430,7 @@ const Reply = ({ idReply }, { reply }) => {
                           <button
                             type="submit"
                             className="btn btn-success item_btn_reply"
-                            onClick={handleSubmit}
+                            onClick={handleSubmit(dataReply)}
                           >
                             confirm
                           </button>
