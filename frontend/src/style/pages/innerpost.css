@@ -69,3 +69,6 @@
     transition: all 1s ease;
   }
 
+.container_pagination_innerpost{
+  margin-left: 2em;
+}

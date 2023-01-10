@@ -1,11 +1,12 @@
-.pagination{
-    
-}
 
 .page_button{
     font-weight: bold;
     width: 2.5em;
     height: 2.5em;
     background-color: #FFD7D7;
-    
+    margin-left: -2px;
+}
+
+.page_button:hover{
+    background-color: #fb8181ef
 }

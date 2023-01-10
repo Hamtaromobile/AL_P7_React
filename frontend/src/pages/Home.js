@@ -57,6 +57,7 @@ const Home = () => {
   //change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  console.log("paginateHome", paginate);
   //Get user
   useEffect(() => {
     axios

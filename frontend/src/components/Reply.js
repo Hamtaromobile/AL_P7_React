@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
-const Reply = ({ dataReply, idReply, reply }) => {
+const Reply = ({ dataReply, idReply, reply, postsPerPage }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetAllReply = "http://localhost:3001/api/reply/getAllReply/";
   const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
@@ -122,7 +122,6 @@ const Reply = ({ dataReply, idReply, reply }) => {
   //Delete reply
   function handleDelete(dataReply) {
     console.log("dataReply._id", dataReply._id);
-    alert("fonctionencours");
     axios
       .delete(urlDeleteReply + dataReply._id, {
         headers: {
@@ -134,6 +133,7 @@ const Reply = ({ dataReply, idReply, reply }) => {
       })
       .then((res) => {
         console.log(res);
+        window.location.reload();
         // setStatusDeletedReplyAxios(res.status);
       })
       .catch((err) => {
@@ -178,6 +178,7 @@ const Reply = ({ dataReply, idReply, reply }) => {
 
   //submit change
   const handleSubmit = (dataReply) => {
+    console.log("dataReplysubmit", dataReply);
     const editDate = new Date().toLocaleString();
     const formData = new FormData();
     //keep data
@@ -199,7 +200,8 @@ const Reply = ({ dataReply, idReply, reply }) => {
         },
       })
       .then((res) => {
-        //window.location.reload();
+        console.log(res);
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -213,13 +215,13 @@ const Reply = ({ dataReply, idReply, reply }) => {
 
   //submit like
   const handleLike = (dataReply) => {
-    alert("like");
-    const tabUserLike = dataReply.usersLiked;
-    const tabUserDisLike = dataReply.usersDisliked;
-    if (tabUserDisLike.includes(idUserConnected)) {
+    // const tabUserLike = dataReply.usersLiked;
+    //const tabUserDisLike = dataReply.usersDisliked;
+    if (dataReply.usersDisliked.includes(idUserConnected)) {
+      alert("return0like");
       return 0;
     } else {
-      if (tabUserLike.includes(idUserConnected)) {
+      if (dataReply.usersLiked.includes(idUserConnected)) {
         like = 0;
       } else {
         like = 1;
@@ -238,7 +240,8 @@ const Reply = ({ dataReply, idReply, reply }) => {
           },
         })
         .then((res) => {
-          // window.location.reload();
+          console.log(res);
+          window.location.reload();
         })
         .catch((err) => {
           console.log(err);
@@ -248,11 +251,11 @@ const Reply = ({ dataReply, idReply, reply }) => {
   };
 
   //submit dislike
-  const handledisLike = () => {
-    alert("like");
+  const handledisLike = (dataReply) => {
     const tabUserLike = dataReply.usersLiked;
     const tabUserDisLike = dataReply.usersDisliked;
     if (tabUserLike.includes(idUserConnected)) {
+      alert("return0DISlike");
       return 0;
     } else {
       if (tabUserDisLike.includes(idUserConnected)) {
@@ -274,7 +277,8 @@ const Reply = ({ dataReply, idReply, reply }) => {
           },
         })
         .then((res) => {
-          //  window.location.reload();
+          console.log(res);
+          window.location.reload();
         })
         .catch((err) => {
           console.log(err);
@@ -430,7 +434,9 @@ const Reply = ({ dataReply, idReply, reply }) => {
                           <button
                             type="submit"
                             className="btn btn-success item_btn_reply"
-                            onClick={handleSubmit(dataReply)}
+                            onClick={() => {
+                              handleSubmit(dataReply);
+                            }}
                           >
                             confirm
                           </button>

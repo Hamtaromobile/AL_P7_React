@@ -6,6 +6,7 @@ import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import Reply from "../components/Reply";
 import { NavLink } from "react-router-dom";
 import Navigation2 from "../components/Navigation2";
+//import Pagination from "../components/Pagination";
 import Pagination from "../components/Pagination";
 
 const Innerpost = () => {
@@ -36,12 +37,12 @@ const Innerpost = () => {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [repliesPerPage] = useState(2);
+  const [postsPerPage] = useState(2);
 
-  //get current reply
-  const indexOfLastReply = currentPage * repliesPerPage;
-  const indexOfFirstReply = indexOfLastReply - repliesPerPage;
-  const currentReplies = dataReply.slice(indexOfFirstReply, indexOfLastReply);
+  //get current post
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = dataReply.slice(indexOfFirstPost, indexOfLastPost);
 
   //change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -181,14 +182,6 @@ const Innerpost = () => {
       </div>
       <div className="container_innerpost">
         {!navBarBurger ? (
-          /*<div>
-            <Post dataPost={currentPosts} />
-            <Pagination
-              postsPerPage={postsPerPage}
-              totalPosts={dataPost.length}
-              paginate={paginate}
-            />
-          </div>*/
           <div className="container_mainpost_innerpost">
             <Mainpost idPost={idPost} reply={reply} />
           </div>
@@ -196,11 +189,13 @@ const Innerpost = () => {
           ""
         )}
         {!navBarBurger ? (
-          <div className="container_reply_innerpost">
-            <Reply reply={reply} dataReply={currentReplies} />
+          <div>
+            <div className="container_reply_innerpost">
+              <Reply reply={reply} dataReply={currentPosts} />
+            </div>
             <Pagination
-              repliesPerPage={repliesPerPage}
-              totalReplies={dataReply.length}
+              postsPerPage={postsPerPage}
+              totalPosts={dataReply.length}
               paginate={paginate}
             />
           </div>

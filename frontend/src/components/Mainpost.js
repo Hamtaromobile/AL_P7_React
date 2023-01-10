@@ -301,7 +301,6 @@ const Mainpost = ({ idPost, reply }) => {
             ) : (
               ""
             )}
-
             <p>
               le {dataPost.date} par {dataUser.firstName} {dataUser.lastName}{" "}
             </p>

@@ -16,7 +16,6 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
             </button>
           </li>
         ))}
-        <p>text</p>
       </ul>
     </nav>
   );
