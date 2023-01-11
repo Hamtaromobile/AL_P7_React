@@ -95,6 +95,9 @@ const Creatpost = () => {
     formData.append("title", title);
     formData.append("text", text);
     formData.append("date", date);
+    formData.append("userPicture", dataUser.imageUrl);
+    formData.append("userFirstName", dataUser.firstName);
+    formData.append("userLastName", dataUser.lastName);
     axios
       .post(urlPostPost, formData, {
         headers: {

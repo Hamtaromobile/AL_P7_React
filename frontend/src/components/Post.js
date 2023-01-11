@@ -2,11 +2,9 @@ import axios from "axios";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import MessageIcon from "@mui/icons-material/Message";
 import TableRowsIcon from "@mui/icons-material/TableRows";
-import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 const Post = ({ dataPost }) => {
-  const [dataUser, setDataUser] = useState("");
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const token = JSON.parse(localStorage.getItem("token"));
 
@@ -45,18 +43,20 @@ const Post = ({ dataPost }) => {
               </div>
               <div className="container_auth_img_date_post">
                 <p>
-                  {dataUser.firstName} {dataUser.lastName}
+                  {dataPost.userFirstName} {dataPost.userLastName}
                 </p>
                 <div>
                   <img
                     className="item_img_post"
                     src={
-                      dataUser.imageUrl !== undefined ? dataUser.imageUrl : ""
+                      dataPost.userPicture !== undefined
+                        ? dataPost.userPicture
+                        : ""
                     }
                     alt="Profil"
                     style={{
                       border:
-                        dataUser.imageUrl !== undefined
+                        dataPost.userPicture !== undefined
                           ? "1px  solid #FD2D01"
                           : "",
                     }}

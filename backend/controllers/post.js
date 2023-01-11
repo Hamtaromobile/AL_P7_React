@@ -1,5 +1,5 @@
 //logique métier post
-
+const Reply = require("../models/reply");
 const Post = require("../models/post");
 const fs = require("fs");
 // fonction replace
@@ -45,6 +45,8 @@ exports.createPost = (req, res, next) => {
       usersLiked: "",
       usersDisliked: "",
       editDate: "",
+      replies: 0,
+      views: 0,
     });
     newPost
       .save()
@@ -126,6 +128,9 @@ exports.deletePost = (req, res, next) => {
           Post.deleteOne({ _id: req.params.id })
             .then(() => {
               res.status(200).json({ message: "post supprimé !" });
+              if (Reply.find({ idPost: req.params.id })) {
+                console.log("Reply", Reply);
+              }
             })
             .catch((error) => res.status(401).json({ error }));
         });

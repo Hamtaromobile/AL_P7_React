@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
-const Reply = ({ dataReply, idReply, reply, postsPerPage }) => {
+const Reply = ({ dataReply, idReply, reply }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlGetAllReply = "http://localhost:3001/api/reply/getAllReply/";
   const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
@@ -303,8 +303,8 @@ const Reply = ({ dataReply, idReply, reply, postsPerPage }) => {
               <div className="row">
                 <div className="col-md-10 blogShort">
                   <p>
-                    le {dataReply.date} par {dataUser.firstName}{" "}
-                    {dataUser.lastName}{" "}
+                    le {dataReply.date} par {dataReply.userFirstName}{" "}
+                    {dataReply.userLastName}{" "}
                   </p>
                   {dataReply.editDate ? (
                     <em>édité le {dataReply.editDate}</em>

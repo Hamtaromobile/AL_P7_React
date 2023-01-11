@@ -57,7 +57,6 @@ const Home = () => {
   //change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  console.log("paginateHome", paginate);
   //Get user
   useEffect(() => {
     axios
@@ -117,11 +116,13 @@ const Home = () => {
           )}
           <div>
             <Post dataPost={currentPosts} />
-            <Pagination
-              postsPerPage={postsPerPage}
-              totalPosts={dataPost.length}
-              paginate={paginate}
-            />
+            <div className="container_pagination_home">
+              <Pagination
+                postsPerPage={postsPerPage}
+                totalPosts={dataPost.length}
+                paginate={paginate}
+              />
+            </div>
           </div>
         </div>
       </div>

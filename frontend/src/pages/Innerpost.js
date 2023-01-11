@@ -28,9 +28,11 @@ const Innerpost = () => {
   const urlPostReply = "http://localhost:3001/api/reply/createReply";
   const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
   const urlGetAllReply = "http://localhost:3001/api/reply/getAllReply/";
+  const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const [statusPostIdReplyPost, setStatusPostIdReplyPost] = useState("");
   const [dataPost, setDataPost] = useState([]);
   const [navBarBurger, setNavBarBurger] = useState(false);
+  const [dataUser, setDataUser] = useState([]);
   const dataChild = {
     setNavBarBurger: setNavBarBurger,
     idUser: { idUser },
@@ -82,6 +84,25 @@ const Innerpost = () => {
       });
   }, []);
 
+  //Get user
+  useEffect(() => {
+    axios
+      .get(urlGetUser + idUser, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        setDataUser(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const textOnChange = (e) => {
     setText(e.target.value);
   };
@@ -100,6 +121,9 @@ const Innerpost = () => {
     formData.append("text", text);
     formData.append("date", date);
     formData.append("idPost", idPost);
+    formData.append("userFirstName", dataUser.firstName);
+    formData.append("userLastName", dataUser.lastName);
+
     axios
       .post(urlPostReply, formData, {
         headers: {
@@ -193,11 +217,13 @@ const Innerpost = () => {
             <div className="container_reply_innerpost">
               <Reply reply={reply} dataReply={currentPosts} />
             </div>
-            <Pagination
-              postsPerPage={postsPerPage}
-              totalPosts={dataReply.length}
-              paginate={paginate}
-            />
+            <div className="container_pagination_innerpost">
+              <Pagination
+                postsPerPage={postsPerPage}
+                totalPosts={dataReply.length}
+                paginate={paginate}
+              />
+            </div>
           </div>
         ) : (
           ""
