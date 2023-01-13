@@ -1,13 +1,9 @@
-import axios from "axios";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import MessageIcon from "@mui/icons-material/Message";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import { NavLink } from "react-router-dom";
 
 const Post = ({ dataPost }) => {
-  const urlGetUser = "http://localhost:3001/api/auth/getUser/";
-  const token = JSON.parse(localStorage.getItem("token"));
-
   return (
     <ul>
       {dataPost.map((dataPost) => (

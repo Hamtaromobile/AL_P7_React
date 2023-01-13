@@ -26,13 +26,10 @@ router.delete("/deletePost/:id", auth, postCtrl.deletePost);
 //like, dislike
 router.post("/likeDislikePost/:id", auth, postCtrl.likeDislikePost);
 
-//Id reply
-//router.post("/idReply/:id", auth, postCtrl.idReply);
-
 //Number views
 router.post("/views/:id", postCtrl.views);
 
 //Number replies
-router.post("/replies/:id", postCtrl.replies);
+router.post("/NbrReplies/:id", postCtrl.NbrReplies);
 
 module.exports = router;

@@ -10,11 +10,12 @@ const Mainpost = ({ idPost, reply }) => {
   const urlDeletePost = "http://localhost:3001/api/post/deletePost/";
   const urlPostPost = "http://localhost:3001/api/post/modifyPost/";
   const urlPostLikeDisPost = "http://localhost:3001/api/post/likeDislikePost/";
-  const urlPostViewsPost = "http://localhost:3001/api/post/views/";
+  const urlGetReplies = "http://localhost:3001/api/reply/getReplies/";
   const token = JSON.parse(localStorage.getItem("token"));
   const token2 = JSON.parse(localStorage.getItem("token2"));
   const [dataUser, setDataUser] = useState([]);
   const [dataPost, setDataPost] = useState([]);
+  const [dataReplies, setDataReplies] = useState([]);
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -30,23 +31,7 @@ const Mainpost = ({ idPost, reply }) => {
   const idUserConnected = params.get("idU");
   const [userConnected, setUserConnected] = useState("");
   const [statusDeletedPost, setStatusDeletedPost] = useState("");
-  const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
-  const [dataPostIdReplies, setDataPostIdReplies] = useState([]);
-  const [sendPostViews, SetsendPostViews] = useState(true);
-
-  //event on "load"; Number views+1
-  useEffect(() => {
-    if (sendPostViews) {
-      axios
-        .post(urlPostViewsPost + idPost)
-        .then((res) => {})
-        .catch((err) => {
-          console.log(err);
-        });
-      SetsendPostViews(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
 
   //get data post
   useEffect(() => {
@@ -56,7 +41,6 @@ const Mainpost = ({ idPost, reply }) => {
         .then((res) => {
           setDataPost(res.data);
           setStatusGetPost(res.status);
-          setDataPostIdReplies(res.data.idReplies);
         })
         .catch((err) => {
           console.log(err);
@@ -64,6 +48,25 @@ const Mainpost = ({ idPost, reply }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  //get replies
+  useEffect(() => {
+    if (dataPost.replies <= 0) {
+      alert("etallreplies");
+      axios
+        .get(urlGetReplies)
+        .then((res) => {
+          console.log(res);
+          setDataReplies(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataPost.replies <= 0]);
+  console.log("dataPost.replies", dataPost.replies);
+  console.log("replies", dataReplies);
 
   // présence like/dis pr couleurs icones
   useEffect(() => {
@@ -137,37 +140,19 @@ const Mainpost = ({ idPost, reply }) => {
       })
       .then((res) => {
         setStatusDeletedPost(res.status);
+        // window.location.href = "/Home?id=" + idUser;
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  //delete replies link's to "delete main post"
-  /*useEffect(() => {
-    if (dataPostIdReplies !== null && statusDeletedPost === 200) {
-      dataPostIdReplies.map((dataPostIdReplies) =>
-        axios
-          .delete(urlDeleteReply + dataPostIdReplies, {
-            headers: {
-              authorization: `Bearer ${token}`,
-              authorization2: `Bearer ${token2}`,
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          })
-          .then((res) => {
-            window.location.href = "/Home?id=" + idUserConnected;
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-      );
-    } else if (dataPostIdReplies === null && statusDeletedPost === 200) {
-      window.location.href = "/Home?id=" + idUserConnected;
+  //delete reply's mainpost if exsit
+  useEffect(() => {
+    if (statusDeletedPost === 201) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusDeletedPost === 200]);*/
+  }, [statusDeletedPost === 201]);
 
   //submit change
   const handleSubmit = (event) => {

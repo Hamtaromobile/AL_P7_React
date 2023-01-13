@@ -6,8 +6,8 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 
 const Footer = () => {
   return (
-    <div className="container-fluid my-5">
-      <footer className="text-center text-lg-start footer">
+    <footer className="container-fluid my-5">
+      <div className="text-center text-lg-start footer">
         <div className="container d-flex justify-content-center py-5">
           <button
             type="button"
@@ -41,8 +41,8 @@ const Footer = () => {
             MDBootstrap.com
           </a>
         </div>
-      </footer>
-    </div>
+      </div>
+    </footer>
   );
 };
 

@@ -128,9 +128,6 @@ exports.deletePost = (req, res, next) => {
           Post.deleteOne({ _id: req.params.id })
             .then(() => {
               res.status(200).json({ message: "post supprimé !" });
-              if (Reply.find({ idPost: req.params.id })) {
-                console.log("Reply", Reply);
-              }
             })
             .catch((error) => res.status(401).json({ error }));
         });
@@ -139,6 +136,9 @@ exports.deletePost = (req, res, next) => {
     .catch((error) => {
       res.status(500).json({ error });
     });
+  if (Reply.find({ idPost: req.params.id })) {
+    console.log("Replydelete?", Reply);
+  }
 };
 
 //like, dislike route post
@@ -200,39 +200,12 @@ exports.likeDislikePost = (req, res, next) => {
   }
 };
 
-//Save id reply in Post or delete
-/*exports.idReply = (req, res, next) => {
-  //save
-  if (req.body.idReplies) {
-    Post.updateOne(
-      { _id: req.params.id },
-      {
-        $push: { idReplies: req.body.idReplies },
-      }
-    )
-      .then(() => res.status(200).json({ message: "push reply ok" }))
-      .catch((error) => res.status(400).json({ error }));
-  }
-  //delete
-  if (req.body.idRepliesDeleted) {
-    Post.findOne({ _id: req.params.id })
-      .then(() => {
-        Post.updateOne({
-          $pull: { idReplies: req.body.idRepliesDeleted },
-        })
-          .then(() => res.status(200).json({ message: "pull reply ok" }))
-          .catch((error) => res.status(400).json({ error }));
-      })
-      .catch((error) => res.status(404).json({ error }));
-  }
-};*/
-
 //nbr views main post
 exports.views = (req, res, next) => {
   Post.updateOne(
     { _id: req.params.id },
     {
-      $inc: { views: +1 },
+      $inc: { views: +0.25 },
     }
   )
     .then(() => res.status(200).json({ message: "views +1 ok" }))
@@ -240,7 +213,7 @@ exports.views = (req, res, next) => {
 };
 
 //nbr replies main post
-exports.replies = (req, res, next) => {
+exports.NbrReplies = (req, res, next) => {
   Post.updateOne(
     { _id: req.params.id },
     {

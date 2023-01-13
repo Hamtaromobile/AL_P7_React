@@ -4,21 +4,16 @@ import { useState, useEffect } from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
-const Reply = ({ dataReply, idReply, reply }) => {
+const Reply = ({ dataReply, reply }) => {
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
-  const urlGetAllReply = "http://localhost:3001/api/reply/getAllReply/";
   const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
   const urlPutReply = "http://localhost:3001/api/reply/modifyReply/";
   const urlPutLikeDisReply =
     "http://localhost:3001/api/reply/likeDislikeReply/";
-  const urlPostIdReplyDeletePost = "http://localhost:3001/api/post/idReply/";
   const token = JSON.parse(localStorage.getItem("token"));
   const token2 = JSON.parse(localStorage.getItem("token2"));
-  const [dataUser, setDataUser] = useState([]);
-  //const [dataReply, setDataReply] = useState([]);
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState("");
-  const [statusGetReply, setStatusGetReply] = useState("");
   const [file, setFile] = useState();
   let like;
   //const tabUserLike = dataReply.usersLiked;
@@ -28,75 +23,7 @@ const Reply = ({ dataReply, idReply, reply }) => {
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const params = new URL(document.location).searchParams;
   const idUserConnected = params.get("idU");
-  const idPost = params.get("idP");
-  const [statusDeletedReplyAxios, setStatusDeletedReplyAxios] = useState("");
   const [UserConnected, setUserConnected] = useState("");
-
-  //Get data reply
-  /* useEffect(() => {
-    axios
-      .get(urlGetReply + idReply)
-      .then((res) => {
-        setDataReply(res.data);
-        setStatusGetReply(res.status);
-        console.log("resreply", res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);*/
-
-  /* //Get data reply
-  useEffect(() => {
-    axios
-      .get(urlGetAllReply + idPost)
-      .then((res) => {
-        setDataReply(res.data);
-        setStatusGetReply(res.status);
-        console.log("resreply", res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);*/
-
-  // présence like/dis pr couleurs icones
-  /* useEffect(() => {
-    if (tabUserLike !== undefined) {
-      tabUserLike.includes(idUserConnected)
-        ? setLikeHere(true)
-        : setLikeHere(false);
-    }
-    if (tabUserDisLike !== undefined) {
-      tabUserDisLike.includes(idUserConnected)
-        ? setDisLikeHere(true)
-        : setDisLikeHere(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusGetReply === 200]);*/
-
-  //Get data user who created reply
-  useEffect(() => {
-    if (dataReply.userId !== undefined) {
-      const getUserReq = async () => {
-        try {
-          const res = await axios.get(urlGetUser + dataReply.userId, {
-            headers: {
-              authorization: `Bearer ${token}`,
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          });
-          setDataUser(res.data);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      getUserReq();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusGetReply === 200]);
 
   //Get data user connected
   useEffect(() => {
@@ -117,7 +44,7 @@ const Reply = ({ dataReply, idReply, reply }) => {
     };
     getUserReq();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusGetReply === 200]);
+  }, []);
 
   //Delete reply
   function handleDelete(dataReply) {
@@ -141,40 +68,6 @@ const Reply = ({ dataReply, idReply, reply }) => {
         console.log(err);
       });
   }
-
-  //load page
-  useEffect(() => {
-    if (statusDeletedReplyAxios === 200) {
-      window.location.reload();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusDeletedReplyAxios === 200]);
-
-  /* //delete idReply for mainPost
-  useEffect(() => {
-    if (statusDeletedReplyAxios === 200) {
-      const dataIdReplyDeleted = {
-        idRepliesDeleted: idReply,
-      };
-      axios
-        .post(urlPostIdReplyDeletePost + idPost, dataIdReplyDeleted, {
-          headers: {
-            authorization: `Bearer ${token}`,
-            authorization2: `Bearer ${token2}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-          setDataErrorAxios(err);
-        });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusDeletedReplyAxios === 200]);*/
 
   //submit change
   const handleSubmit = (dataReply) => {

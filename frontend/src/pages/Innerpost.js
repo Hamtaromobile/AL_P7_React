@@ -6,33 +6,31 @@ import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import Reply from "../components/Reply";
 import { NavLink } from "react-router-dom";
 import Navigation2 from "../components/Navigation2";
-//import Pagination from "../components/Pagination";
 import Pagination from "../components/Pagination";
 
 const Innerpost = () => {
   const params = new URL(document.location).searchParams;
   const idPost = params.get("idP");
   const idUser = params.get("idU");
-  // const [dataPostIdReplies, setDataPostIdReplies] = useState([]);
   const token = JSON.parse(localStorage.getItem("token"));
   const token2 = JSON.parse(localStorage.getItem("token2"));
   const [reply, setReply] = useState(false);
-  const [statusGetReply, setStatusGetReply] = useState("");
   const [text, setText] = useState("");
   const [file, setFile] = useState();
   const [dataErrorReplyAxios, setDataErrorReplyAxios] = useState("");
   const [dataReply, setDataReply] = useState([]);
   const [statusPostReply, setStatusPostReply] = useState("");
-  const urlPostIdReplyPost = "http://localhost:3001/api/post/idReply/";
-  const urlPostNbrReplyPost = "http://localhost:3001/api/post/replies/";
   const urlPostReply = "http://localhost:3001/api/reply/createReply";
   const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
-  const urlGetAllReply = "http://localhost:3001/api/reply/getAllReply/";
+  const urlNbrReplies = "http://localhost:3001/api/post/NbrReplies/";
+  const urlGetRepliesMainpost =
+    "http://localhost:3001/api/reply/getRepliesMainpost/";
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
-  const [statusPostIdReplyPost, setStatusPostIdReplyPost] = useState("");
+  const urlPostViewsPost = "http://localhost:3001/api/post/views/";
   const [dataPost, setDataPost] = useState([]);
   const [navBarBurger, setNavBarBurger] = useState(false);
   const [dataUser, setDataUser] = useState([]);
+
   const dataChild = {
     setNavBarBurger: setNavBarBurger,
     idUser: { idUser },
@@ -48,6 +46,17 @@ const Innerpost = () => {
 
   //change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  //event on "load"; Number views+1
+  useEffect(() => {
+    axios
+      .post(urlPostViewsPost + idPost)
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   //Get data main post
   useEffect(() => {
@@ -73,15 +82,15 @@ const Innerpost = () => {
   //Get data reply
   useEffect(() => {
     axios
-      .get(urlGetAllReply + idPost)
+      .get(urlGetRepliesMainpost + idPost)
       .then((res) => {
         setDataReply(res.data);
-        setStatusGetReply(res.status);
         console.log("resreply", res);
       })
       .catch((err) => {
         console.log(err);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //Get user
@@ -135,7 +144,6 @@ const Innerpost = () => {
       })
       .then((res) => {
         console.log(res);
-        // DataResReplyAxios(res.data);
         setStatusPostReply(res.status);
       })
       .catch((err) => {
@@ -144,53 +152,18 @@ const Innerpost = () => {
       });
   };
 
-  //load page
+  //load page after reply ok
   useEffect(() => {
     if (statusPostReply === 201) {
-      window.location.reload();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusPostReply === 201]);
-
-  //submit idRpley for MainPost
-  /* useEffect(() => {
-    if (statusPostReply === 201) {
-      const dataIdReply = {
-        idReplies: dataResReplyAxios.replyId,
-      };
       axios
-        .post(urlPostIdReplyPost + idPost, dataIdReply, {
-          headers: {
-            authorization: `Bearer ${token}`,
-            authorization2: `Bearer ${token2}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          setStatusPostIdReplyPost(res.status);
-        })
+        .post(urlNbrReplies + idPost)
+        .then((res) => {}, window.location.reload())
         .catch((err) => {
           console.log(err);
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusPostReply === 201]);
-
-  //submit nbre replies for MainPost
-  useEffect(() => {
-    if (statusPostIdReplyPost === 200) {
-      axios
-        .post(urlPostNbrReplyPost + idPost)
-        .then((res) => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusPostIdReplyPost === 200]);*/
 
   return (
     <article>
@@ -207,7 +180,7 @@ const Innerpost = () => {
       <div className="container_innerpost">
         {!navBarBurger ? (
           <div className="container_mainpost_innerpost">
-            <Mainpost idPost={idPost} reply={reply} />
+            <Mainpost idUser={idUser} idPost={idPost} reply={reply} />
           </div>
         ) : (
           ""

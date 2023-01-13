@@ -11,11 +11,11 @@ const auth = require("../middleware/auth");
 //création
 router.post("/createReply", auth, multer, replyCtrl.createReply);
 
-//lecture
-router.get("/getAllReply/:id", replyCtrl.getAllReply);
+//recup. replies's mainpost
+router.get("/getRepliesMainpost/:id", replyCtrl.getRepliesMainpost);
 
-//recup. un post
-router.get("/getOneReply/:id", replyCtrl.getOneReply);
+//recup. replies
+router.get("/getReplies", replyCtrl.getReplies);
 
 //modif.
 router.put("/modifyReply/:id", auth, multer, replyCtrl.modifyReply);

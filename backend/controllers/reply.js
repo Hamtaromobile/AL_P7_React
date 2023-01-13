@@ -3,8 +3,6 @@
 const Reply = require("../models/reply");
 const fs = require("fs");
 
-// fonction replace
-
 //creation, route reply
 exports.createReply = (req, res, next) => {
   //const replyObject = JSON.parse(req.body.reply); // "form-data" parse en JSON
@@ -58,40 +56,19 @@ exports.createReply = (req, res, next) => {
   }
 };
 
-//recup. 1 reply, route get
-exports.getOneReply = (req, res, next) => {
-  Reply.findOne({ _id: req.params.id })
+//recup. All reply, route get
+exports.getReplies = (req, res, next) => {
+  Reply.find()
     .then((reply) => res.status(200).json(reply))
     .catch((error) => res.status(404).json({ error }));
 };
 
-exports.getAllReply = (req, res, next) => {
+//recup replies lié au post principal
+exports.getRepliesMainpost = (req, res, next) => {
   Reply.find({ idPost: req.params.id })
     .then((reply) => res.status(200).json(reply))
     .catch((error) => res.status(400).json({ error }));
 };
-
-//recup. tous les replies lié au "mainpost", route get
-/*exports.getAllReply = (req, res, next) => {
-  Post.findOne({ _id: req.params.id })
-    .then((Post) => {
-      if (Post.idReplies) {
-        let tabIdReplies = [];
-        console.log("Post.idReplies.length", Post.idReplies.length);
-        for (i = 0; i < Post.idReplies.length; i++) {
-          Reply.findOne({ _id: Post.idReplies[i] })
-            .then((reply) => res.status(200).json(reply))
-            .catch((error) => res.status(404).json({ error }));
-          tabIdReplies[i] = Post.idReplies[i];
-        }
-        res
-          .status(200)
-          .json(tabIdReplies)
-          .catch((error) => res.status(404).json({ error }));
-      }
-    })
-    .catch((error) => res.status(404).json({ error }));
-};*/
 
 //modif., route put
 exports.modifyReply = (req, res, next) => {

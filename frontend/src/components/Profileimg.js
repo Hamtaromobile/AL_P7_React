@@ -2,7 +2,7 @@ import React from "react";
 
 const Profileimg = ({ dataUser }) => {
   return (
-    <div className="container_profileimg">
+    <aside className="container_profileimg">
       <div className="card mb-4 mb-xl-0">
         <div className="card-header">Welcome {dataUser.firstName}</div>
         <div className="card-body text-center">
@@ -20,7 +20,7 @@ const Profileimg = ({ dataUser }) => {
           <p className="employment">{dataUser.employment}</p>
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
 
