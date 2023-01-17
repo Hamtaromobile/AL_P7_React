@@ -16,15 +16,16 @@ const Reply = ({ dataReply, reply }) => {
   const [editText, setEditText] = useState("");
   const [file, setFile] = useState();
   let like;
-  //const tabUserLike = dataReply.usersLiked;
-  //const tabUserDisLike = dataReply.usersDisliked;
+  const tabUserLike = dataReply.usersLiked;
+  const tabUserDisLike = dataReply.usersDisliked;
   const [likeHere, setLikeHere] = useState(false);
   const [disLikeHere, setDisLikeHere] = useState(false);
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const params = new URL(document.location).searchParams;
   const idUserConnected = params.get("idU");
   const [UserConnected, setUserConnected] = useState("");
-
+  const [loadColorOk, setloadColorOk] = useState(false);
+  const [key, setKey] = useState("");
   //Get data user connected
   useEffect(() => {
     const getUserReq = async () => {
@@ -48,7 +49,6 @@ const Reply = ({ dataReply, reply }) => {
 
   //Delete reply
   function handleDelete(dataReply) {
-    console.log("dataReply._id", dataReply._id);
     axios
       .delete(urlDeleteReply + dataReply._id, {
         headers: {
@@ -111,7 +111,6 @@ const Reply = ({ dataReply, reply }) => {
     // const tabUserLike = dataReply.usersLiked;
     //const tabUserDisLike = dataReply.usersDisliked;
     if (dataReply.usersDisliked.includes(idUserConnected)) {
-      alert("return0like");
       return 0;
     } else {
       if (dataReply.usersLiked.includes(idUserConnected)) {
@@ -148,7 +147,6 @@ const Reply = ({ dataReply, reply }) => {
     const tabUserLike = dataReply.usersLiked;
     const tabUserDisLike = dataReply.usersDisliked;
     if (tabUserLike.includes(idUserConnected)) {
-      alert("return0DISlike");
       return 0;
     } else {
       if (tabUserDisLike.includes(idUserConnected)) {
@@ -180,10 +178,80 @@ const Reply = ({ dataReply, reply }) => {
     }
   };
 
+  const ThumbUpColor = (dataReply) => {
+    alert("likeHere?");
+    if (dataReply.usersLiked !== undefined) {
+      dataReply.usersLiked.includes(idUserConnected)
+        ? setLikeHere(true)
+        : setLikeHere(false);
+    }
+  };
+
+  /*// présence like/dis pr couleurs icones
+  useEffect(() => {
+    if (tabUserLike !== undefined) {
+      tabUserLike.includes(idUserConnected)
+        ? setLikeHere(true)
+        : setLikeHere(false);
+    }
+    if (tabUserDisLike !== undefined) {
+      tabUserDisLike.includes(idUserConnected)
+        ? setDisLikeHere(true)
+        : setDisLikeHere(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);*/
+  /* console.log("tabUserLike", tabUserLike);
+  console.log("tabUserDisLike", tabUserDisLike);
+  console.log("idUserConnected", idUserConnected);
+  console.log("likeHere", likeHere);
+  console.log("disLikehere", disLikeHere);*/
+
+  const colorLikeDislike = (dataReply) => {
+    // alert("color");
+    console.log("datareplydatareply", dataReply);
+    if (dataReply.usersLiked !== undefined && loadColorOk === false) {
+      //   alert("findLike");
+      dataReply.usersLiked.includes(idUserConnected)
+        ? setLikeHere(true)
+        : setLikeHere(false);
+      setloadColorOk(true);
+    }
+    if (dataReply.usersDisliked !== undefined && loadColorOk === false) {
+      // alert("findDISLike");
+      dataReply.usersDisliked.includes(idUserConnected)
+        ? setDisLikeHere(true)
+        : setDisLikeHere(false);
+      setloadColorOk(true);
+    }
+  };
+
+  console.log("likeHere", likeHere);
+  console.log("disLikehere", disLikeHere);
+  console.log("idUserConnected", idUserConnected);
+
+  /* useEffect(() => {
+    dataReply.map((dataReply) => colorLikeDislike(dataReply));
+  }, []);*/
+
+  let key2;
+  const keyMap = (e) => {
+    //setKey(e.currentTarget.getAttribute("key"));
+    key2 = e.currentTarget.getAttribute("key");
+    console.log("key2,", key2);
+    alert(key2);
+  };
+
   return (
     <ul className="reply">
       {dataReply.map((dataReply) => (
-        <li>
+        <li
+          key={dataReply._id}
+          onLoad={() => {
+            colorLikeDislike(dataReply);
+            keyMap(dataReply._id);
+          }}
+        >
           <article className="container_reply">
             <link
               href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
@@ -236,7 +304,6 @@ const Reply = ({ dataReply, reply }) => {
                     ) : (
                       <div className="container_like_dis_reply">
                         <p className="item_nbr_like_reply">{dataReply.likes}</p>
-
                         <span
                           type="submit"
                           onClick={() => {

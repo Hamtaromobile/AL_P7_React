@@ -27,10 +27,12 @@ const Innerpost = () => {
     "http://localhost:3001/api/reply/getRepliesMainpost/";
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlPostViewsPost = "http://localhost:3001/api/post/views/";
+  const urlPostPost = "http://localhost:3001/api/post/modifyPost/";
   const [dataPost, setDataPost] = useState([]);
   const [navBarBurger, setNavBarBurger] = useState(false);
   const [dataUser, setDataUser] = useState([]);
-
+  const [statusPostPost, setStatusPostPost] = useState("");
+  const [resPostReply, setResPostReply] = useState("");
   const dataChild = {
     setNavBarBurger: setNavBarBurger,
     idUser: { idUser },
@@ -144,6 +146,7 @@ const Innerpost = () => {
       })
       .then((res) => {
         console.log(res);
+        setResPostReply(res.data);
         setStatusPostReply(res.status);
       })
       .catch((err) => {
@@ -152,9 +155,34 @@ const Innerpost = () => {
       });
   };
 
-  //load page after reply ok
+  //if reply ok ; idReply => mainPost
   useEffect(() => {
     if (statusPostReply === 201) {
+      const formData = new FormData();
+      formData.append("idReplies", resPostReply.replyId);
+      axios
+        .put(urlPostPost + idPost, formData, {
+          headers: {
+            authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setStatusPostPost(res.status);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusPostReply === 201]);
+
+  //if idReply => mainPost ; nbr reply + 1 ; and load page
+  useEffect(() => {
+    if (statusPostPost === 200) {
       axios
         .post(urlNbrReplies + idPost)
         .then((res) => {}, window.location.reload())
@@ -163,7 +191,7 @@ const Innerpost = () => {
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusPostReply === 201]);
+  }, [statusPostPost === 200]);
 
   return (
     <article>

@@ -11,6 +11,7 @@ const Mainpost = ({ idPost, reply }) => {
   const urlPostPost = "http://localhost:3001/api/post/modifyPost/";
   const urlPostLikeDisPost = "http://localhost:3001/api/post/likeDislikePost/";
   const urlGetReplies = "http://localhost:3001/api/reply/getReplies/";
+  const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
   const token = JSON.parse(localStorage.getItem("token"));
   const token2 = JSON.parse(localStorage.getItem("token2"));
   const [dataUser, setDataUser] = useState([]);
@@ -51,8 +52,7 @@ const Mainpost = ({ idPost, reply }) => {
 
   //get replies
   useEffect(() => {
-    if (dataPost.replies <= 0) {
-      alert("etallreplies");
+    if (dataPost.replies !== 0) {
       axios
         .get(urlGetReplies)
         .then((res) => {
@@ -64,7 +64,7 @@ const Mainpost = ({ idPost, reply }) => {
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataPost.replies <= 0]);
+  }, [dataPost.replies !== 0]);
   console.log("dataPost.replies", dataPost.replies);
   console.log("replies", dataReplies);
 
@@ -147,12 +147,36 @@ const Mainpost = ({ idPost, reply }) => {
       });
   };
 
+  console.log("statusDeletedPost", statusDeletedPost);
+  console.log("dataPost", dataPost);
   //delete reply's mainpost if exsit
   useEffect(() => {
-    if (statusDeletedPost === 201) {
+    if (statusDeletedPost === 200 && dataPost.replies !== 0) {
+      console.log("dataPost", dataPost);
+      alert("deletereplies!");
+      for (let i = 0; i <= dataPost.replies; i++) {
+        axios
+          .delete(urlDeleteReply + dataPost.replies, {
+            headers: {
+              authorization: `Bearer ${token}`,
+              authorization2: `Bearer ${token2}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            //window.location.reload();
+            // setStatusDeletedReplyAxios(res.status);
+          })
+          .catch((err) => {
+            setDataErrorAxios(err);
+            console.log(err);
+          });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusDeletedPost === 201]);
+  }, [statusDeletedPost === 200 && dataPost.replies !== 0]);
 
   //submit change
   const handleSubmit = (event) => {

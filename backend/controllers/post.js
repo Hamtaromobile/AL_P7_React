@@ -23,6 +23,7 @@ exports.createPost = (req, res, next) => {
       usersLiked: "",
       usersDisliked: "",
       editDate: "",
+      idReplies: "",
       replies: 0,
       views: 0,
     });
@@ -45,6 +46,7 @@ exports.createPost = (req, res, next) => {
       usersLiked: "",
       usersDisliked: "",
       editDate: "",
+      idReplies: "",
       replies: 0,
       views: 0,
     });
