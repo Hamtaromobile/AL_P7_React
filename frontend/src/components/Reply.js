@@ -29,6 +29,7 @@ const Reply = ({ dataReply, reply }) => {
   const [statusDeletedReply, setStatusDeletedReply] = useState("");
   const [deleteIdReply, setDeleteIdReply] = useState("");
   const [deleteIdMainPost, setDeleteIdMainPost] = useState("");
+  const [editingItemId, setEditingItemId] = useState(null);
   const [key, setKey] = useState("");
   //Get data user connected
   useEffect(() => {
@@ -274,6 +275,11 @@ const Reply = ({ dataReply, reply }) => {
     alert(key2);
   };
 
+  const handleEditClick = (dataReplyId) => {
+    setEditing(!editing);
+    setEditingItemId(dataReplyId);
+  };
+
   return (
     <ul className="reply">
       {dataReply.map((dataReply) => (
@@ -314,7 +320,7 @@ const Reply = ({ dataReply, reply }) => {
                     ""
                   )}
                   <article>
-                    {editing ? (
+                    {editing && dataReply._id === editingItemId ? (
                       <label>
                         text
                         <textarea
@@ -331,7 +337,7 @@ const Reply = ({ dataReply, reply }) => {
                     )}
                   </article>
                   <div className="container_btn_like_dis_reply">
-                    {editing || reply ? (
+                    {(editing && dataReply._id === editingItemId) || reply ? (
                       ""
                     ) : (
                       <div className="container_like_dis_reply">
@@ -379,7 +385,11 @@ const Reply = ({ dataReply, reply }) => {
                           UserConnected.isAdmin) ? (
                           <button
                             type="button"
-                            onClick={() => setEditing(true)}
+                            onClick={() =>
+                              /*setEditing(true)*/ handleEditClick(
+                                dataReply._id
+                              )
+                            }
                             className="btn btn-primary item_btn_reply"
                           >
                             Edit
@@ -388,10 +398,14 @@ const Reply = ({ dataReply, reply }) => {
                           ""
                         )}
 
-                        {editing ? (
+                        {editing && dataReply._id === editingItemId ? (
                           <button
                             type="button"
-                            onClick={() => setEditing(false)}
+                            onClick={() =>
+                              /*setEditing(false)*/ handleEditClick(
+                                dataReply._id
+                              )
+                            }
                             className="btn btn-secondary item_btn_reply"
                           >
                             cancel
@@ -401,7 +415,7 @@ const Reply = ({ dataReply, reply }) => {
                         )}
                       </div>
                       <div>
-                        {editing ? (
+                        {editing && dataReply._id === editingItemId ? (
                           <button
                             type="button"
                             className="btn btn-danger item_btn_reply"
@@ -422,7 +436,7 @@ const Reply = ({ dataReply, reply }) => {
                         )}
                       </div>
                       <div>
-                        {editing ? (
+                        {editing && dataReply._id === editingItemId ? (
                           <button
                             type="submit"
                             className="btn btn-success item_btn_reply"
@@ -437,7 +451,7 @@ const Reply = ({ dataReply, reply }) => {
                         )}
                       </div>
                       <div>
-                        {editing ? (
+                        {editing && dataReply._id === editingItemId ? (
                           <input
                             className="btn btn-light item_btn_reply"
                             type="file"
