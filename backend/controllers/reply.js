@@ -9,7 +9,6 @@ exports.createReply = (req, res, next) => {
   const replyObject = req.body;
   delete replyObject._id; //remove id de la req, remplacer par l'id de mongoDb
   delete replyObject._userId; //remove _userId, protection contre mauvais id envoyé
-  console.log("req.bodyreply", req.body);
   if (req.file) {
     //req.file existe ?
     const newReply = new Reply({
@@ -21,8 +20,6 @@ exports.createReply = (req, res, next) => {
       }`,
       likes: 0,
       dislikes: 0,
-      usersLiked: "",
-      usersDisliked: "",
       editDate: "",
     });
     newReply
@@ -41,8 +38,6 @@ exports.createReply = (req, res, next) => {
       imageUrl: "",
       likes: 0,
       dislikes: 0,
-      usersLiked: "",
-      usersDisliked: "",
       editDate: "",
     });
     newReply
@@ -112,7 +107,6 @@ exports.modifyReply = (req, res, next) => {
 
 //delete, route delete
 exports.deleteReply = (req, res, next) => {
-  console.log("req.params.id", req.params.id);
   Reply.findOne({ _id: req.params.id })
     .then((reply) => {
       //si user n'est pas le créateur

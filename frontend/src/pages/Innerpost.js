@@ -27,7 +27,7 @@ const Innerpost = () => {
     "http://localhost:3001/api/reply/getRepliesMainpost/";
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlPostViewsPost = "http://localhost:3001/api/post/views/";
-  const urlPostPost = "http://localhost:3001/api/post/modifyPost/";
+  const urlpushIdReplyPost = "http://localhost:3001/api/post/pushIdReply/";
   const [dataPost, setDataPost] = useState([]);
   const [navBarBurger, setNavBarBurger] = useState(false);
   const [dataUser, setDataUser] = useState([]);
@@ -122,7 +122,7 @@ const Innerpost = () => {
     setFile(e.target.files[0]);
   }
 
-  //submit reply
+  //create reply
   const handleReply = (e) => {
     e.preventDefault();
     const date = new Date().toLocaleString();
@@ -134,7 +134,6 @@ const Innerpost = () => {
     formData.append("idPost", idPost);
     formData.append("userFirstName", dataUser.firstName);
     formData.append("userLastName", dataUser.lastName);
-
     axios
       .post(urlPostReply, formData, {
         headers: {
@@ -158,10 +157,10 @@ const Innerpost = () => {
   //if reply ok ; idReply => mainPost
   useEffect(() => {
     if (statusPostReply === 201) {
-      const formData = new FormData();
-      formData.append("idReplies", resPostReply.replyId);
+      console.log("ResPostReplyResPostReply", resPostReply.replyId);
+      const idData = { idReply: resPostReply.replyId };
       axios
-        .put(urlPostPost + idPost, formData, {
+        .post(urlpushIdReplyPost + idPost, idData, {
           headers: {
             authorization: `Bearer ${token}`,
             authorization2: `Bearer ${token2}`,

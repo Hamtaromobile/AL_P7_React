@@ -8,7 +8,6 @@ const fs = require("fs");
 // new user, route post
 exports.signup = (req, res, next) => {
   //crypt. mp, pas de stockage du mp
-
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {

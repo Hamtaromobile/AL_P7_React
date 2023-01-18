@@ -29,6 +29,12 @@ router.post("/likeDislikePost/:id", auth, postCtrl.likeDislikePost);
 //Number views
 router.post("/views/:id", postCtrl.views);
 
+//Tab push idReplies
+router.post("/pushIdReply/:id", auth, postCtrl.pushIdReply);
+
+//Tab pull idReplies
+router.post("/pullIdReply/:id", auth, postCtrl.pullIdReply);
+
 //Number replies
 router.post("/NbrReplies/:id", postCtrl.NbrReplies);
 

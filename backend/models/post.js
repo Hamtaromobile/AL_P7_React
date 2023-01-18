@@ -13,7 +13,7 @@ const postSchema = mongoose.Schema({
   usersDisliked: { type: [String] },
   editDate: { type: String },
   replies: { type: Number },
-  idReplies: { type: String },
+  idReplies: { type: [String] },
   views: { type: Number },
   userPicture: { type: String },
   userFirstName: { type: String },

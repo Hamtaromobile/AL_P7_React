@@ -32,6 +32,7 @@ const Mainpost = ({ idPost, reply }) => {
   const idUserConnected = params.get("idU");
   const [userConnected, setUserConnected] = useState("");
   const [statusDeletedPost, setStatusDeletedPost] = useState("");
+  const [statusDeletedReply, setStatusDeletedReply] = useState("");
   //const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
 
   //get data post
@@ -139,6 +140,7 @@ const Mainpost = ({ idPost, reply }) => {
         },
       })
       .then((res) => {
+        console.log(res);
         setStatusDeletedPost(res.status);
         // window.location.href = "/Home?id=" + idUser;
       })
@@ -149,14 +151,17 @@ const Mainpost = ({ idPost, reply }) => {
 
   console.log("statusDeletedPost", statusDeletedPost);
   console.log("dataPost", dataPost);
-  //delete reply's mainpost if exsit
+
+  //delete reply's mainpost if exist
   useEffect(() => {
-    if (statusDeletedPost === 200 && dataPost.replies !== 0) {
+    if (statusDeletedPost === 200 && dataPost.idReplies.length !== 0) {
       console.log("dataPost", dataPost);
-      alert("deletereplies!");
-      for (let i = 0; i <= dataPost.replies; i++) {
+      console.log("dataPost.idReplies.length", dataPost.idReplies.length);
+      for (let i = 0; i <= dataPost.idReplies.length; i++) {
+        console.log("dataPost.idReplies", dataPost.idReplies[i]);
+        console.log("dataPost.idReplies", dataPost.idReplies[i]);
         axios
-          .delete(urlDeleteReply + dataPost.replies, {
+          .delete(urlDeleteReply + dataPost.idReplies[i], {
             headers: {
               authorization: `Bearer ${token}`,
               authorization2: `Bearer ${token2}`,
@@ -166,17 +171,20 @@ const Mainpost = ({ idPost, reply }) => {
           })
           .then((res) => {
             console.log(res);
-            //window.location.reload();
-            // setStatusDeletedReplyAxios(res.status);
+            setStatusDeletedReply(res.status);
           })
           .catch((err) => {
             setDataErrorAxios(err);
             console.log(err);
           });
       }
+      window.location.href = "/Home?id=" + idUserConnected;
+    } else if (statusDeletedPost === 200 && dataPost.idReplies.length === 0) {
+      console.log("dataPost.idReplies.length", dataPost.idReplies.length);
+      window.location.href = "/Home?id=" + idUserConnected;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusDeletedPost === 200 && dataPost.replies !== 0]);
+  }, [statusDeletedPost === 200]);
 
   //submit change
   const handleSubmit = (event) => {

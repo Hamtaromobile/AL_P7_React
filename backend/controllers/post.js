@@ -20,10 +20,7 @@ exports.createPost = (req, res, next) => {
       }`,
       likes: 0,
       dislikes: 0,
-      usersLiked: "",
-      usersDisliked: "",
       editDate: "",
-      idReplies: "",
       replies: 0,
       views: 0,
     });
@@ -43,10 +40,7 @@ exports.createPost = (req, res, next) => {
       imageUrl: "",
       likes: 0,
       dislikes: 0,
-      usersLiked: "",
-      usersDisliked: "",
       editDate: "",
-      idReplies: "",
       replies: 0,
       views: 0,
     });
@@ -73,6 +67,35 @@ exports.getAllPost = (req, res, next) => {
   Post.find()
     .then((posts) => res.status(200).json(posts))
     .catch((error) => res.status(400).json({ error }));
+};
+
+//Add idReply
+exports.pushIdReply = (req, res, next) => {
+  if (req.body.idReply) {
+    Post.updateOne(
+      { _id: req.params.id },
+      {
+        $push: { idReplies: req.body.idReply },
+      }
+    )
+      .then(() => res.status(200).json({ message: "push idReply ok" }))
+      .catch((error) => res.status(400).json({ error }));
+  }
+};
+
+//remove idReply
+exports.pullIdReply = (req, res, next) => {
+  console.log("req.body.idReply", req.body.idReply);
+  if (req.body.idReply) {
+    Post.updateOne(
+      { _id: req.params.id },
+      {
+        $pull: { idReplies: req.body.idReply },
+      }
+    )
+      .then(() => res.status(200).json({ message: "push idReply ok" }))
+      .catch((error) => res.status(400).json({ error }));
+  }
 };
 
 //modif., route put
@@ -138,9 +161,6 @@ exports.deletePost = (req, res, next) => {
     .catch((error) => {
       res.status(500).json({ error });
     });
-  if (Reply.find({ idPost: req.params.id })) {
-    console.log("Replydelete?", Reply);
-  }
 };
 
 //like, dislike route post

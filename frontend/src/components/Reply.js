@@ -10,6 +10,7 @@ const Reply = ({ dataReply, reply }) => {
   const urlPutReply = "http://localhost:3001/api/reply/modifyReply/";
   const urlPutLikeDisReply =
     "http://localhost:3001/api/reply/likeDislikeReply/";
+  const urlpullIdReplyPost = "http://localhost:3001/api/post/pullIdReply/";
   const token = JSON.parse(localStorage.getItem("token"));
   const token2 = JSON.parse(localStorage.getItem("token2"));
   const [editing, setEditing] = useState(false);
@@ -25,6 +26,9 @@ const Reply = ({ dataReply, reply }) => {
   const idUserConnected = params.get("idU");
   const [UserConnected, setUserConnected] = useState("");
   const [loadColorOk, setloadColorOk] = useState(false);
+  const [statusDeletedReply, setStatusDeletedReply] = useState("");
+  const [deleteIdReply, setDeleteIdReply] = useState("");
+  const [deleteIdMainPost, setDeleteIdMainPost] = useState("");
   const [key, setKey] = useState("");
   //Get data user connected
   useEffect(() => {
@@ -49,6 +53,8 @@ const Reply = ({ dataReply, reply }) => {
 
   //Delete reply
   function handleDelete(dataReply) {
+    setDeleteIdReply(dataReply._id);
+    setDeleteIdMainPost(dataReply.idPost);
     axios
       .delete(urlDeleteReply + dataReply._id, {
         headers: {
@@ -60,18 +66,44 @@ const Reply = ({ dataReply, reply }) => {
       })
       .then((res) => {
         console.log(res);
-        window.location.reload();
-        // setStatusDeletedReplyAxios(res.status);
+
+        setStatusDeletedReply(res.status);
       })
       .catch((err) => {
         setDataErrorAxios(err);
         console.log(err);
       });
   }
+  console.log("dataReplydataReplydataReply", dataReply);
+
+  //if delete reply ok ; idReply pull mainPost
+  useEffect(() => {
+    if (statusDeletedReply === 200) {
+      alert("deletereply");
+      const idData = { idReply: deleteIdReply };
+      axios
+        .post(urlpullIdReplyPost + deleteIdMainPost, idData, {
+          headers: {
+            authorization: `Bearer ${token}`,
+            authorization2: `Bearer ${token2}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusDeletedReply === 200]);
 
   //submit change
   const handleSubmit = (dataReply) => {
-    console.log("dataReplysubmit", dataReply);
+    // console.log("dataReplysubmit", dataReply);
     const editDate = new Date().toLocaleString();
     const formData = new FormData();
     //keep data
@@ -209,7 +241,7 @@ const Reply = ({ dataReply, reply }) => {
 
   const colorLikeDislike = (dataReply) => {
     // alert("color");
-    console.log("datareplydatareply", dataReply);
+    // console.log("datareplydatareply", dataReply);
     if (dataReply.usersLiked !== undefined && loadColorOk === false) {
       //   alert("findLike");
       dataReply.usersLiked.includes(idUserConnected)
@@ -226,9 +258,9 @@ const Reply = ({ dataReply, reply }) => {
     }
   };
 
-  console.log("likeHere", likeHere);
+  /*console.log("likeHere", likeHere);
   console.log("disLikehere", disLikeHere);
-  console.log("idUserConnected", idUserConnected);
+  console.log("idUserConnected", idUserConnected);*/
 
   /* useEffect(() => {
     dataReply.map((dataReply) => colorLikeDislike(dataReply));
@@ -238,7 +270,7 @@ const Reply = ({ dataReply, reply }) => {
   const keyMap = (e) => {
     //setKey(e.currentTarget.getAttribute("key"));
     key2 = e.currentTarget.getAttribute("key");
-    console.log("key2,", key2);
+    // console.log("key2,", key2);
     alert(key2);
   };
 
