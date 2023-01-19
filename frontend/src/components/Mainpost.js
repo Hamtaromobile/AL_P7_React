@@ -16,7 +16,6 @@ const Mainpost = ({ idPost, reply }) => {
   const token2 = JSON.parse(localStorage.getItem("token2"));
   const [dataUser, setDataUser] = useState([]);
   const [dataPost, setDataPost] = useState([]);
-  const [dataReplies, setDataReplies] = useState([]);
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -32,8 +31,6 @@ const Mainpost = ({ idPost, reply }) => {
   const idUserConnected = params.get("idU");
   const [userConnected, setUserConnected] = useState("");
   const [statusDeletedPost, setStatusDeletedPost] = useState("");
-  const [statusDeletedReply, setStatusDeletedReply] = useState("");
-  //const urlDeleteReply = "http://localhost:3001/api/reply/deleteReply/";
 
   //get data post
   useEffect(() => {
@@ -50,24 +47,6 @@ const Mainpost = ({ idPost, reply }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  //get replies
-  useEffect(() => {
-    if (dataPost.replies !== 0) {
-      axios
-        .get(urlGetReplies)
-        .then((res) => {
-          console.log(res);
-          setDataReplies(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataPost.replies !== 0]);
-  console.log("dataPost.replies", dataPost.replies);
-  console.log("replies", dataReplies);
 
   // présence like/dis pr couleurs icones
   useEffect(() => {
@@ -149,17 +128,10 @@ const Mainpost = ({ idPost, reply }) => {
       });
   };
 
-  console.log("statusDeletedPost", statusDeletedPost);
-  console.log("dataPost", dataPost);
-
   //delete reply's mainpost if exist
   useEffect(() => {
     if (statusDeletedPost === 200 && dataPost.idReplies.length !== 0) {
-      console.log("dataPost", dataPost);
-      console.log("dataPost.idReplies.length", dataPost.idReplies.length);
       for (let i = 0; i <= dataPost.idReplies.length; i++) {
-        console.log("dataPost.idReplies", dataPost.idReplies[i]);
-        console.log("dataPost.idReplies", dataPost.idReplies[i]);
         axios
           .delete(urlDeleteReply + dataPost.idReplies[i], {
             headers: {
@@ -171,7 +143,6 @@ const Mainpost = ({ idPost, reply }) => {
           })
           .then((res) => {
             console.log(res);
-            setStatusDeletedReply(res.status);
           })
           .catch((err) => {
             setDataErrorAxios(err);
@@ -180,7 +151,6 @@ const Mainpost = ({ idPost, reply }) => {
       }
       window.location.href = "/Home?id=" + idUserConnected;
     } else if (statusDeletedPost === 200 && dataPost.idReplies.length === 0) {
-      console.log("dataPost.idReplies.length", dataPost.idReplies.length);
       window.location.href = "/Home?id=" + idUserConnected;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

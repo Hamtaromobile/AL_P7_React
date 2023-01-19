@@ -29,10 +29,10 @@ router.post("/likeDislikePost/:id", auth, postCtrl.likeDislikePost);
 //Number views
 router.post("/views/:id", postCtrl.views);
 
-//Tab push idReplies
+//Tab. push idReplies
 router.post("/pushIdReply/:id", auth, postCtrl.pushIdReply);
 
-//Tab pull idReplies
+//Tab. pull idReplies
 router.post("/pullIdReply/:id", auth, postCtrl.pullIdReply);
 
 //Number replies
