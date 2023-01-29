@@ -13,7 +13,7 @@ const Innerpost = () => {
   const idPost = params.get("idP");
   const idUser = params.get("idU");
   const token = JSON.parse(localStorage.getItem("token"));
-  const token2 = JSON.parse(localStorage.getItem("token2"));
+  //const token2 = JSON.parse(localStorage.getItem("token2"));
   const [reply, setReply] = useState(false);
   const [text, setText] = useState("");
   const [file, setFile] = useState();
@@ -39,7 +39,9 @@ const Innerpost = () => {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(2);
+  const [postsPerPage] = useState(4);
+
+  
 
   //get current post
   const indexOfLastPost = currentPage * postsPerPage;
@@ -60,16 +62,22 @@ const Innerpost = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //Get data main post
+
   useEffect(() => {
+  /* const dataIdUser = {
+       idUser:idUser,
+    }*/
+  /*  const formData = new FormData();
+    formData.append("idUser", idUser);*/
     axios
-      .get(urlGetPost + idPost, {
-        headers: {
+    
+      .get(urlGetPost + idPost,{
+       /* headers: {
           authorization: `Bearer ${token}`,
-          authorization2: `Bearer ${token2}`,
+         // authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
-        },
+        },*/
       })
       .then((res) => {
         //setDataPostIdReplies(res.data.idReplies);
@@ -138,7 +146,7 @@ const Innerpost = () => {
       .post(urlPostReply, formData, {
         headers: {
           authorization: `Bearer ${token}`,
-          authorization2: `Bearer ${token2}`,
+          //authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -163,7 +171,7 @@ const Innerpost = () => {
         .post(urlpushIdReplyPost + idPost, idData, {
           headers: {
             authorization: `Bearer ${token}`,
-            authorization2: `Bearer ${token2}`,
+            //authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },

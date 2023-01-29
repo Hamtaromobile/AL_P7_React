@@ -31,7 +31,7 @@ function App({ id }) {
   function handleSubmit(event) {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
-    const token2 = JSON.parse(localStorage.getItem("token2"));
+    //const token2 = JSON.parse(localStorage.getItem("token2"));
     const url = "http://localhost:3001/api/auth/modifyUser/" + id;
     const formData = new FormData();
 
@@ -41,7 +41,7 @@ function App({ id }) {
       .put(url, formData, {
         headers: {
           authorization: `Bearer ${token}`,
-          authorization2: `Bearer ${token2}`,
+         // authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },

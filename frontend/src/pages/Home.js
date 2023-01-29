@@ -7,7 +7,8 @@ import { NavLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Pagination from "../components/Pagination";
+/*import Pagination from "../components/Pagination";
+import Pagination3 from "../components/Pagination3";*/
 
 const theme = createTheme({
   palette: {
@@ -45,8 +46,10 @@ const Home = () => {
     setNavBarBurger: setNavBarBurger,
     idUser: { idUser },
   };
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(2);
+  
+  /*const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(3);
 
   //get current post
@@ -55,7 +58,7 @@ const Home = () => {
   const currentPosts = dataPost.slice(indexOfFirstPost, indexOfLastPost);
 
   //change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);*/
 
   //Get user
   useEffect(() => {
@@ -79,7 +82,13 @@ const Home = () => {
   //Get all post
   useEffect(() => {
     axios
-      .get(urlGetAllPost)
+      .get(urlGetAllPost,{
+        headers: {
+          authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         setDataPost(res.data);
       })
@@ -87,6 +96,46 @@ const Home = () => {
         console.log(err);
       });
   }, []);
+
+   // Déterminer le nombre total de pages
+   const totalPages = Math.ceil(dataPost.length / postsPerPage);
+
+   // Déterminer les données à afficher pour la page actuelle
+   const currentData = dataPost.slice(
+     (currentPage - 1) * postsPerPage,
+     currentPage * postsPerPage
+   );
+ 
+   // Fonction pour aller à la page précédente
+   const prevPage = () => {
+     if (currentPage > 1) {
+       setCurrentPage(currentPage - 1);
+     }
+   };
+ 
+   // Fonction pour aller à la page suivante
+   const nextPage = () => {
+     if (currentPage < totalPages) {
+       setCurrentPage(currentPage + 1);
+     }
+   };
+
+  //MAJ pages en cours
+  const handleClick = page => {
+    setCurrentPage(page);
+  };
+
+   // Créer un tableau pour stocker tous les numéros de page ( de 1 à totalPages)
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+
+  // tab qui contient nbr de num. page à afficher (ici 5)
+  const renderPageNumbers = pageNumbers.slice( //retourne tab en spécifiant les index de départ et de fin
+    Math.max(0, currentPage - 2),//début plage de num. à afficher; retourne la plus grande valeur entre 0 et currentPage - 2
+    Math.min(pageNumbers.length, currentPage + 2)//fin plage de num. à afficher retourne la plus petite valeur entre pageNumbers.length et currentPage + 2
+  );
 
   return (
     <ThemeProvider theme={theme}>
@@ -115,15 +164,38 @@ const Home = () => {
             ""
           )}
           <div>
-            <Post dataPost={currentPosts} />
-            <div className="container_pagination_home">
-              <Pagination
-                postsPerPage={postsPerPage}
-                totalPosts={dataPost.length}
-                paginate={paginate}
-              />
-            </div>
+            <Post dataPost={currentData} />
+      <button onClick={() => handleClick(1)}>Première page</button>
+      {        
+        <button
+        // Désactiver le bouton "Précédent" si le numéro de page actuel est égal à 1
+        disabled={currentPage === 1}
+        // Appeler la fonction "handleClick" avec le numéro de page précédent lorsque le bouton est cliqué
+        onClick={() => handleClick(currentPage - 1)}
+      >
+        Précédent
+      </button>
+      }
+        {renderPageNumbers.map(number => (
+          // Créer un bouton pour chaque numéro de page dans "renderPageNumbers"
+        <button key={number} onClick={() => handleClick(number)}>
+          {number}
+        </button>
+      ))}
+      
+      {
+        <button
+        // Désactiver le bouton "Suivant" si le numéro de page actuel est égal au nombre total de pages
+        disabled={currentPage === totalPages}
+        // Appeler la fonction "handleClick" avec le numéro de page suivant lorsque le bouton est cliqué
+        onClick={() => handleClick(currentPage + 1)}
+      >
+        Suivant
+      </button>
+      }
+      <button onClick={() => handleClick(totalPages)}>Dernière page</button>
           </div>
+
         </div>
       </div>
       <Footer />
@@ -132,3 +204,11 @@ const Home = () => {
 };
 
 export default Home;
+
+/* <div className="container_pagination_home">
+              <Pagination
+                postsPerPage={postsPerPage}
+                totalPosts={dataPost.length}
+                paginate={paginate}
+              />
+            </div>*/

@@ -80,7 +80,7 @@ export default function Login() {
         .post(urlPost, dataLogin)
         .then((res) => {
           localStorage.setItem("token", JSON.stringify(res.data.token));
-          localStorage.setItem("token2", JSON.stringify(res.data.token2));
+          //localStorage.setItem("token2", JSON.stringify(res.data.token2));
           window.location.href = "/Home?id=" + res.data.userId;
         })
         .catch((err) => {
@@ -109,7 +109,7 @@ export default function Login() {
                 <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
                   <LockOutlinedIcon />
                 </Avatar>
-                <h1>Login</h1>
+                <h1>Login</h1>  
                 <Box
                   component="form"
                   onSubmit={handleSubmit}

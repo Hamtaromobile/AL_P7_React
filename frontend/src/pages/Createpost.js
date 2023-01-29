@@ -87,7 +87,7 @@ const Creatpost = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
-    const token2 = JSON.parse(localStorage.getItem("token2"));
+    //const token2 = JSON.parse(localStorage.getItem("token2"));
     const date = new Date().toLocaleString();
     const formData = new FormData();
     formData.append("image", file);
@@ -102,7 +102,7 @@ const Creatpost = () => {
       .post(urlPostPost, formData, {
         headers: {
           authorization: `Bearer ${token}`,
-          authorization2: `Bearer ${token2}`,
+          //authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },

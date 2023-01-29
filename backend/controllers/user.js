@@ -60,16 +60,20 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             userId: user._id,
             //créa. token, pr manipulé données, par ce user spécifique
-            token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
-              expiresIn: "24h",
-            }),
-            token2: jwt.sign(
-              { userIsAdmin: user.isAdmin },
+            token: jwt.sign(
+              { userId: user._id, userIsAdmin: user.isAdmin },
               "RANDOM_TOKEN_SECRET",
               {
                 expiresIn: "24h",
               }
             ),
+            /*token2: jwt.sign(
+              { userIsAdmin: user.isAdmin },
+              "RANDOM_TOKEN_SECRET",
+              {
+                expiresIn: "24h",
+              }
+            ),*/ 
           });
         })
         .catch((error) => res.status(500).json({ error }));

@@ -35,7 +35,7 @@ const Post = ({ dataPost }) => {
               </div>
               <div>
                 <MessageIcon className="icon_mess_post" />
-                {dataPost.replies}
+                {dataPost.idReplies.length}
               </div>
               <div className="container_auth_img_date_post">
                 <p>

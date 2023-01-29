@@ -64,6 +64,8 @@ exports.getOnePost = (req, res, next) => {
 
 //recup. tous les posts, route get
 exports.getAllPost = (req, res, next) => {
+ /* console.log("req.params",req.params);
+  if (post.userId === req.auth.userId && req.auth.userIsAdmin === true) {*/
   Post.find()
     .then((posts) => res.status(200).json(posts))
     .catch((error) => res.status(400).json({ error }));

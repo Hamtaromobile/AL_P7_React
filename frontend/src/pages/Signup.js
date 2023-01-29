@@ -143,7 +143,7 @@ const Signup = () => {
         .post(urlPost, dataSignup)
         .then((res) => {
           localStorage.setItem("token", JSON.stringify(res.data.token));
-          localStorage.setItem("token2", JSON.stringify(res.data.token2));
+          //localStorage.setItem("token2", JSON.stringify(res.data.token2));
           setDataResAxios(res);
           setDataIdUser(res.data.userId);
         })

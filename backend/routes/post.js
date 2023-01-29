@@ -12,7 +12,7 @@ const auth = require("../middleware/auth");
 router.post("/createPost", auth, multer, postCtrl.createPost);
 
 //lecture
-router.get("/getAllPost", postCtrl.getAllPost);
+router.get("/getAllPost", auth, postCtrl.getAllPost);
 
 //recup. un post
 router.get("/getOnePost/:id", postCtrl.getOnePost);
