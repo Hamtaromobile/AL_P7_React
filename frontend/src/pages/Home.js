@@ -7,8 +7,8 @@ import { NavLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import axios from "axios";
-/*import Pagination from "../components/Pagination";
-import Pagination3 from "../components/Pagination3";*/
+/*import Pagination from "../components/Pagination";*/
+import Pagination3 from "../components/Pagination3";
 
 const theme = createTheme({
   palette: {
@@ -47,18 +47,7 @@ const Home = () => {
     idUser: { idUser },
   };
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(2);
-  
-  /*const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(3);
-
-  //get current post
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = dataPost.slice(indexOfFirstPost, indexOfLastPost);
-
-  //change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);*/
+  const [postsPerPage] = useState(3); //compo à créer liste déroulante + MAS
 
   //Get user
   useEffect(() => {
@@ -97,28 +86,15 @@ const Home = () => {
       });
   }, []);
 
-   // Déterminer le nombre total de pages
+   // Déterminer le nombre total de pages ; retourn un entier au nbr supp
    const totalPages = Math.ceil(dataPost.length / postsPerPage);
 
-   // Déterminer les données à afficher pour la page actuelle
+   // Déterminer les données à afficher pour la page actuelle ; retourne tab en spécifiant les index de départ et de fin
    const currentData = dataPost.slice(
      (currentPage - 1) * postsPerPage,
      currentPage * postsPerPage
    );
  
-   // Fonction pour aller à la page précédente
-   const prevPage = () => {
-     if (currentPage > 1) {
-       setCurrentPage(currentPage - 1);
-     }
-   };
- 
-   // Fonction pour aller à la page suivante
-   const nextPage = () => {
-     if (currentPage < totalPages) {
-       setCurrentPage(currentPage + 1);
-     }
-   };
 
   //MAJ pages en cours
   const handleClick = page => {
@@ -131,7 +107,7 @@ const Home = () => {
     pageNumbers.push(i);
   }
 
-  // tab qui contient nbr de num. page à afficher (ici 5)
+  // tab qui contient nbr de boutton numéroté à afficher (ici 5)
   const renderPageNumbers = pageNumbers.slice( //retourne tab en spécifiant les index de départ et de fin
     Math.max(0, currentPage - 2),//début plage de num. à afficher; retourne la plus grande valeur entre 0 et currentPage - 2
     Math.min(pageNumbers.length, currentPage + 2)//fin plage de num. à afficher retourne la plus petite valeur entre pageNumbers.length et currentPage + 2
@@ -165,37 +141,12 @@ const Home = () => {
           )}
           <div>
             <Post dataPost={currentData} />
-      <button onClick={() => handleClick(1)}>Première page</button>
-      {        
-        <button
-        // Désactiver le bouton "Précédent" si le numéro de page actuel est égal à 1
-        disabled={currentPage === 1}
-        // Appeler la fonction "handleClick" avec le numéro de page précédent lorsque le bouton est cliqué
-        onClick={() => handleClick(currentPage - 1)}
-      >
-        Précédent
-      </button>
-      }
-        {renderPageNumbers.map(number => (
-          // Créer un bouton pour chaque numéro de page dans "renderPageNumbers"
-        <button key={number} onClick={() => handleClick(number)}>
-          {number}
-        </button>
-      ))}
-      
-      {
-        <button
-        // Désactiver le bouton "Suivant" si le numéro de page actuel est égal au nombre total de pages
-        disabled={currentPage === totalPages}
-        // Appeler la fonction "handleClick" avec le numéro de page suivant lorsque le bouton est cliqué
-        onClick={() => handleClick(currentPage + 1)}
-      >
-        Suivant
-      </button>
-      }
-      <button onClick={() => handleClick(totalPages)}>Dernière page</button>
+            <Pagination3 currentPage={currentPage}
+              handleClick={handleClick}
+              renderPageNumbers={renderPageNumbers}
+              totalPages={totalPages}/>
           </div>
-
+      
         </div>
       </div>
       <Footer />

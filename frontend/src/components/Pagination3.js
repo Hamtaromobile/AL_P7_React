@@ -1,50 +1,49 @@
-import React, { useState } from 'react';
+import React from 'react';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const Pagination3 = ({ totalPages, pageLimit }) => {
-  // Définir l'état local pour la page actuelle
-  const [currentPage, setCurrentPage] = useState(1);
-
-  // Définir l'état local pour les pages à afficher
-  const [pagesToShow, setPagesToShow] = useState([]);
-
-  // Effectuer une mise à jour de la page actuelle lorsque le bouton est cliqué
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  // Mettre à jour le tableau des pages à afficher en fonction de la page actuelle
-  React.useEffect(() => {
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(i);
-    }
-    setPagesToShow(pages.slice(currentPage - 1, currentPage + pageLimit - 1));
-  }, [currentPage, totalPages, pageLimit]);
-
-  return (
-    <>
-      {/* Bouton pour aller à la page précédente */}
-      {currentPage > 1 && (
-        <button onClick={() => handlePageChange(currentPage - 1)}>
-          Précédent
-        </button>
-      )}
-
-      {/* Afficher les pages */}
-      {pagesToShow.map((page) => (
-        <button key={page} onClick={() => handlePageChange(page)}>
-          {page}
-        </button>
+const Pagination3 = ({ currentPage, totalPages, handleClick,renderPageNumbers }) => (
+  <nav className='container_pagination'>
+    <ul className='ul_button_pagination'>
+      <li className='li_button_pagination'>
+        <a href="javascript:void(0)" onClick={() => handleClick(1)}> <KeyboardDoubleArrowLeftIcon /></a>
+      </li>
+      <li className='li_button_pagination'>
+        {currentPage !== 1 ? // Désactiver "Précédent" si num page :  1
+        <a href="javascript:void(0)"
+          onClick={() => handleClick(currentPage - 1)}
+        >   
+          <KeyboardArrowLeftIcon alt="précédent" />
+        </a>
+        : ""}
+      </li>
+      {/* Boucle des boutons*/}
+      {renderPageNumbers.map(number => (
+        <li className='li_button_pagination'>
+          <a href="javascript:void(0)"
+            className={`a_button_pagination ${currentPage===number ? "page_button_active" : ""}`}  
+            key={number} onClick={() => handleClick(number)}>
+            {number}
+          </a>
+        </li>
       ))}
-
-      {/* Bouton pour aller à la page suivante */}
-      {currentPage < totalPages && (
-        <button onClick={() => handlePageChange(currentPage + 1)}>
-          Suivant
-        </button>
-      )}
-    </>
-  );
-};
+      <li className='li_button_pagination'>
+        {currentPage !== totalPages ? // Désactiver"Suivant" si num : nombre total de pages
+        <a href="javascript:void(0)"
+        onClick={() => handleClick(currentPage + 1)}>
+          <KeyboardArrowRightIcon alt="suivant"/>
+        </a>
+        : ""}
+      </li>
+      <li className='li_button_pagination'>
+        <a href="javascript:void(0)" onClick={() => handleClick(totalPages)}><KeyboardDoubleArrowRightIcon alt="dernère page" /></a>
+      </li>
+    </ul>
+    
+    
+  </nav>
+);
 
 export default Pagination3;
