@@ -7,8 +7,7 @@ import { NavLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import axios from "axios";
-/*import Pagination from "../components/Pagination";*/
-import Pagination3 from "../components/Pagination3";
+import Pagination from "../components/Pagination";
 
 const theme = createTheme({
   palette: {
@@ -47,7 +46,7 @@ const Home = () => {
     idUser: { idUser },
   };
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(3); //compo à créer liste déroulante + MAS
+  const [postsPerPage] = useState(3); 
 
   //Get user
   useEffect(() => {
@@ -141,7 +140,7 @@ const Home = () => {
           )}
           <div>
             <Post dataPost={currentData} />
-            <Pagination3 currentPage={currentPage}
+            <Pagination currentPage={currentPage}
               handleClick={handleClick}
               renderPageNumbers={renderPageNumbers}
               totalPages={totalPages}/>

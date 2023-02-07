@@ -39,17 +39,7 @@ const Innerpost = () => {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(4);
-
-  
-
-  //get current post
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = dataReply.slice(indexOfFirstPost, indexOfLastPost);
-
-  //change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const [repliesPerPage] = useState(3); 
 
   //event on "load"; Number views+1
   useEffect(() => {
@@ -70,7 +60,6 @@ const Innerpost = () => {
   /*  const formData = new FormData();
     formData.append("idUser", idUser);*/
     axios
-    
       .get(urlGetPost + idPost,{
        /* headers: {
           authorization: `Bearer ${token}`,
@@ -162,6 +151,32 @@ const Innerpost = () => {
       });
   };
 
+  // Déterminer le nombre total de pages ; retourn un entier au nbr supp
+  const totalPages = Math.ceil(dataReply.length / repliesPerPage);
+
+  // Déterminer les données à afficher pour la page actuelle ; retourne tab en spécifiant les index de départ et de fin
+  const currentData = dataReply.slice(
+    (currentPage - 1) * repliesPerPage,
+    currentPage * repliesPerPage
+  );
+
+ //MAJ pages en cours
+ const handleClick = page => {
+   setCurrentPage(page);
+ };
+
+  // Créer un tableau pour stocker tous les numéros de page ( de 1 à totalPages)
+ const pageNumbers = [];
+ for (let i = 1; i <= totalPages; i++) {
+   pageNumbers.push(i);
+ }
+
+ // tab qui contient nbr de boutton numéroté à afficher (ici 5)
+ const renderPageNumbers = pageNumbers.slice( //retourne tab en spécifiant les index de départ et de fin
+   Math.max(0, currentPage - 2),//début plage de num. à afficher; retourne la plus grande valeur entre 0 et currentPage - 2
+   Math.min(pageNumbers.length, currentPage + 2)//fin plage de num. à afficher retourne la plus petite valeur entre pageNumbers.length et currentPage + 2
+ );
+
   //if reply ok ; idReply => mainPost
   useEffect(() => {
     if (statusPostReply === 201) {
@@ -223,14 +238,11 @@ const Innerpost = () => {
         {!navBarBurger ? (
           <div>
             <div className="container_reply_innerpost">
-              <Reply reply={reply} dataReply={currentPosts} />
-            </div>
-            <div className="container_pagination_innerpost">
-              <Pagination
-                postsPerPage={postsPerPage}
-                totalPosts={dataReply.length}
-                paginate={paginate}
-              />
+              <Reply reply={reply} dataReply={currentData} />
+              <Pagination currentPage={currentPage}
+              handleClick={handleClick}
+              renderPageNumbers={renderPageNumbers}
+              totalPages={totalPages}/>
             </div>
           </div>
         ) : (

@@ -1,12 +1,37 @@
+.ul_button_pagination{
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    list-style: none; 
+}
 
-.page_button{
+.ico_pagination{
+    color:black;
+}
+
+.a_button_pagination{
+    display: inline-block;
     font-weight: bold;
-    width: 2.5em;
-    height: 2.5em;
-    background-color: #FFD7D7;
     margin-left: -2px;
+    color:black;
 }
 
-.page_button:hover{
-    background-color: #fb8181ef
+.a_button_pagination:hover{
+    color:rgb(236, 118, 8);
+    transition-duration: 500ms;
+    transition-timing-function: ease-in-out;
+    transform: scale(1.5);
 }
+
+.ico_pagination:hover{
+    color:rgb(236, 118, 8);
+    transform: scale(1.5);
+}
+
+.page_button_active{
+    color: red
+}
+
