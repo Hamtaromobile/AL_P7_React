@@ -26,10 +26,18 @@ const Profileinfo = ({ idUser }) => {
   const [newPassword, setNewPassword] = useState(false);
   const urlGetUser = "http://localhost:3001/api/auth/getUser/";
   const urlPutUser = "http://localhost:3001/api/auth/modifyUser/";
-
+  const token = JSON.parse(localStorage.getItem("token"));
+  
+  //get data user
   useEffect(() => {
     axios
-      .get(urlGetUser + idUser)
+      .get(urlGetUser + idUser, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         setDataUser(res.data);
       })
@@ -130,7 +138,6 @@ const Profileinfo = ({ idUser }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const token = JSON.parse(localStorage.getItem("token"));
-   // const token2 = JSON.parse(localStorage.getItem("token2"));
     if (firstName.length === 0) {
       firstName = dataUser.firstName;
     }
@@ -164,13 +171,11 @@ const Profileinfo = ({ idUser }) => {
         .put(urlPutUser + idUser, modifyData, {
           headers: {
             authorization: `Bearer ${token}`,
-           // authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
         })
         .then((res) => {
-          //window.location.href = `/Profile?idUser=${idUser}`;
           window.location.reload();
         })
         .catch((err) => {
@@ -183,7 +188,6 @@ const Profileinfo = ({ idUser }) => {
         employment,
         email,
         password,
-        //imageUrl: dataUser.imageUrl,
       };
       axios
         .put(urlPutUser + idUser, modifyDataP, {

@@ -17,6 +17,6 @@ router.post("/login", userCtrl.login);
 router.put("/modifyUser/:id", auth, multer, userCtrl.modifyUser);
 
 //recup. user
-router.get("/getUser/:id", userCtrl.getUser);
+router.get("/getUser/:id", auth, userCtrl.getUser);
 
 module.exports = router;

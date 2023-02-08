@@ -53,6 +53,7 @@ const Innerpost = () => {
   }, []);
 
 
+  //get data post
   useEffect(() => {
   /* const dataIdUser = {
        idUser:idUser,
@@ -61,15 +62,14 @@ const Innerpost = () => {
     formData.append("idUser", idUser);*/
     axios
       .get(urlGetPost + idPost,{
-       /* headers: {
+        headers: {
           authorization: `Bearer ${token}`,
-         // authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
-        },*/
+        },
       })
       .then((res) => {
-        //setDataPostIdReplies(res.data.idReplies);
+        console.log("resresres",res);
         setDataPost(res.data);
       })
       .catch((err) => {
@@ -81,7 +81,13 @@ const Innerpost = () => {
   //Get data reply
   useEffect(() => {
     axios
-      .get(urlGetRepliesMainpost + idPost)
+      .get(urlGetRepliesMainpost + idPost, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         setDataReply(res.data);
         console.log("resreply", res);
@@ -135,7 +141,6 @@ const Innerpost = () => {
       .post(urlPostReply, formData, {
         headers: {
           authorization: `Bearer ${token}`,
-          //authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -186,7 +191,6 @@ const Innerpost = () => {
         .post(urlpushIdReplyPost + idPost, idData, {
           headers: {
             authorization: `Bearer ${token}`,
-            //authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -239,10 +243,12 @@ const Innerpost = () => {
           <div>
             <div className="container_reply_innerpost">
               <Reply reply={reply} dataReply={currentData} />
+              {dataReply.length > 3 ?
               <Pagination currentPage={currentPage}
               handleClick={handleClick}
               renderPageNumbers={renderPageNumbers}
               totalPages={totalPages}/>
+              : "" }
             </div>
           </div>
         ) : (

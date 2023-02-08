@@ -13,15 +13,23 @@ const Newprofile = () => {
   const [dataUser, setDataUser] = useState([]);
   const urlGet = "http://localhost:3001/api/auth/getUser/";
   const [navBarBurger, setNavBarBurger] = useState(false);
+  const token = JSON.parse(localStorage.getItem("token"));
   const dataChild = {
     setNavBarBurger: setNavBarBurger,
     idUser: { idUser },
   };
 
+  //get data user
   useEffect(() => {
     const idUserConnected = idUser;
     axios
-      .get(urlGet + idUserConnected)
+      .get(urlGet + idUserConnected, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         setDataUser(res.data);
       })

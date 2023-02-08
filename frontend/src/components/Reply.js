@@ -12,7 +12,6 @@ const Reply = ({ dataReply, reply }) => {
     "http://localhost:3001/api/reply/likeDislikeReply/";
   const urlpullIdReplyPost = "http://localhost:3001/api/post/pullIdReply/";
   const token = JSON.parse(localStorage.getItem("token"));
-  //const token2 = JSON.parse(localStorage.getItem("token2"));
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState("");
   const [file, setFile] = useState();
@@ -33,7 +32,6 @@ const Reply = ({ dataReply, reply }) => {
         const res = await axios.get(urlGetUser + idUserConnected, {
           headers: {
             authorization: `Bearer ${token}`,
-            //authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -55,7 +53,6 @@ const Reply = ({ dataReply, reply }) => {
       .delete(urlDeleteReply + dataReply._id, {
         headers: {
           authorization: `Bearer ${token}`,
-          //authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -79,7 +76,6 @@ const Reply = ({ dataReply, reply }) => {
         .post(urlpullIdReplyPost + deleteIdMainPost, idData, {
           headers: {
             authorization: `Bearer ${token}`,
-           // authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -113,7 +109,6 @@ const Reply = ({ dataReply, reply }) => {
       .put(urlPutReply + dataReply._id, formData, {
         headers: {
           authorization: `Bearer ${token}`,
-         // authorization2: `Bearer ${token2}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -152,7 +147,6 @@ const Reply = ({ dataReply, reply }) => {
         .post(urlPutLikeDisReply + dataReply._id, dataLike, {
           headers: {
             authorization: `Bearer ${token}`,
-           // authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -188,7 +182,6 @@ const Reply = ({ dataReply, reply }) => {
         .post(urlPutLikeDisReply + dataReply._id, dataLike, {
           headers: {
             authorization: `Bearer ${token}`,
-           // authorization2: `Bearer ${token2}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },

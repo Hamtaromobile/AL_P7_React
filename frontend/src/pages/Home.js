@@ -140,10 +140,12 @@ const Home = () => {
           )}
           <div>
             <Post dataPost={currentData} />
+            {dataPost.length > 3 ?
             <Pagination currentPage={currentPage}
               handleClick={handleClick}
               renderPageNumbers={renderPageNumbers}
               totalPages={totalPages}/>
+              : "" }
           </div>
       
         </div>
