@@ -32,6 +32,7 @@
     "react-offcanvas": "^0.4.0",
     "react-offcanvas-menu-component": "^1.0.1",
     "react-paginate": "^8.1.4",
+    "react-responsive": "^9.0.2",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",

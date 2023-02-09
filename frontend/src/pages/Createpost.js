@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation2 from "../components/Navigation2";
+import Nav3 from "../components/Nav3";
 import Profileimg from "../components/Profileimg";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -42,16 +42,18 @@ const Creatpost = () => {
   const urlPostPost = "http://localhost:3001/api/post/createPost";
   let params = new URL(document.location).searchParams;
   const idUser = params.get("id");
-  const [navBarBurger, setNavBarBurger] = useState(false);
-  const dataChild = {
-    setNavBarBurger: setNavBarBurger,
-    idUser: { idUser },
-  };
+  const token = JSON.parse(localStorage.getItem("token"));
 
   //get data user
   useEffect(() => {
     axios
-      .get(urlGetUser + idUser)
+      .get(urlGetUser + idUser, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         setDataUser(res.data);
         console.log("res", res);
@@ -118,8 +120,7 @@ const Creatpost = () => {
   return (
     <section className="creat_post">
       <ThemeProvider theme={theme}>
-        <Navigation2 dataChild={dataChild} />
-        {!navBarBurger ? (
+        <Nav3 idUser={idUser}/>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -193,9 +194,6 @@ const Creatpost = () => {
               </div>
             </div>
           </Box>
-        ) : (
-          ""
-        )}
       </ThemeProvider>
     </section>
   );

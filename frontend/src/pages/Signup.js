@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Navigation2 from "../components/Navigation2";
+import Nav3 from "../components/Nav3";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
@@ -28,11 +28,6 @@ const Signup = () => {
   const [dataResAxios, setDataResAxios] = useState("");
   const [dataIdUser, setDataIdUser] = useState("");
   const urlPost = "http://localhost:3001/api/auth/signup";
-  const [navBarBurger, setNavBarBurger] = useState(false);
-  const dataChild = {
-    setNavBarBurger: setNavBarBurger,
-    idUser: "",
-  };
 
   //chgt page
   useEffect(() => {
@@ -157,7 +152,7 @@ const Signup = () => {
 
   return (
     <section>
-      <Navigation2 dataChild={dataChild} />
+      <Nav3 />
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <div className="container_signup">
           <h3>Sign Up</h3>
@@ -337,7 +332,6 @@ const Signup = () => {
             <Typography color="#FD2D01">{dataErrorAxios.message}</Typography>
           </div>
           <div className="d-grid">
-            {!navBarBurger ? (
               <button
                 type="submit"
                 className="btn btn-primary"
@@ -354,9 +348,6 @@ const Signup = () => {
               >
                 Sign Up
               </button>
-            ) : (
-              ""
-            )}
           </div>
           <p className="forgot-password text-right">
             Already registered <a href="/Login">Login?</a>

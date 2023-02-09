@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navigation2 from "../components/Navigation2";
+import Nav3 from "../components/Nav3";
 import Profileinfo from "../components/Profileinfo";
 import Profileimg from "../components/Profileimg";
 import axios from "axios";
@@ -12,12 +12,7 @@ const Newprofile = () => {
   const idUser = params.get("id");
   const [dataUser, setDataUser] = useState([]);
   const urlGet = "http://localhost:3001/api/auth/getUser/";
-  const [navBarBurger, setNavBarBurger] = useState(false);
   const token = JSON.parse(localStorage.getItem("token"));
-  const dataChild = {
-    setNavBarBurger: setNavBarBurger,
-    idUser: { idUser },
-  };
 
   //get data user
   useEffect(() => {
@@ -41,7 +36,7 @@ const Newprofile = () => {
 
   return (
     <div className="container-body">
-      <Navigation2 dataChild={dataChild} />
+      <Nav3 idUser={idUser}/>
       <div className="container_nav_back_profile">
         <NavLink className="nav_back_profile" to={`/Home?id=${idUser}`}>
           <ArrowBackOutlinedIcon
@@ -52,23 +47,15 @@ const Newprofile = () => {
       </div>
       <h1 className="tt_profile">Profile</h1>
       <div className="container_prof">
-        {!navBarBurger ? (
           <div className="container_profileimg">
             <Profileimg dataUser={dataUser} />
           </div>
-        ) : (
-          ""
-        )}
-        {!navBarBurger ? (
           <div className="container_profileinfo">
             <Profileinfo idUser={idUser} />
             <div>
               <UploadingProf id={idUser} />
             </div>
           </div>
-        ) : (
-          ""
-        )}
       </div>
     </div>
   );

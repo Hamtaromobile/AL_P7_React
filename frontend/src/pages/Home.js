@@ -1,7 +1,7 @@
-//import React, { useEffect, useState } from "react";
-import Navigation2 from "../components/Navigation2";
+import Nav3 from "../components/Nav3";
 import Profileimg from "../components/Profileimg";
 import Footer from "../components/Footer";
+import Footer2 from "../components/Footer2";
 import Post from "../components/Post";
 import { NavLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -40,11 +40,6 @@ const Home = () => {
   const urlGetAllPost = "http://localhost:3001/api/post/getAllPost/";
   const urlGetUserMainPost = "http://localhost:3001/api/post/getUser/";
   const token = JSON.parse(localStorage.getItem("token"));
-  const [navBarBurger, setNavBarBurger] = useState(false);
-  const dataChild = {
-    setNavBarBurger: setNavBarBurger,
-    idUser: { idUser },
-  };
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(3); 
 
@@ -93,7 +88,6 @@ const Home = () => {
      (currentPage - 1) * postsPerPage,
      currentPage * postsPerPage
    );
- 
 
   //MAJ pages en cours
   const handleClick = page => {
@@ -114,13 +108,12 @@ const Home = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navigation2 dataChild={dataChild} />
+      <Nav3 idUser={idUser}/>
       <div className="container_home">
         <div className="container_tt_home">
           <h1>Groupomania post</h1>
         </div>
         <div className="container_imgbtn_post_home">
-          {!navBarBurger ? (
             <div className="container_imgbtn_home">
               <NavLink to={`/Profile?id=${idUser}`}>
                 <div className="item_profileimg_home">
@@ -129,15 +122,12 @@ const Home = () => {
               </NavLink>
               <div>
                 <NavLink to={`/createPost?id=${idUser}`}>
-                  <button type="button" className="btn_crtp_home">
+                  <span className="btn_crtp_home">
                     Create post
-                  </button>
+                  </span>
                 </NavLink>
               </div>
             </div>
-          ) : (
-            ""
-          )}
           <div>
             <Post dataPost={currentData} />
             {dataPost.length > 3 ?
@@ -147,20 +137,12 @@ const Home = () => {
               totalPages={totalPages}/>
               : "" }
           </div>
-      
         </div>
       </div>
       <Footer />
+      <Footer2 />
     </ThemeProvider>
   );
 };
 
 export default Home;
-
-/* <div className="container_pagination_home">
-              <Pagination
-                postsPerPage={postsPerPage}
-                totalPosts={dataPost.length}
-                paginate={paginate}
-              />
-            </div>*/

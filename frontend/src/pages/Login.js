@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Navigation2 from "../components/Navigation2";
+import Nav3 from "../components/Nav3";
 import axios from "axios";
 import Footer from "../components/Footer";
 
@@ -41,11 +41,6 @@ export default function Login() {
   const [allowSendPassword, setAllowSendPassword] = useState(false);
   const [dataErrorAxios, setDataErrorAxios] = useState("");
   const urlPost = "http://localhost:3001/api/auth/Login";
-  const [navBarBurger, setNavBarBurger] = useState(false);
-  const dataChild = {
-    setNavBarBurger: setNavBarBurger,
-    idUser: "",
-  };
 
   const emailOnChange = (e) => {
     setEmail(e.target.value);
@@ -80,7 +75,6 @@ export default function Login() {
         .post(urlPost, dataLogin)
         .then((res) => {
           localStorage.setItem("token", JSON.stringify(res.data.token));
-          //localStorage.setItem("token2", JSON.stringify(res.data.token2));
           window.location.href = "/Home?id=" + res.data.userId;
         })
         .catch((err) => {
@@ -94,10 +88,9 @@ export default function Login() {
     <div>
       <section className="container_login">
         <ThemeProvider theme={theme}>
-          <Navigation2 dataChild={dataChild} />
+          <Nav3 />
           <Container component="main" maxWidth="xs">
             <CssBaseline />
-            {!navBarBurger ? (
               <Box
                 sx={{
                   marginTop: 8,
@@ -174,9 +167,6 @@ export default function Login() {
                   </Grid>
                 </Box>
               </Box>
-            ) : (
-              ""
-            )}
           </Container>
         </ThemeProvider>
       </section>

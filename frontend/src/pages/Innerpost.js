@@ -5,7 +5,7 @@ import Mainpost from "../components/Mainpost";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import Reply from "../components/Reply";
 import { NavLink } from "react-router-dom";
-import Navigation2 from "../components/Navigation2";
+import Nav3 from "../components/Nav3";
 import Pagination from "../components/Pagination";
 
 const Innerpost = () => {
@@ -29,15 +29,9 @@ const Innerpost = () => {
   const urlPostViewsPost = "http://localhost:3001/api/post/views/";
   const urlpushIdReplyPost = "http://localhost:3001/api/post/pushIdReply/";
   const [dataPost, setDataPost] = useState([]);
-  const [navBarBurger, setNavBarBurger] = useState(false);
   const [dataUser, setDataUser] = useState([]);
   const [statusPostPost, setStatusPostPost] = useState("");
   const [resPostReply, setResPostReply] = useState("");
-  const dataChild = {
-    setNavBarBurger: setNavBarBurger,
-    idUser: { idUser },
-  };
-
   const [currentPage, setCurrentPage] = useState(1);
   const [repliesPerPage] = useState(3); 
 
@@ -221,7 +215,7 @@ const Innerpost = () => {
 
   return (
     <article>
-      <Navigation2 dataChild={dataChild} />
+      <Nav3 idUser={idUser}/>
       <div className="container_nav_back_innerpost">
         <NavLink className="nav_back_innerpost" to={`/Home?id=${idUser}`}>
           <ArrowBackOutlinedIcon
@@ -232,14 +226,9 @@ const Innerpost = () => {
         <h1 className="tt_Innerpost">{dataPost.title}</h1>
       </div>
       <div className="container_innerpost">
-        {!navBarBurger ? (
           <div className="container_mainpost_innerpost">
             <Mainpost idUser={idUser} idPost={idPost} reply={reply} />
           </div>
-        ) : (
-          ""
-        )}
-        {!navBarBurger ? (
           <div>
             <div className="container_reply_innerpost">
               <Reply reply={reply} dataReply={currentData} />
@@ -251,9 +240,6 @@ const Innerpost = () => {
               : "" }
             </div>
           </div>
-        ) : (
-          ""
-        )}
         {reply ? (
           <div className="col-md-12 ">
             <h2 className="item_tt_reply">Reply</h2>
