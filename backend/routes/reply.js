@@ -15,7 +15,7 @@ router.post("/createReply", auth, multer, replyCtrl.createReply);
 router.get("/getRepliesMainpost/:id", auth, replyCtrl.getRepliesMainpost);
 
 //recup. replies
-router.get("/getReplies", replyCtrl.getReplies);
+router.get("/getReplies", auth, replyCtrl.getReplies);
 
 //modif.
 router.put("/modifyReply/:id", auth, multer, replyCtrl.modifyReply);
