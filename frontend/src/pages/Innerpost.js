@@ -5,8 +5,9 @@ import Mainpost from "../components/Mainpost";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import Reply from "../components/Reply";
 import { NavLink } from "react-router-dom";
-import Nav3 from "../components/Nav3";
+import Nav from "../components/Nav";
 import Pagination from "../components/Pagination";
+import Footer from "../components/Footer";
 
 const Innerpost = () => {
 	const params = new URL(document.location).searchParams;
@@ -220,7 +221,7 @@ const Innerpost = () => {
 
 	return (
 		<article>
-			<Nav3 idUser={idUser} />
+			<Nav idUser={idUser} />
 			<div className="container_nav_back_innerpost">
 				<NavLink className="nav_back_innerpost" to={`/Home?id=${idUser}`}>
 					<ArrowBackOutlinedIcon
@@ -307,6 +308,7 @@ const Innerpost = () => {
 				)}
 				<p className="error_innerpost">{dataErrorReplyAxios}</p>
 			</div>
+			<Footer />
 		</article>
 	);
 };

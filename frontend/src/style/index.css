@@ -5,13 +5,10 @@
 @import "./pages/creatpost";
 @import "./pages/signup";
 @import "./components/footer";
-@import "./components/footer2";
-@import "./components/navigation";
-@import "./components/navigation2";
 @import "./components/profileimg";
 @import "./components/post";
 @import "./components/mainpost";
 @import "./components/reply";
 @import "./components/login";
 @import "./components/pagination";
-@import "./components/nav3";
+@import "./components/nav";

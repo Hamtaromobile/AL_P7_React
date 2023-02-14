@@ -1,16 +1,22 @@
-.footer{
-    background-color: #FFD7D7;
-}
-
-
-.btn_footer{
-    background-color: #ff9e9e;
-}
-
-.btn_footer:hover{
-    background-color: #FD2D01;
-}
-
-.txt_footer{
-    background-color: #f87474;
-}
+.footer-container {
+  margin-top: 2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #778899;
+    color: #FFD7D7;
+    padding: 1rem;
+    height: 5em;
+    width: 100%;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 8em;
+  }
+  
+  .copyight {
+    font-size: 0.8rem;
+  }

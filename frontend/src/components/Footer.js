@@ -6,42 +6,14 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 
 const Footer = () => {
 	return (
-		<footer className="container-fluid my-5">
-			<div className="text-center text-lg-start footer">
-				<div className="container d-flex justify-content-center py-5">
-					<button
-						type="button"
-						className="btn  btn-lg btn-floating mx-2 btn_footer"
-					>
-						<FacebookIcon />
-					</button>
-					<button
-						type="button"
-						className="btn btn-lg btn-floating mx-2 btn_footer"
-					>
-						<YouTubeIcon />
-					</button>
-					<button
-						type="button"
-						className="btn btn-lg btn-floating mx-2 btn_footer"
-					>
-						<InstagramIcon />
-					</button>
-					<button
-						type="button"
-						className="btn btn-lg btn-floating mx-2 btn_footer"
-					>
-						<TwitterIcon />
-					</button>
-				</div>
-
-				<div className="text-center text-white p-3 txt_footer">
-					© 2020 Copyright:
-					<a className="text-white" href="https://mdbootstrap.com/">
-						MDBootstrap.com
-					</a>
-				</div>
+		<footer className="footer-container">
+			<div className="social-icons">
+				<FacebookIcon />
+				<YouTubeIcon />
+				<InstagramIcon />
+				<TwitterIcon />
 			</div>
+			<div className="copyright">© 2023</div>
 		</footer>
 	);
 };

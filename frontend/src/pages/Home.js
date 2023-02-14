@@ -1,7 +1,6 @@
-import Nav3 from "../components/Nav3";
+import Nav from "../components/Nav";
 import Profileimg from "../components/Profileimg";
 import Footer from "../components/Footer";
-import Footer2 from "../components/Footer2";
 import Post from "../components/Post";
 import { NavLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -114,7 +113,7 @@ const Home = () => {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<Nav3 idUser={idUser} />
+			<Nav idUser={idUser} />
 			<div className="container_home">
 				<div className="container_tt_home">
 					<h1>Groupomania post</h1>
@@ -155,7 +154,6 @@ const Home = () => {
 				</div>
 			</div>
 			<Footer />
-			<Footer2 />
 		</ThemeProvider>
 	);
 };

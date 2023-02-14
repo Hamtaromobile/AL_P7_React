@@ -10,6 +10,7 @@ const Post = ({ dataPost }) => {
 				<NavLink
 					className="nav_back_profile"
 					to={`/Innerpost?idU=${dataPost.userId}&idP=${dataPost._id}`}
+					key={dataPost._id}
 				>
 					<li className="li_post">
 						<div className="container_post">
