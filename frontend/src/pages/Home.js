@@ -32,15 +32,21 @@ const Home = () => {
 	let params = new URL(document.location).searchParams;
 	const idUser = params.get("id");
 	const [dataUser, setDataUser] = useState([]);
-	const [dataUserMainPost, setDataUserMainPost] = useState([]);
 	const [dataPost, setDataPost] = useState([]);
-	const [statusGetPost, setStatusGetPost] = useState("");
+	const [statusErrAxiosUser, setStatusErrAxiosUser] = useState([]);
+	const [statusErrAxiosPost, setStatusErrAxiosPost] = useState([]);
 	const urlGetUser = "http://localhost:3001/api/auth/getUser/";
 	const urlGetAllPost = "http://localhost:3001/api/post/getAllPost/";
-	const urlGetUserMainPost = "http://localhost:3001/api/post/getUser/";
 	const token = JSON.parse(localStorage.getItem("token"));
 	const [currentPage, setCurrentPage] = useState(1);
 	const [postsPerPage, setPostsPerPage] = useState(3);
+
+	//logout if "get type" axios "unauthorized"
+	useEffect(() => {
+		if (statusErrAxiosUser === 401 || statusErrAxiosPost === 401) {
+			window.location.href = "/Login";
+		}
+	});
 
 	//Get user
 	useEffect(() => {
@@ -57,6 +63,7 @@ const Home = () => {
 			})
 			.catch((err) => {
 				console.log(err);
+				setStatusErrAxiosUser(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -76,6 +83,7 @@ const Home = () => {
 			})
 			.catch((err) => {
 				console.log(err);
+				setStatusErrAxiosPost(err.response.status);
 			});
 	}, []);
 
@@ -110,6 +118,8 @@ const Home = () => {
 	const handleSelectChange = (e) => {
 		setPostsPerPage(e.target.value);
 	};
+	console.log("statusErrAxiosUser²", statusErrAxiosUser);
+	console.log("statusErrAxiosPost", statusErrAxiosPost);
 
 	return (
 		<ThemeProvider theme={theme}>

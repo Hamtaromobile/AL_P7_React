@@ -14,6 +14,14 @@ const Newprofile = () => {
 	const [dataUser, setDataUser] = useState([]);
 	const urlGet = "http://localhost:3001/api/auth/getUser/";
 	const token = JSON.parse(localStorage.getItem("token"));
+	const [statusErrAxiosUser, setStatusErrAxiosUser] = useState([]);
+
+	//logout if "get type" axios "unauthorized"
+	useEffect(() => {
+		if (statusErrAxiosUser === 401) {
+			window.location.href = "/Login";
+		}
+	});
 
 	//get data user
 	useEffect(() => {
@@ -31,6 +39,7 @@ const Newprofile = () => {
 			})
 			.catch((err) => {
 				console.log(err);
+				setStatusErrAxiosUser(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

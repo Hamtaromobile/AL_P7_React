@@ -14,7 +14,6 @@ const Innerpost = () => {
 	const idPost = params.get("idP");
 	const idUser = params.get("idU");
 	const token = JSON.parse(localStorage.getItem("token"));
-	//const token2 = JSON.parse(localStorage.getItem("token2"));
 	const [reply, setReply] = useState(false);
 	const [text, setText] = useState("");
 	const [file, setFile] = useState();
@@ -35,6 +34,20 @@ const Innerpost = () => {
 	const [resPostReply, setResPostReply] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
 	const [repliesPerPage, setRepliesPerPage] = useState(3);
+	const [statusErrAxiosUser, setStatusErrAxiosUser] = useState([]);
+	const [statusErrAxiosPost, setStatusErrAxiosPost] = useState([]);
+	const [statusErrAxiosReply, setStatusErrAxiosReply] = useState([]);
+
+	//logout if "get type" axios "unauthorized"
+	useEffect(() => {
+		if (
+			statusErrAxiosUser === 401 ||
+			statusErrAxiosPost === 401 ||
+			statusErrAxiosReply === 401
+		) {
+			window.location.href = "/Login";
+		}
+	});
 
 	//event on "load"; Number views+1
 	useEffect(() => {
@@ -49,11 +62,6 @@ const Innerpost = () => {
 
 	//get data post
 	useEffect(() => {
-		/* const dataIdUser = {
-       idUser:idUser,
-    }*/
-		/*  const formData = new FormData();
-    formData.append("idUser", idUser);*/
 		axios
 			.get(urlGetPost + idPost, {
 				headers: {
@@ -68,6 +76,7 @@ const Innerpost = () => {
 			})
 			.catch((err) => {
 				console.log(err);
+				setStatusErrAxiosPost(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -88,6 +97,7 @@ const Innerpost = () => {
 			})
 			.catch((err) => {
 				console.log(err);
+				setStatusErrAxiosReply(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -107,6 +117,7 @@ const Innerpost = () => {
 			})
 			.catch((err) => {
 				console.log(err);
+				setStatusErrAxiosUser(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

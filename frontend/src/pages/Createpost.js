@@ -44,6 +44,14 @@ const Creatpost = () => {
 	let params = new URL(document.location).searchParams;
 	const idUser = params.get("id");
 	const token = JSON.parse(localStorage.getItem("token"));
+	const [statusErrAxiosUser, setStatusErrAxiosUser] = useState([]);
+
+	//logout if "get type" axios "unauthorized"
+	useEffect(() => {
+		if (statusErrAxiosUser === 401) {
+			window.location.href = "/Login";
+		}
+	});
 
 	//get data user
 	useEffect(() => {
@@ -61,6 +69,7 @@ const Creatpost = () => {
 			})
 			.catch((err) => {
 				console.log(err);
+				setStatusErrAxiosUser(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
