@@ -261,7 +261,7 @@ const Innerpost = () => {
 						)}
 					</div>
 				</div>
-				<div className="select_innerPost">
+				<div className="display_reply_innerPost">
 					<label>Affichage réponses </label>
 					<select onChange={handleSelectChange}>
 						<option value={3}>3</option>

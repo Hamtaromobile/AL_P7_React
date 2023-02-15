@@ -73,6 +73,14 @@
   margin-left: 5em;
 }
 
-.select_innerPost{
+.display_reply_innerPost{
   margin-left: 2em;
+}
+
+@media (max-width: 1250px) { 
+
+  .display_reply_innerPost{
+      margin-top:1em ;
+      margin-bottom: 1em;
+  }
 }

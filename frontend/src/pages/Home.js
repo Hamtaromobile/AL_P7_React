@@ -118,8 +118,6 @@ const Home = () => {
 	const handleSelectChange = (e) => {
 		setPostsPerPage(e.target.value);
 	};
-	console.log("statusErrAxiosUser²", statusErrAxiosUser);
-	console.log("statusErrAxiosPost", statusErrAxiosPost);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -142,14 +140,17 @@ const Home = () => {
 						</div>
 					</div>
 					<div>
-						<label>Affichage posts : </label>
-						<select onChange={handleSelectChange}>
-							<option value={3}>3</option>
-							<option value={6}>6</option>
-							<option value={9}>9</option>
-						</select>
-
-						<Post dataPost={currentData} />
+						<div className="display_post_home">
+							<label>Affichage posts : </label>
+							<select onChange={handleSelectChange}>
+								<option value={3}>3</option>
+								<option value={6}>6</option>
+								<option value={9}>9</option>
+							</select>
+						</div>
+						<div className="post_home">
+							<Post dataPost={currentData} />
+						</div>
 						{dataPost.length > postsPerPage ? (
 							<Pagination
 								currentPage={currentPage}

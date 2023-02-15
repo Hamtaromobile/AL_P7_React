@@ -33,3 +33,10 @@
     cursor: pointer;
     color:red;
   }
+
+  @media (max-width: 1250px) { 
+
+    .container_prof{
+      margin-left: -3em;
+  }
+  }

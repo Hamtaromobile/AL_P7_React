@@ -72,4 +72,13 @@
         .item_post_home{
             width: 50em;
         }
+
+        .display_post_home{
+            margin-top:2.5em ;
+            margin-left: 2.3em;
+        }
+
+        .post_home{
+            margin-left: -2em;
+        }
      }
