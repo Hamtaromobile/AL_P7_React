@@ -1,6 +1,7 @@
 .bloc_creatpost{
-    width: 100em;
     display: flex;
+    flex-basis: 100em;
+    flex-shrink: 1;
     flex-direction: row;
     flex-wrap:wrap;
     justify-content:space-evenly;
@@ -62,19 +63,11 @@
   @media screen and (max-width:767px) {
 
     .creat_post{
-      align-items: center;
-      margin: center;
-      width: auto;
+    
     }
 
     .bloc_creatpost{
-      flex-direction: column;
-      justify-content:space-between;
-      align-items:flex-start;
-      margin:   0em;
-      width: 0em;
-      align-items: center;
-      margin: auto;
+      margin-top: 3em;
     }
 
     .container_titletextsub_creatpost{

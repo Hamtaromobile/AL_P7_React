@@ -102,6 +102,7 @@ const Creatpost = () => {
 		const date = new Date().toLocaleString();
 		const formData = new FormData();
 		formData.append("image", file);
+		console.log("file", file);
 		formData.append("userId", idUser);
 		formData.append("title", title);
 		formData.append("text", text);
@@ -109,6 +110,9 @@ const Creatpost = () => {
 		formData.append("userPicture", dataUser.imageUrl);
 		formData.append("userFirstName", dataUser.firstName);
 		formData.append("userLastName", dataUser.lastName);
+		/*for (const value of formData.values()) {
+			console.log(value);
+		}*/
 		axios
 			.post(urlPostPost, formData, {
 				headers: {
@@ -156,7 +160,6 @@ const Creatpost = () => {
 									required
 									id="title"
 									label="title"
-									defaultValue="title"
 									value={title}
 									onChange={(e) => titleOnChange(e)}
 								/>
@@ -170,7 +173,6 @@ const Creatpost = () => {
 									required
 									id="text"
 									label="text"
-									defaultValue="text"
 									value={text}
 									onChange={(e) => textOnChange(e)}
 								/>

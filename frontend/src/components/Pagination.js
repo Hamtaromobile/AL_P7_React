@@ -13,7 +13,7 @@ const Pagination = ({
 	<nav className="container_pagination">
 		<ul className="ul_button_pagination">
 			<li className="li_button_pagination">
-				<a href="javascript:void(0)" onClick={() => handleClick(1)}>
+				<a href="#!" onClick={() => handleClick(1)}>
 					{" "}
 					<KeyboardDoubleArrowLeftIcon
 						className="ico_pagination"
@@ -23,10 +23,7 @@ const Pagination = ({
 			</li>
 			<li className="li_button_pagination">
 				{currentPage !== 1 ? ( // Désactiver "Précédent" si num page :  1
-					<a
-						href="javascript:void(0)"
-						onClick={() => handleClick(currentPage - 1)}
-					>
+					<a href="#!" onClick={() => handleClick(currentPage - 1)}>
 						<KeyboardArrowLeftIcon className="ico_pagination" alt="précédent" />
 					</a>
 				) : (
@@ -37,7 +34,7 @@ const Pagination = ({
 			{renderPageNumbers.map((number) => (
 				<li className="li_button_pagination" key={number}>
 					<a
-						href="javascript:void(0)"
+						href="#!"
 						className={`a_button_pagination ${
 							currentPage === number ? "page_button_active" : ""
 						}`}
@@ -50,10 +47,7 @@ const Pagination = ({
 			))}
 			<li className="li_button_pagination">
 				{currentPage !== totalPages ? ( // Désactiver"Suivant" si num : nombre total de pages
-					<a
-						href="javascript:void(0)"
-						onClick={() => handleClick(currentPage + 1)}
-					>
+					<a href="#!" onClick={() => handleClick(currentPage + 1)}>
 						<KeyboardArrowRightIcon className="ico_pagination" alt="suivant" />
 					</a>
 				) : (
@@ -61,7 +55,7 @@ const Pagination = ({
 				)}
 			</li>
 			<li className="li_button_pagination">
-				<a href="javascript:void(0)" onClick={() => handleClick(totalPages)}>
+				<a href="#!" onClick={() => handleClick(totalPages)}>
 					<KeyboardDoubleArrowRightIcon
 						className="ico_pagination"
 						alt="dernère page"

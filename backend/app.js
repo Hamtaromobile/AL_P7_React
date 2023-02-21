@@ -19,15 +19,15 @@ const cors = require("cors");
 
 //permet la connexion à mongodb
 mongoose
-  .connect(
-    "mongodb+srv://antoine:antoine@cluster0.nss6wxt.mongodb.net/?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
-  .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch(() => console.log("Connexion à MongoDB échouée !"));
+	.connect(
+		"mongodb+srv://antoine:antoine@cluster0.nss6wxt.mongodb.net/?retryWrites=true&w=majority",
+		{
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		}
+	)
+	.then(() => console.log("Connexion à MongoDB réussie !"))
+	.catch(() => console.log("Connexion à MongoDB échouée !"));
 
 //création application express
 const app = express();
@@ -37,31 +37,31 @@ app.use(express.json());
 
 //permet aux utilisateurs d'accéder à l'api pour faire des requetes
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
-  res.setHeader("Content-Security-Policy", "default-src 'self'");
-  next();
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	res.setHeader(
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+	);
+	res.setHeader(
+		"Access-Control-Allow-Methods",
+		"GET, POST, PUT, DELETE, PATCH, OPTIONS"
+	);
+	res.setHeader("Content-Security-Policy", "default-src 'self'");
+	next();
 });
 
 const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
+	origin: "http://localhost:3000",
+	credentials: true, //access-control-allow-credentials:true
+	optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 
 //parse req mis ds req.body
 app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
+	bodyParser.urlencoded({
+		extended: true,
+	})
 );
 
 //req post en json

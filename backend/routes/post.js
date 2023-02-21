@@ -9,7 +9,7 @@ const postCtrl = require("../controllers/post");
 const auth = require("../middleware/auth");
 
 //création
-router.post("/createPost", auth, multer, postCtrl.createPost);
+router.post("/createPost", multer, postCtrl.createPost);
 
 //lecture
 router.get("/getAllPost", auth, postCtrl.getAllPost);

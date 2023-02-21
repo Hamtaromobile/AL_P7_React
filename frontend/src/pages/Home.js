@@ -85,6 +85,7 @@ const Home = () => {
 				console.log(err);
 				setStatusErrAxiosPost(err.response.status);
 			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Déterminer le nombre total de pages ; retourn un entier au nbr supp
@@ -119,6 +120,7 @@ const Home = () => {
 		setPostsPerPage(e.target.value);
 	};
 
+	console.log("idUseridUser", idUser);
 	return (
 		<ThemeProvider theme={theme}>
 			<Nav idUser={idUser} />
@@ -141,7 +143,7 @@ const Home = () => {
 					</div>
 					<div>
 						<div className="display_post_home">
-							<label>Affichage posts : </label>
+							<label>Affichage postes </label>
 							<select onChange={handleSelectChange}>
 								<option value={3}>3</option>
 								<option value={6}>6</option>
@@ -149,7 +151,7 @@ const Home = () => {
 							</select>
 						</div>
 						<div className="post_home">
-							<Post dataPost={currentData} />
+							<Post dataPost={currentData} idUser={idUser} />
 						</div>
 						{dataPost.length > postsPerPage ? (
 							<Pagination

@@ -42,8 +42,7 @@ const Reply = ({ dataReply, reply }) => {
 			}
 		};
 		getUserReq();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	});
 
 	//Delete reply
 	function handleDelete(dataReply) {
@@ -88,8 +87,7 @@ const Reply = ({ dataReply, reply }) => {
 					console.log(err);
 				});
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [statusDeletedReply === 200]);
+	});
 
 	//submit change
 	const handleSubmit = (dataReply) => {
@@ -104,6 +102,9 @@ const Reply = ({ dataReply, reply }) => {
 		formData.append("image", file);
 		formData.append("userId", dataReply.userId);
 		formData.append("editDate", editDate);
+		/*for (const value of formData.values()) {
+			console.log(value);
+		}*/
 		axios
 			.put(urlPutReply + dataReply._id, formData, {
 				headers: {
@@ -199,10 +200,6 @@ const Reply = ({ dataReply, reply }) => {
 		setEditingItemId(dataReplyId);
 	};
 
-	console.log("idUserConnected", idUserConnected);
-	console.log("UserConnected.isAdmin", UserConnected.isAdmin);
-	//dataReply.userId === idUserConnected ||
-	//UserConnected.isAdmin
 	return (
 		<ul className="reply">
 			{dataReply.map((dataReply) => (
@@ -300,9 +297,7 @@ const Reply = ({ dataReply, reply }) => {
 												</span>
 											</div>
 										)}
-
 										<div className="container_button_mp_reply">
-											{console.log("dataReply.userId", dataReply.userId)}
 											<div>
 												{!editing &&
 												!reply &&
