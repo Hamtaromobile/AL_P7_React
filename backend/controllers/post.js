@@ -6,10 +6,12 @@ const fs = require("fs");
 
 //creation, route post
 exports.createPost = (req, res, next) => {
+	console.log("post req.body ", req.body);
 	const postObject = req.body;
 	delete postObject._id; //remove id de la req, remplacer par l'id de mongoDb
 	delete postObject._userId; //remove _userId, protection contre mauvais id envoyé
 	console.log("Post req.file", req.file);
+	console.log("req.auth.userId", req.auth.userId);
 
 	if (req.file) {
 		//req.file existe ?
