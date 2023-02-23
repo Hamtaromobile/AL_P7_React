@@ -6,13 +6,9 @@ const fs = require("fs");
 
 //creation, route post
 exports.createPost = (req, res, next) => {
-	console.log("post req.body ", req.body);
 	const postObject = req.body;
 	delete postObject._id; //remove id de la req, remplacer par l'id de mongoDb
 	delete postObject._userId; //remove _userId, protection contre mauvais id envoyé
-	console.log("Post req.file", req.file);
-	console.log("req.auth.userId", req.auth.userId);
-
 	if (req.file) {
 		//req.file existe ?
 		const newPost = new Post({
@@ -233,7 +229,7 @@ exports.views = (req, res, next) => {
 	Post.updateOne(
 		{ _id: req.params.id },
 		{
-			$inc: { views: +0.25 },
+			$inc: { views: +0.5 },
 		}
 	)
 		.then(() => res.status(200).json({ message: "views +1 ok" }))

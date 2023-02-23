@@ -3,13 +3,13 @@ import MessageIcon from "@mui/icons-material/Message";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import { NavLink } from "react-router-dom";
 
-const Post = ({ dataPost, idUser }) => {
+const Post = ({ dataPost }) => {
 	return (
 		<ul>
 			{dataPost.map((dataPost) => (
 				<NavLink
 					className="nav_back_profile"
-					to={`/Innerpost?idU=${idUser}&idP=${dataPost._id}`}
+					to={`/Innerpost?idU=${dataPost.userId}&idP=${dataPost._id}`}
 					key={dataPost._id}
 				>
 					<li className="li_post">

@@ -120,7 +120,6 @@ const Home = () => {
 		setPostsPerPage(e.target.value);
 	};
 
-	console.log("idUseridUser", idUser);
 	return (
 		<ThemeProvider theme={theme}>
 			<Nav idUser={idUser} />
@@ -143,7 +142,7 @@ const Home = () => {
 					</div>
 					<div>
 						<div className="display_post_home">
-							<label>Affichage postes </label>
+							<label>Affichage posts : </label>
 							<select onChange={handleSelectChange}>
 								<option value={3}>3</option>
 								<option value={6}>6</option>

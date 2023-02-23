@@ -122,6 +122,7 @@ const Mainpost = ({ idPost, reply }) => {
 			.then((res) => {
 				console.log(res);
 				setStatusDeletedPost(res.status);
+				// window.location.href = "/Home?id=" + idUser;
 			})
 			.catch((err) => {
 				console.log(err);

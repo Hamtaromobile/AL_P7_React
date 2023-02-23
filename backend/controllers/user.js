@@ -67,6 +67,13 @@ exports.login = (req, res, next) => {
 								expiresIn: "24h",
 							}
 						),
+						/*token2: jwt.sign(
+              { userIsAdmin: user.isAdmin },
+              "RANDOM_TOKEN_SECRET",
+              {
+                expiresIn: "24h",
+              }
+            ),*/
 					});
 				})
 				.catch((error) => res.status(500).json({ error }));
@@ -77,89 +84,54 @@ exports.login = (req, res, next) => {
 //modif., route put
 exports.modifyUser = (req, res, next) => {
 	//modif. img
-	console.log("req.file", req.file);
-	console.log("req.body", req.body);
 	let userObject = {};
 	User.findOne({
 		_id: req.params.id,
 	}).then((user) => {
-		if (req.file) {
-			//si image
-			if (user.imageUrl !== "http://localhost:3001/images/smile.png") {
-				fs.unlinkSync(`images/${user.imageUrl.split("/images/")[1]}`);
-			}
-			userObject = {
-				//new  img
-				imageUrl: `${req.protocol}://${req.get("host")}/images/${
-					req.file.filename
-				}`,
-			};
-		} else if (
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
-				req.body.password
-			)
-		) {
-			bcrypt.hash(req.body.password, 10).then((hash) => {
-				userObject = {
-					firstName: req.body.firstName,
-					lastName: req.body.lastName,
-					employment: req.body.employment,
-					email: req.body.email,
-					password: hash,
-				};
-			});
+		if (user._id != req.auth.userId && req.auth.userIsAdmin != true) {
+			res.status(401).json({ message: "Non authorisé" });
 		} else {
-			userObject = {
-				...req.body,
-			};
+			if (req.file) {
+				//si image
+				if (user.imageUrl !== "http://localhost:3001/images/smile.png") {
+					fs.unlinkSync(`images/${user.imageUrl.split("/images/")[1]}`);
+				}
+				userObject = {
+					//new  img
+					imageUrl: `${req.protocol}://${req.get("host")}/images/${
+						req.file.filename
+					}`,
+				};
+			} else if (
+				/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
+					req.body.password
+				)
+			) {
+				bcrypt.hash(req.body.password, 10).then((hash) => {
+					userObject = {
+						firstName: req.body.firstName,
+						lastName: req.body.lastName,
+						employment: req.body.employment,
+						email: req.body.email,
+						password: hash,
+						//imageUrl: req.body.imageUrl,
+					};
+				});
+			} else {
+				userObject = {
+					...req.body,
+				};
+			}
+			//maj user à modif., new user
+			User.updateOne(
+				{ _id: req.params.id },
+				{ ...userObject, _id: req.params.id }
+			)
+				.then(() => res.status(200).json({ message: "Utilisateur modifié !" }))
+				.catch((error) => res.status(400).json({ error }));
 		}
-		//maj user à modif., new user
-		User.updateOne(
-			{ _id: req.params.id },
-			{ ...userObject, _id: req.params.id }
-		)
-			.then(() => res.status(200).json({ message: "Utilisateur modifié !" }))
-			.catch((error) => res.status(400).json({ error }));
 	});
 };
-/*  //supp. img
-      if (user.imageUrl !== "http://localhost:3001/images/smile.png") {
-        fs.unlinkSync(`images/${user.imageUrl.split("/images/")[1]}`);
-      }
-    }),
-      (userObject = {
-        //new  img
-        //...JSON.parse(req.body.user),
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${
-          req.file.filename
-        }`,
-      });
-  } //mp
-  else if (
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
-      req.body.password
-    )
-  ) {
-    bcrypt.hash(req.body.password, 10).then((hash) => {
-      userObject = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        employment: req.body.employment,
-        email: req.body.email,
-        password: hash,
-        //imageUrl: req.body.imageUrl,
-      };
-    });
-  } else {
-    userObject = {
-      ...req.body,
-    };
-  }
-  //maj user à modif., new user
-  User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
-    .then(() => res.status(200).json({ message: "Utilisateur modifié !" }))
-    .catch((error) => res.status(400).json({ error }));
-};*/
 
 //recup. 1 user, route get
 exports.getUser = (req, res, next) => {
