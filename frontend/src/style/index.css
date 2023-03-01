@@ -12,3 +12,7 @@
 @import "./components/login";
 @import "./components/pagination";
 @import "./components/nav";
+
+body {
+    font-family: 'Poppins', sans-serif;
+  }

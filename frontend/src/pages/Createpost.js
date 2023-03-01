@@ -131,72 +131,79 @@ const Creatpost = () => {
 		<section className="creat_post">
 			<ThemeProvider theme={theme}>
 				<Nav idUser={idUser} />
-				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-					<div className="container_nav_back_creatpost">
-						<NavLink className="nav_back_creatpost" to={`/Home?id=${idUser}`}>
-							<ArrowBackOutlinedIcon
-								className="icone_arrowback_creatpost"
-								sx={{ fontSize: 35 }}
-							/>
-						</NavLink>
-					</div>
-					<div className="container_tt_creatpost">
-						<Typography component="h1" variant="h3">
-							Create post
-						</Typography>
-					</div>
-					<div className="bloc_creatpost">
-						<div>
-							<Profileimg dataUser={dataUser} />
+				<main>
+					<Box
+						component="form"
+						onSubmit={handleSubmit}
+						noValidate
+						sx={{ mt: 1 }}
+					>
+						<div className="container_nav_back_creatpost">
+							<NavLink className="nav_back_creatpost" to={`/Home?id=${idUser}`}>
+								<ArrowBackOutlinedIcon
+									className="icone_arrowback_creatpost"
+									sx={{ fontSize: 35 }}
+								/>
+							</NavLink>
 						</div>
-						<div className="container_titletextsub_creatpost">
+						<div className="container_tt_creatpost">
+							<Typography component="h1" variant="h3">
+								Create post
+							</Typography>
+						</div>
+						<div className="bloc_creatpost">
 							<div>
-								<TextField
-									color="secondary"
-									required
-									id="title"
-									label="title"
-									value={title}
-									onChange={(e) => titleOnChange(e)}
-								/>
+								<Profileimg dataUser={dataUser} />
 							</div>
-							<div className="container_textfield_text">
-								<TextField
-									className="text_field_createpost"
-									color="secondary"
-									multiline
-									rows={9}
-									required
-									id="text"
-									label="text"
-									value={text}
-									onChange={(e) => textOnChange(e)}
-								/>
-							</div>
-							<div>
-								<label htmlFor="image">
-									choose picture
-									<input
-										name="image"
-										id="image"
-										type="file"
-										onChange={handleChange}
-									/>
-								</label>
-							</div>
-							<div>
-								<button className="btn btn-primary" type="submit">
-									Submit
-								</button>
+							<div className="container_titletextsub_creatpost">
 								<div>
-									<Typography color="#FD2D01">
-										{dataErrorAxios.message}
-									</Typography>
+									<TextField
+										color="secondary"
+										required
+										id="title"
+										label="title"
+										value={title}
+										onChange={(e) => titleOnChange(e)}
+									/>
+								</div>
+								<div className="container_textfield_text">
+									<TextField
+										className="text_field_createpost"
+										color="secondary"
+										multiline
+										rows={9}
+										required
+										id="text"
+										label="text"
+										value={text}
+										onChange={(e) => textOnChange(e)}
+									/>
+								</div>
+								<div>
+									<label htmlFor="image">
+										choose picture
+										<input
+											name="image"
+											id="image"
+											type="file"
+											onChange={handleChange}
+										/>
+									</label>
+								</div>
+								<div>
+									<button className="btn btn-primary" type="submit">
+										Submit
+									</button>
+									<div>
+										<Typography color="#FD2D01">
+											{dataErrorAxios.message}
+										</Typography>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</Box>
+					</Box>
+				</main>
 			</ThemeProvider>
 			<Footer />
 		</section>

@@ -87,87 +87,89 @@ export default function Login() {
 	return (
 		<div>
 			<section className="container_login">
+				<Nav />
 				<ThemeProvider theme={theme}>
-					<Nav />
-					<Container component="main" maxWidth="xs">
-						<CssBaseline />
-						<Box
-							sx={{
-								marginTop: 8,
-								display: "flex",
-								flexDirection: "column",
-								alignItems: "center",
-							}}
-						>
-							<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-								<LockOutlinedIcon />
-							</Avatar>
-							<h1>Login</h1>
+					<main>
+						<Container component="main" maxWidth="xs">
+							<CssBaseline />
 							<Box
-								component="form"
-								onSubmit={handleSubmit}
-								noValidate
-								sx={{ mt: 1 }}
+								sx={{
+									marginTop: 8,
+									display: "flex",
+									flexDirection: "column",
+									alignItems: "center",
+								}}
 							>
-								<TextField
-									value={email}
-									onChange={(e) => emailOnChange(e)}
-									className="email"
-									margin="normal"
-									required
-									fullWidth
-									id="email"
-									label="Email Address"
-									name="email"
-									autoComplete="email"
-									autoFocus
-									color="secondary"
-								/>
-
-								<TextField
-									margin="normal"
-									required
-									fullWidth
-									name="password"
-									label="Password"
-									type="password"
-									id="password"
-									autoComplete="current-password"
-									value={password}
-									onChange={(e) => passwordOnChange(e)}
-									color="secondary"
-								/>
-
-								<Button
-									type="submit"
-									fullWidth
-									variant="contained"
-									sx={{ mt: 3, mb: 2 }}
-									disabled={
-										!allowSendPassword || !allowSendEmail ? true : false
-									}
+								<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+									<LockOutlinedIcon />
+								</Avatar>
+								<h1>Login</h1>
+								<Box
+									component="form"
+									onSubmit={handleSubmit}
+									noValidate
+									sx={{ mt: 1 }}
 								>
-									Login
-								</Button>
-								<div>
-									<p className="error_login">{dataErrorAxios.message}</p>
-								</div>
+									<TextField
+										value={email}
+										onChange={(e) => emailOnChange(e)}
+										className="email"
+										margin="normal"
+										required
+										fullWidth
+										id="email"
+										label="Email Address"
+										name="email"
+										autoComplete="email"
+										autoFocus
+										color="secondary"
+									/>
 
-								<Grid container>
-									<Grid item xs>
-										<Link href="#" variant="body2" color="secondary">
-											Forgot password?
-										</Link>
+									<TextField
+										margin="normal"
+										required
+										fullWidth
+										name="password"
+										label="Password"
+										type="password"
+										id="password"
+										autoComplete="current-password"
+										value={password}
+										onChange={(e) => passwordOnChange(e)}
+										color="secondary"
+									/>
+
+									<Button
+										type="submit"
+										fullWidth
+										variant="contained"
+										sx={{ mt: 3, mb: 2 }}
+										disabled={
+											!allowSendPassword || !allowSendEmail ? true : false
+										}
+									>
+										Login
+									</Button>
+									<div>
+										<p className="error_login">{dataErrorAxios.message}</p>
+									</div>
+
+									<Grid container>
+										<Grid item xs>
+											<Link href="#" variant="body2" color="secondary">
+												Forgot password?
+											</Link>
+										</Grid>
+										<Grid item>
+											<Link href="/Signup" variant="body2" color="secondary">
+												{"Don't have an account? Sign Up"}
+											</Link>
+										</Grid>
 									</Grid>
-									<Grid item>
-										<Link href="/Signup" variant="body2" color="secondary">
-											{"Don't have an account? Sign Up"}
-										</Link>
-									</Grid>
-								</Grid>
+								</Box>
 							</Box>
-						</Box>
-					</Container>
+						</Container>
+					</main>
 				</ThemeProvider>
 			</section>
 			<Footer />

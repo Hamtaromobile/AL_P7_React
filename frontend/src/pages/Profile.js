@@ -47,26 +47,28 @@ const Newprofile = () => {
 	return (
 		<section className="container-body">
 			<Nav idUser={idUser} />
-			<div className="container_nav_back_profile">
-				<NavLink className="nav_back_profile" to={`/Home?id=${idUser}`}>
-					<ArrowBackOutlinedIcon
-						className="icone_arrowback_profile"
-						sx={{ fontSize: 35 }}
-					/>
-				</NavLink>
-			</div>
-			<h1 className="tt_profile">Profile</h1>
-			<div className="container_prof">
-				<div className="container_profileimg">
-					<Profileimg dataUser={dataUser} />
+			<main>
+				<div className="container_nav_back_profile">
+					<NavLink className="nav_back_profile" to={`/Home?id=${idUser}`}>
+						<ArrowBackOutlinedIcon
+							className="icone_arrowback_profile"
+							sx={{ fontSize: 35 }}
+						/>
+					</NavLink>
 				</div>
-				<div className="container_profileinfo">
-					<Profileinfo idUser={idUser} />
-					<div>
-						<UploadingProf id={idUser} />
+				<h1 className="tt_profile">Profile</h1>
+				<div className="container_prof">
+					<div className="container_profileimg">
+						<Profileimg dataUser={dataUser} />
+					</div>
+					<div className="container_profileinfo">
+						<Profileinfo idUser={idUser} />
+						<div>
+							<UploadingProf id={idUser} />
+						</div>
 					</div>
 				</div>
-			</div>
+			</main>
 			<Footer />
 		</section>
 	);

@@ -32,7 +32,7 @@ const Signup = () => {
 	//chgt page
 	useEffect(() => {
 		if (dataResAxios.status === 201) {
-			window.location.href = "/Home?id=" + dataIdUser; //!!pas de route / nom de page
+			window.location.href = "/Home?id=" + dataIdUser;
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dataResAxios.status === 201]);
@@ -138,7 +138,6 @@ const Signup = () => {
 				.post(urlPost, dataSignup)
 				.then((res) => {
 					localStorage.setItem("token", JSON.stringify(res.data.token));
-					//localStorage.setItem("token2", JSON.stringify(res.data.token2));
 					setDataResAxios(res);
 					setDataIdUser(res.data.userId);
 				})
@@ -153,207 +152,209 @@ const Signup = () => {
 	return (
 		<section>
 			<Nav />
-			<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-				<div className="container_signup">
-					<h3>Sign Up</h3>
-					<div className="mb-3">
-						<label>First name</label>
-						<input
-							type="text"
-							className="form-control"
-							placeholder="First name"
-							value={firstName}
-							onChange={(e) => firstNameOnChange(e)}
-							required
-						/>
-						<div>
-							{errorFn && (
-								<Typography color="#FD2D01">
-									Veuillez écrire un Nom valide
-								</Typography>
-							)}
+			<main>
+				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+					<div className="container_signup">
+						<h3>Sign Up</h3>
+						<div className="mb-3">
+							<label>First name</label>
+							<input
+								type="text"
+								className="form-control"
+								placeholder="First name"
+								value={firstName}
+								onChange={(e) => firstNameOnChange(e)}
+								required
+							/>
+							<div>
+								{errorFn && (
+									<Typography color="#FD2D01">
+										Veuillez écrire un Nom valide
+									</Typography>
+								)}
+							</div>
+							<div>
+								{firstName.length > 40 && (
+									<Typography color="#FD2D01">
+										Maximum de 40 caractère autorisé
+									</Typography>
+								)}
+							</div>
 						</div>
-						<div>
-							{firstName.length > 40 && (
-								<Typography color="#FD2D01">
-									Maximum de 40 caractère autorisé
-								</Typography>
-							)}
+						<div className="mb-3">
+							<label>Last name</label>
+							<input
+								type="text"
+								className="form-control"
+								placeholder="Last name"
+								value={lastName}
+								onChange={(e) => lastNameOnChange(e)}
+								required
+							/>
+							<div>
+								{errorLn && (
+									<Typography color="#FD2D01">
+										Veuillez écrire un Prénom valide
+									</Typography>
+								)}
+							</div>
+
+							<div>
+								{lastName.length > 40 && (
+									<Typography color="#FD2D01">
+										Maximum de 40 caractère autorisé
+									</Typography>
+								)}
+							</div>
 						</div>
-					</div>
-					<div className="mb-3">
-						<label>Last name</label>
-						<input
-							type="text"
-							className="form-control"
-							placeholder="Last name"
-							value={lastName}
-							onChange={(e) => lastNameOnChange(e)}
-							required
-						/>
+						<div className="mb-3">
+							<label>Employment</label>
+							<input
+								type="text"
+								className="form-control"
+								placeholder="Employment"
+								value={employment}
+								onChange={(e) => employmentOnChange(e)}
+							/>
+							<div>
+								{errorE && (
+									<Typography color="#FD2D01">
+										Veuillez écrire un emploi valide
+									</Typography>
+								)}
+							</div>
+							<div>
+								{employment.length > 40 && (
+									<Typography color="#FD2D01">
+										Maximum de 40 caractère autorisé
+									</Typography>
+								)}
+							</div>
+						</div>
+						<div className="mb-3">
+							<label>Email address</label>
+							<input
+								type="email"
+								className="form-control"
+								placeholder="Enter email"
+								value={email}
+								onChange={(e) => emailOnChange(e)}
+							/>
+							<div>
+								{errorEmail && (
+									<Typography color="#FD2D01">
+										Veuillez écrire une adresse email valide
+									</Typography>
+								)}
+							</div>
+							<div>
+								{email.length > 40 && (
+									<Typography color="#FD2D01">
+										Maximum de 40 caractère autorisé
+									</Typography>
+								)}
+							</div>
+						</div>
+						<div className="mb-3">
+							<label
+								style={{
+									color:
+										/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
+											password
+										)
+											? "green"
+											: "black",
+								}}
+							>
+								Password
+							</label>
+							<input
+								type="password"
+								className="form-control"
+								placeholder="Enter password"
+								value={password}
+								onChange={(e) => passwordOnChange(e)}
+								style={{
+									color:
+										/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
+											password
+										)
+											? "green"
+											: "black",
+								}}
+							/>
+						</div>
+
 						<div>
-							{errorLn && (
+							{password.length > 30 && (
 								<Typography color="#FD2D01">
-									Veuillez écrire un Prénom valide
+									Maximum de 30 caractère autorisé
 								</Typography>
 							)}
 						</div>
 
-						<div>
-							{lastName.length > 40 && (
-								<Typography color="#FD2D01">
-									Maximum de 40 caractère autorisé
-								</Typography>
-							)}
+						<div className="mb-3">
+							<label
+								style={{
+									color:
+										/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
+											password
+										) && password === confirmPassword
+											? "green"
+											: "black",
+								}}
+							>
+								Confirm password
+							</label>
+							<input
+								type="password"
+								className="form-control"
+								placeholder="Enter Password"
+								value={confirmPassword}
+								onChange={(e) => confirmPasswordOnChange(e)}
+								style={{
+									color:
+										/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
+											password
+										) && password === confirmPassword
+											? "green"
+											: "black",
+								}}
+							/>
 						</div>
-					</div>
-					<div className="mb-3">
-						<label>Employment</label>
-						<input
-							type="text"
-							className="form-control"
-							placeholder="Employment"
-							value={employment}
-							onChange={(e) => employmentOnChange(e)}
-						/>
+						<Typography>
+							Votre mot de passe doit faire entre 8 et 30 caractère. Il doit
+							contenir au moins un caractères spécial. Il doit contenir au moins
+							un chiffre et une lettre.
+						</Typography>
+						<br />
 						<div>
-							{errorE && (
-								<Typography color="#FD2D01">
-									Veuillez écrire un emploi valide
-								</Typography>
-							)}
+							<Typography color="#FD2D01">{dataErrorAxios.message}</Typography>
 						</div>
-						<div>
-							{employment.length > 40 && (
-								<Typography color="#FD2D01">
-									Maximum de 40 caractère autorisé
-								</Typography>
-							)}
+						<div className="d-grid">
+							<button
+								type="submit"
+								className="btn btn-primary"
+								disabled={
+									!allowSendFn ||
+									!allowSendLn ||
+									!allowSendE ||
+									!allowSendEmail ||
+									!allowSendPassword ||
+									!allowSendConfirmPassword
+										? true
+										: false
+								}
+							>
+								Sign Up
+							</button>
 						</div>
+						<p className="forgot-password text-right">
+							Already registered <a href="/Login">Login?</a>
+						</p>
 					</div>
-					<div className="mb-3">
-						<label>Email address</label>
-						<input
-							type="email"
-							className="form-control"
-							placeholder="Enter email"
-							value={email}
-							onChange={(e) => emailOnChange(e)}
-						/>
-						<div>
-							{errorEmail && (
-								<Typography color="#FD2D01">
-									Veuillez écrire une adresse email valide
-								</Typography>
-							)}
-						</div>
-						<div>
-							{email.length > 40 && (
-								<Typography color="#FD2D01">
-									Maximum de 40 caractère autorisé
-								</Typography>
-							)}
-						</div>
-					</div>
-					<div className="mb-3">
-						<label
-							style={{
-								color:
-									/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
-										password
-									)
-										? "green"
-										: "black",
-							}}
-						>
-							Password
-						</label>
-						<input
-							type="password"
-							className="form-control"
-							placeholder="Enter password"
-							value={password}
-							onChange={(e) => passwordOnChange(e)}
-							style={{
-								color:
-									/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
-										password
-									)
-										? "green"
-										: "black",
-							}}
-						/>
-					</div>
-
-					<div>
-						{password.length > 30 && (
-							<Typography color="#FD2D01">
-								Maximum de 30 caractère autorisé
-							</Typography>
-						)}
-					</div>
-
-					<div className="mb-3">
-						<label
-							style={{
-								color:
-									/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
-										password
-									) && password === confirmPassword
-										? "green"
-										: "black",
-							}}
-						>
-							Confirm password
-						</label>
-						<input
-							type="password"
-							className="form-control"
-							placeholder="Enter Password"
-							value={confirmPassword}
-							onChange={(e) => confirmPasswordOnChange(e)}
-							style={{
-								color:
-									/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&,.;:!^¨*])[A-Za-z\d!@#$%^&,.;:!^¨*]{8,30}$/.test(
-										password
-									) && password === confirmPassword
-										? "green"
-										: "black",
-							}}
-						/>
-					</div>
-					<Typography>
-						Votre mot de passe doit faire entre 8 et 30 caractère. Il doit
-						contenir au moins un caractères spécial. Il doit contenir au moins
-						un chiffre et une lettre.
-					</Typography>
-					<br />
-					<div>
-						<Typography color="#FD2D01">{dataErrorAxios.message}</Typography>
-					</div>
-					<div className="d-grid">
-						<button
-							type="submit"
-							className="btn btn-primary"
-							disabled={
-								!allowSendFn ||
-								!allowSendLn ||
-								!allowSendE ||
-								!allowSendEmail ||
-								!allowSendPassword ||
-								!allowSendConfirmPassword
-									? true
-									: false
-							}
-						>
-							Sign Up
-						</button>
-					</div>
-					<p className="forgot-password text-right">
-						Already registered <a href="/Login">Login?</a>
-					</p>
-				</div>
-			</Box>
+				</Box>
+			</main>
 			<Footer />
 		</section>
 	);

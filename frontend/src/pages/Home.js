@@ -80,6 +80,7 @@ const Home = () => {
 			})
 			.then((res) => {
 				setDataPost(res.data);
+				console.log("res.dataPost", res.data);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -123,48 +124,50 @@ const Home = () => {
 	return (
 		<ThemeProvider theme={theme}>
 			<Nav idUser={idUser} />
-			<div className="container_home">
-				<div className="container_tt_home">
-					<h1>Groupomania post</h1>
-				</div>
-				<div className="container_imgbtn_post_home">
-					<div className="container_imgbtn_home">
-						<NavLink to={`/Profile?id=${idUser}`}>
-							<div className="item_profileimg_home">
-								<Profileimg dataUser={dataUser} />
-							</div>
-						</NavLink>
-						<div>
-							<NavLink to={`/createPost?id=${idUser}`}>
-								<span className="btn_crtp_home">Create post</span>
+			<main>
+				<section className="container_home">
+					<div className="container_tt_home">
+						<h1>Groupomania post</h1>
+					</div>
+					<div className="container_imgbtn_post_home">
+						<div className="container_imgbtn_home">
+							<NavLink to={`/Profile?id=${idUser}`}>
+								<div className="item_profileimg_home">
+									<Profileimg dataUser={dataUser} />
+								</div>
 							</NavLink>
+							<div>
+								<NavLink to={`/createPost?id=${idUser}`}>
+									<span className="btn_crtp_home">Create post</span>
+								</NavLink>
+							</div>
+						</div>
+						<div>
+							<div className="display_post_home">
+								<label>Affichage posts : </label>
+								<select onChange={handleSelectChange}>
+									<option value={3}>3</option>
+									<option value={6}>6</option>
+									<option value={9}>9</option>
+								</select>
+							</div>
+							<div className="post_home">
+								<Post dataPost={currentData} idUser={idUser} />
+							</div>
+							{dataPost.length > postsPerPage ? (
+								<Pagination
+									currentPage={currentPage}
+									handleClick={handleClick}
+									renderPageNumbers={renderPageNumbers}
+									totalPages={totalPages}
+								/>
+							) : (
+								""
+							)}
 						</div>
 					</div>
-					<div>
-						<div className="display_post_home">
-							<label>Affichage posts : </label>
-							<select onChange={handleSelectChange}>
-								<option value={3}>3</option>
-								<option value={6}>6</option>
-								<option value={9}>9</option>
-							</select>
-						</div>
-						<div className="post_home">
-							<Post dataPost={currentData} idUser={idUser} />
-						</div>
-						{dataPost.length > postsPerPage ? (
-							<Pagination
-								currentPage={currentPage}
-								handleClick={handleClick}
-								renderPageNumbers={renderPageNumbers}
-								totalPages={totalPages}
-							/>
-						) : (
-							""
-						)}
-					</div>
-				</div>
-			</div>
+				</section>
+			</main>
 			<Footer />
 		</ThemeProvider>
 	);

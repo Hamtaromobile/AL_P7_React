@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 import Nav from "../components/Nav";
 import Pagination from "../components/Pagination";
 import Footer from "../components/Footer";
+import TextField from "@mui/material/TextField";
 
 const Innerpost = () => {
 	const params = new URL(document.location).searchParams;
@@ -71,7 +72,6 @@ const Innerpost = () => {
 				},
 			})
 			.then((res) => {
-				console.log("resresres", res);
 				setDataPost(res.data);
 			})
 			.catch((err) => {
@@ -191,7 +191,6 @@ const Innerpost = () => {
 	//if reply ok ; idReply => mainPost
 	useEffect(() => {
 		if (statusPostReply === 201) {
-			console.log("ResPostReplyResPostReply", resPostReply.replyId);
 			const idData = { idReply: resPostReply.replyId };
 			axios
 				.post(urlpushIdReplyPost + idPost, idData, {
@@ -233,92 +232,97 @@ const Innerpost = () => {
 	return (
 		<article>
 			<Nav idUser={idUser} />
-			<div className="container_nav_back_innerpost">
-				<NavLink className="nav_back_innerpost" to={`/Home?id=${idUser}`}>
-					<ArrowBackOutlinedIcon
-						className="icone_arrowback_innerpost"
-						sx={{ fontSize: 35 }}
-					/>
-				</NavLink>
-			</div>
-			<h1 className="tt_Innerpost">{dataPost.title}</h1>
-			<div className="container_innerpost">
-				<div className="container_mainpost_innerpost">
-					<Mainpost idUser={idUser} idPost={idPost} reply={reply} />
+			<main>
+				<div className="container_nav_back_innerpost">
+					<NavLink className="nav_back_innerpost" to={`/Home?id=${idUser}`}>
+						<ArrowBackOutlinedIcon
+							className="icone_arrowback_innerpost"
+							sx={{ fontSize: 35 }}
+						/>
+					</NavLink>
 				</div>
-				<div>
-					<div className="container_reply_innerpost">
-						<Reply reply={reply} dataReply={currentData} />
-						{dataReply.length > repliesPerPage ? (
-							<Pagination
-								currentPage={currentPage}
-								handleClick={handleClick}
-								renderPageNumbers={renderPageNumbers}
-								totalPages={totalPages}
-							/>
-						) : (
-							""
-						)}
+				<h1 className="tt_Innerpost">{dataPost.title}</h1>
+				<div className="container_innerpost">
+					<div className="container_mainpost_innerpost">
+						<Mainpost idUser={idUser} idPost={idPost} reply={reply} />
 					</div>
-				</div>
-				<div className="display_reply_innerPost">
-					<label>Affichage réponses </label>
-					<select onChange={handleSelectChange}>
-						<option value={3}>3</option>
-						<option value={6}>6</option>
-						<option value={9}>9</option>
-					</select>
-				</div>
-				{reply ? (
-					<div className="col-md-12 ">
-						<h2 className="item_tt_reply">Reply</h2>
-						<textarea
-							className="item_txt_area_reply_innerpost"
-							autoFocus
-							value={text}
-							onChange={(e) => textOnChange(e)}
-						>
-							texte
-						</textarea>
-						<div className="container_btn_reply_innerpost">
-							<div>
-								<button
-									type="button"
-									onClick={() => setReply(false)}
-									className="btn btn-secondary item_btn"
-								>
-									cancel
-								</button>
-							</div>
-							<div>
-								<input
-									className="btn btn-light item_btn"
-									type="file"
-									onChange={handleChange}
+					<div>
+						<div className="container_reply_innerpost">
+							<Reply reply={reply} dataReply={currentData} />
+							{dataReply.length > repliesPerPage ? (
+								<Pagination
+									currentPage={currentPage}
+									handleClick={handleClick}
+									renderPageNumbers={renderPageNumbers}
+									totalPages={totalPages}
 								/>
-							</div>
-							<div>
-								<button
-									type="submit"
-									onClick={(e) => handleReply(e)}
-									className="btn btn-primary item_btn"
-								>
-									send
-								</button>
-							</div>
+							) : (
+								""
+							)}
 						</div>
 					</div>
-				) : (
-					<button
-						type="button"
-						onClick={() => setReply(true)}
-						className="btn_reply_innerpost"
-					>
-						reply
-					</button>
-				)}
-				<p className="error_innerpost">{dataErrorReplyAxios}</p>
-			</div>
+					<div className="display_reply_innerPost">
+						<label>Affichage réponses </label>
+						<select onChange={handleSelectChange}>
+							<option value={3}>3</option>
+							<option value={6}>6</option>
+							<option value={9}>9</option>
+						</select>
+					</div>
+					{reply ? (
+						<div className="col-md-12 ">
+							<div className="item_txt_area_reply_innerpost">
+								<TextField
+									fullWidth
+									multiline
+									rows={15}
+									id="text"
+									label="texte"
+									autoFocus
+									value={text}
+									onChange={(e) => textOnChange(e)}
+								/>
+							</div>
+							<div className="container_btn_reply_innerpost">
+								<div>
+									<button
+										type="button"
+										onClick={() => setReply(false)}
+										className="btn btn-secondary item_btn"
+									>
+										cancel
+									</button>
+								</div>
+								<div>
+									<input
+										className="btn btn-light item_btn"
+										type="file"
+										onChange={handleChange}
+									/>
+								</div>
+								<div>
+									<button
+										type="submit"
+										onClick={(e) => handleReply(e)}
+										className="btn btn-primary item_btn"
+									>
+										send
+									</button>
+								</div>
+							</div>
+						</div>
+					) : (
+						<button
+							type="button"
+							onClick={() => setReply(true)}
+							className="btn_reply_innerpost"
+						>
+							reply
+						</button>
+					)}
+					<p className="error_innerpost">{dataErrorReplyAxios}</p>
+				</div>
+			</main>
 			<Footer />
 		</article>
 	);

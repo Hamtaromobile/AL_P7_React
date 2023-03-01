@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import TextField from "@mui/material/TextField";
 
 const Mainpost = ({ idPost, reply }) => {
 	const urlGetUser = "http://localhost:3001/api/auth/getUser/";
@@ -273,15 +274,14 @@ const Mainpost = ({ idPost, reply }) => {
 				<div id="blog" className="row">
 					<div className="col-md-10 blogShort">
 						{editing ? (
-							<label>
-								title
-								<textarea
-									className="txt_area_title"
+							<div>
+								<TextField
 									defaultValue={editTitle ? editTitle : dataPost.title}
-									autoFocus
+									id="title"
+									label="title"
 									onChange={(e) => setEditTitle(e.target.value)}
-								></textarea>
-							</label>
+								/>
+							</div>
 						) : (
 							""
 						)}
@@ -302,15 +302,18 @@ const Mainpost = ({ idPost, reply }) => {
 						)}
 						<div>
 							{editing ? (
-								<label>
-									text
-									<textarea
-										className="txt_area_mainpost"
+								<div>
+									<TextField
 										defaultValue={editText ? editText : dataPost.text}
+										fullWidth
+										multiline
+										rows={15}
+										id="text"
+										label="texte"
 										autoFocus
 										onChange={(e) => setEditText(e.target.value)}
-									></textarea>
-								</label>
+									/>
+								</div>
 							) : (
 								<p className="txt_mainpost">
 									{editText ? editText : dataPost.text}

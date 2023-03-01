@@ -42,14 +42,6 @@
 
  .margin10{margin-bottom:10px; margin-right:10px;}
 
-
- .txt_area_mainpost {
-    width: 70em;
-    resize: none;
-    height: 19em;
-    outline: none;
-  }
-
   .txt_area_title{
     width: 100%;
     resize: none;

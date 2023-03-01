@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import TextField from "@mui/material/TextField";
 
 const Reply = ({ dataReply, reply }) => {
 	const urlGetUser = "http://localhost:3001/api/auth/getUser/";
@@ -232,23 +233,26 @@ const Reply = ({ dataReply, reply }) => {
 									) : (
 										""
 									)}
-									<article>
+									<div>
 										{editing && dataReply._id === editingItemId ? (
-											<label>
-												text
-												<textarea
-													className="txt_area_reply"
+											<div>
+												<TextField
 													defaultValue={editText ? editText : dataReply.text}
+													fullWidth
+													multiline
+													rows={15}
+													id="text"
+													label="texte"
 													autoFocus
 													onChange={(e) => setEditText(e.target.value)}
-												></textarea>
-											</label>
+												/>
+											</div>
 										) : (
 											<p className="txt_reply">
 												{editText ? editText : dataReply.text}
 											</p>
 										)}
-									</article>
+									</div>
 									<div className="container_btn_like_dis_reply">
 										{(editing && dataReply._id === editingItemId) || reply ? (
 											""
@@ -298,7 +302,6 @@ const Reply = ({ dataReply, reply }) => {
 										)}
 
 										<div className="container_button_mp_reply">
-											{console.log("dataReply.userId", dataReply.userId)}
 											<div>
 												{!editing &&
 												!reply &&

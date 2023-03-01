@@ -13,11 +13,7 @@
     }
 
 .item_txt_area_reply_innerpost{
-    width: 100%;
-    resize: none;
-    height: 15em;
-    outline: none;
-    margin-top: 5em;
+    margin-top: 2em;
     }
 
 .container_btn_reply_innerpost{
