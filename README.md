@@ -7,7 +7,8 @@ Pour installer toutes les dépendances, permettant le fonctionnement du projet, 
 Ensuite, pour faire fonctionner le serveur, veuillez ecrire dans le terminal : "nodemon server".
 
 Dans le dossier "frontend" :
-Pour lancer le fonctionnement du frontend, veuillez écrire dans le terminal : "ng serve" ou "npm start".
+Pour installer toutes les dépendances, permettant le fonctionnement du projet, veuillez écrire dans le terminal : "npm install".
+Pour lancer le fonctionnement du frontend, veuillez écrire dans le terminal : "npm start".
 
 Pour se rendre sur l'application, veuillez vous connecter sur l'url suivante : "http://localhost:3000/"
 
