@@ -273,6 +273,7 @@ const Innerpost = () => {
 						<div className="col-md-12 ">
 							<div className="item_txt_area_reply_innerpost">
 								<TextField
+									sx={{ width: "90%", marginTop: "20px", fontSize: "20px" }}
 									fullWidth
 									multiline
 									rows={15}
@@ -281,6 +282,9 @@ const Innerpost = () => {
 									autoFocus
 									value={text}
 									onChange={(e) => textOnChange(e)}
+									InputProps={{
+										style: { fontSize: "18px" },
+									}}
 								/>
 							</div>
 							<div className="container_btn_reply_innerpost">

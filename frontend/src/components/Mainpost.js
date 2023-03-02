@@ -280,6 +280,9 @@ const Mainpost = ({ idPost, reply }) => {
 									id="title"
 									label="title"
 									onChange={(e) => setEditTitle(e.target.value)}
+									InputProps={{
+										style: { fontSize: "18px" },
+									}}
 								/>
 							</div>
 						) : (
@@ -310,8 +313,10 @@ const Mainpost = ({ idPost, reply }) => {
 										rows={15}
 										id="text"
 										label="texte"
-										autoFocus
 										onChange={(e) => setEditText(e.target.value)}
+										InputProps={{
+											style: { fontSize: "18px" },
+										}}
 									/>
 								</div>
 							) : (

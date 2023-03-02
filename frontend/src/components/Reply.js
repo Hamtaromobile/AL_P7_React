@@ -245,6 +245,9 @@ const Reply = ({ dataReply, reply }) => {
 													label="texte"
 													autoFocus
 													onChange={(e) => setEditText(e.target.value)}
+													InputProps={{
+														style: { fontSize: "18px" },
+													}}
 												/>
 											</div>
 										) : (
