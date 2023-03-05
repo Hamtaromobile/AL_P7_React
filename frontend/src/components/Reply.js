@@ -38,9 +38,7 @@ const Reply = ({ dataReply, reply }) => {
 					},
 				});
 				setUserConnected(res.data);
-			} catch (err) {
-				console.log(err);
-			}
+			} catch (err) {}
 		};
 		getUserReq();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,13 +57,10 @@ const Reply = ({ dataReply, reply }) => {
 				},
 			})
 			.then((res) => {
-				console.log(res);
-
 				setStatusDeletedReply(res.status);
 			})
 			.catch((err) => {
 				setDataErrorAxios(err);
-				console.log(err);
 			});
 	}
 
@@ -82,12 +77,9 @@ const Reply = ({ dataReply, reply }) => {
 					},
 				})
 				.then((res) => {
-					console.log(res);
 					window.location.reload();
 				})
-				.catch((err) => {
-					console.log(err);
-				});
+				.catch((err) => {});
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [statusDeletedReply === 200]);
@@ -114,11 +106,9 @@ const Reply = ({ dataReply, reply }) => {
 				},
 			})
 			.then((res) => {
-				console.log(res);
 				window.location.reload();
 			})
 			.catch((err) => {
-				console.log(err);
 				setDataErrorAxios(err);
 			});
 	};
@@ -150,11 +140,9 @@ const Reply = ({ dataReply, reply }) => {
 					},
 				})
 				.then((res) => {
-					console.log(res);
 					window.location.reload();
 				})
 				.catch((err) => {
-					console.log(err);
 					setDataErrorAxios(err);
 				});
 		}
@@ -185,11 +173,9 @@ const Reply = ({ dataReply, reply }) => {
 					},
 				})
 				.then((res) => {
-					console.log(res);
 					window.location.reload();
 				})
 				.catch((err) => {
-					console.log(err);
 					setDataErrorAxios(err);
 				});
 		}

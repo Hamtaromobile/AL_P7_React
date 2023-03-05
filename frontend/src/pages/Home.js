@@ -62,7 +62,6 @@ const Home = () => {
 				setDataUser(res.data);
 			})
 			.catch((err) => {
-				console.log(err);
 				setStatusErrAxiosUser(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,10 +79,8 @@ const Home = () => {
 			})
 			.then((res) => {
 				setDataPost(res.data);
-				console.log("res.dataPost", res.data);
 			})
 			.catch((err) => {
-				console.log(err);
 				setStatusErrAxiosPost(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps

@@ -79,7 +79,6 @@ export default function Login() {
 				})
 				.catch((err) => {
 					setDataErrorAxios(err);
-					console.log(err);
 				});
 		}
 	};

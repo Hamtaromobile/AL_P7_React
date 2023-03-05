@@ -38,7 +38,6 @@ const Newprofile = () => {
 				setDataUser(res.data);
 			})
 			.catch((err) => {
-				console.log(err);
 				setStatusErrAxiosUser(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps

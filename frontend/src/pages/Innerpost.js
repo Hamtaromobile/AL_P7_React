@@ -53,9 +53,7 @@ const Innerpost = () => {
 		axios
 			.post(urlPostViewsPost + idPost)
 			.then((res) => {})
-			.catch((err) => {
-				console.log(err);
-			});
+			.catch((err) => {});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -73,7 +71,6 @@ const Innerpost = () => {
 				setDataPost(res.data);
 			})
 			.catch((err) => {
-				console.log(err);
 				setStatusErrAxiosPost(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -91,10 +88,8 @@ const Innerpost = () => {
 			})
 			.then((res) => {
 				setDataReply(res.data);
-				console.log("resreply", res);
 			})
 			.catch((err) => {
-				console.log(err);
 				setStatusErrAxiosReply(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -114,7 +109,6 @@ const Innerpost = () => {
 				setDataUser(res.data);
 			})
 			.catch((err) => {
-				console.log(err);
 				setStatusErrAxiosUser(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -149,12 +143,10 @@ const Innerpost = () => {
 				},
 			})
 			.then((res) => {
-				console.log(res);
 				setResPostReply(res.data);
 				setStatusPostReply(res.status);
 			})
 			.catch((err) => {
-				console.log(err);
 				setDataErrorReplyAxios(err);
 			});
 	};
@@ -199,12 +191,9 @@ const Innerpost = () => {
 					},
 				})
 				.then((res) => {
-					console.log(res);
 					window.location.reload();
 				})
-				.catch((err) => {
-					console.log(err);
-				});
+				.catch((err) => {});
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [statusPostReply === 201]);

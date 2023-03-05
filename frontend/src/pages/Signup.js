@@ -142,7 +142,6 @@ const Signup = () => {
 					setDataIdUser(res.data.userId);
 				})
 				.catch((err) => {
-					console.log(err);
 					setDataErrorAxios(err);
 				});
 		}

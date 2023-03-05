@@ -41,9 +41,7 @@ const Profileinfo = ({ idUser }) => {
 			.then((res) => {
 				setDataUser(res.data);
 			})
-			.catch((err) => {
-				console.log(err);
-			});
+			.catch((err) => {});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -178,9 +176,7 @@ const Profileinfo = ({ idUser }) => {
 				.then((res) => {
 					window.location.reload();
 				})
-				.catch((err) => {
-					console.log(err);
-				});
+				.catch((err) => {});
 		} else {
 			const modifyDataP = {
 				firstName,
@@ -200,9 +196,7 @@ const Profileinfo = ({ idUser }) => {
 				.then((res) => {
 					window.location.href = `/Profile?idUser=${idUser}`;
 				})
-				.catch((error) => {
-					console.log(error);
-				});
+				.catch((error) => {});
 		}
 	};
 

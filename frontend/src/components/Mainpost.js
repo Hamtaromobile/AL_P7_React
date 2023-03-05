@@ -46,9 +46,7 @@ const Mainpost = ({ idPost, reply }) => {
 					setDataPost(res.data);
 					setStatusGetPost(res.status);
 				})
-				.catch((err) => {
-					console.log(err);
-				});
+				.catch((err) => {});
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -81,9 +79,7 @@ const Mainpost = ({ idPost, reply }) => {
 						},
 					});
 					setDataUser(res.data);
-				} catch (err) {
-					console.log(err);
-				}
+				} catch (err) {}
 			};
 			getUserReq();
 		}
@@ -102,9 +98,7 @@ const Mainpost = ({ idPost, reply }) => {
 					},
 				});
 				setUserConnected(res.data);
-			} catch (err) {
-				console.log(err);
-			}
+			} catch (err) {}
 		};
 		getUserReq();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -121,13 +115,9 @@ const Mainpost = ({ idPost, reply }) => {
 				},
 			})
 			.then((res) => {
-				console.log(res);
 				setStatusDeletedPost(res.status);
-				// window.location.href = "/Home?id=" + idUser;
 			})
-			.catch((err) => {
-				console.log(err);
-			});
+			.catch((err) => {});
 	};
 
 	//delete reply's mainpost if exist
@@ -142,12 +132,9 @@ const Mainpost = ({ idPost, reply }) => {
 							"Content-Type": "application/json",
 						},
 					})
-					.then((res) => {
-						console.log(res);
-					})
+					.then((res) => {})
 					.catch((err) => {
 						setDataErrorAxios(err);
-						console.log(err);
 					});
 			}
 			window.location.href = "/Home?id=" + idUserConnected;
@@ -188,7 +175,6 @@ const Mainpost = ({ idPost, reply }) => {
 				window.location.reload();
 			})
 			.catch((err) => {
-				console.log(err);
 				setDataErrorAxios(err);
 			});
 	};
@@ -223,7 +209,6 @@ const Mainpost = ({ idPost, reply }) => {
 					window.location.reload();
 				})
 				.catch((err) => {
-					console.log(err);
 					setDataErrorAxios(err);
 				});
 		}
@@ -255,7 +240,6 @@ const Mainpost = ({ idPost, reply }) => {
 					window.location.reload();
 				})
 				.catch((err) => {
-					console.log(err);
 					setDataErrorAxios(err);
 				});
 		}

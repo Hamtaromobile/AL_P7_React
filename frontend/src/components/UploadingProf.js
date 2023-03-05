@@ -21,9 +21,7 @@ function App({ id }) {
 				},
 			})
 			.then((res) => {})
-			.catch((err) => {
-				console.log(err);
-			});
+			.catch((err) => {});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -54,9 +52,7 @@ function App({ id }) {
 			.then((response) => {
 				setDataResAxios(response);
 			})
-			.catch((err) => {
-				console.log(err);
-			});
+			.catch((err) => {});
 	}
 
 	return (
