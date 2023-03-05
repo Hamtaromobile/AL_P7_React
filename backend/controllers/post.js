@@ -64,9 +64,8 @@ exports.getOnePost = (req, res, next) => {
 
 //recup. tous les posts, route get
 exports.getAllPost = (req, res, next) => {
-	/* console.log("req.params",req.params);
-  if (post.userId === req.auth.userId && req.auth.userIsAdmin === true) {*/
 	Post.find()
+		.sort({ date: -1 })
 		.then((posts) => res.status(200).json(posts))
 		.catch((error) => res.status(400).json({ error }));
 };
@@ -233,17 +232,5 @@ exports.views = (req, res, next) => {
 		}
 	)
 		.then(() => res.status(200).json({ message: "views +1 ok" }))
-		.catch((error) => res.status(400).json({ error }));
-};
-
-//nbr replies main post
-exports.NbrReplies = (req, res, next) => {
-	Post.updateOne(
-		{ _id: req.params.id },
-		{
-			$inc: { replies: +1 },
-		}
-	)
-		.then(() => res.status(200).json({ message: "post +1 ok" }))
 		.catch((error) => res.status(400).json({ error }));
 };

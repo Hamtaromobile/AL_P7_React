@@ -85,7 +85,7 @@
     color:#FD2D01
 }
 
-@media screen and (max-width:767px) {
+@media screen and (max-width:1250px) {
 
     .container_post{ 
         width: 20em;

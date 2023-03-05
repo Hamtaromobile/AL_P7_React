@@ -144,7 +144,7 @@ const Home = () => {
 						</div>
 						<div>
 							<div className="display_post_home">
-								<label>Affichage posts : </label>
+								<label>Affichage posts </label>
 								<select onChange={handleSelectChange}>
 									<option value={3}>3</option>
 									<option value={6}>6</option>

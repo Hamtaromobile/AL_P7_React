@@ -5,6 +5,7 @@
 
 .container_innerpost{
     display: flex;
+    min-height: 45em;
     flex-direction: column;
 }
 

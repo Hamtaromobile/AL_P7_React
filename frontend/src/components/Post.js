@@ -4,15 +4,10 @@ import TableRowsIcon from "@mui/icons-material/TableRows";
 import { NavLink } from "react-router-dom";
 
 const Post = ({ dataPost, idUser }) => {
-	// Trie les données du plus récent au plus ancien
-	const sortedData = [...dataPost].sort((a, b) => {
-		return new Date(b.date) - new Date(a.date);
-	});
-
 	return (
 		<section>
 			<ul>
-				{sortedData.map((dataPost) => (
+				{dataPost.map((dataPost) => (
 					<NavLink
 						className="nav_back_profile"
 						to={`/Innerpost?idU=${idUser}&idP=${dataPost._id}`}

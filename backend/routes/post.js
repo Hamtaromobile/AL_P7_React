@@ -35,7 +35,4 @@ router.post("/pushIdReply/:id", auth, postCtrl.pushIdReply);
 //Tab. pull idReplies
 router.post("/pullIdReply/:id", auth, postCtrl.pullIdReply);
 
-//Number replies
-router.post("/NbrReplies/:id", postCtrl.NbrReplies);
-
 module.exports = router;

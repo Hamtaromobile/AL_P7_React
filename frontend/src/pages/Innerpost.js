@@ -23,7 +23,6 @@ const Innerpost = () => {
 	const [statusPostReply, setStatusPostReply] = useState("");
 	const urlPostReply = "http://localhost:3001/api/reply/createReply";
 	const urlGetPost = "http://localhost:3001/api/post/getOnePost/";
-	const urlNbrReplies = "http://localhost:3001/api/post/NbrReplies/";
 	const urlGetRepliesMainpost =
 		"http://localhost:3001/api/reply/getRepliesMainpost/";
 	const urlGetUser = "http://localhost:3001/api/auth/getUser/";
@@ -31,7 +30,6 @@ const Innerpost = () => {
 	const urlpushIdReplyPost = "http://localhost:3001/api/post/pushIdReply/";
 	const [dataPost, setDataPost] = useState([]);
 	const [dataUser, setDataUser] = useState([]);
-	const [statusPostPost, setStatusPostPost] = useState("");
 	const [resPostReply, setResPostReply] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
 	const [repliesPerPage, setRepliesPerPage] = useState(3);
@@ -202,7 +200,7 @@ const Innerpost = () => {
 				})
 				.then((res) => {
 					console.log(res);
-					setStatusPostPost(res.status);
+					window.location.reload();
 				})
 				.catch((err) => {
 					console.log(err);
@@ -210,19 +208,6 @@ const Innerpost = () => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [statusPostReply === 201]);
-
-	//if idReply => mainPost ; nbr reply + 1 ; and load page
-	useEffect(() => {
-		if (statusPostPost === 200) {
-			axios
-				.post(urlNbrReplies + idPost)
-				.then((res) => {}, window.location.reload())
-				.catch((err) => {
-					console.log(err);
-				});
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [statusPostPost === 200]);
 
 	//selection du nbre de posts à afficher par l'utilisateur
 	const handleSelectChange = (e) => {

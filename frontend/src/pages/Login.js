@@ -86,8 +86,8 @@ export default function Login() {
 
 	return (
 		<div>
+			<Nav />
 			<section className="container_login">
-				<Nav />
 				<ThemeProvider theme={theme}>
 					<main>
 						<Container component="main" maxWidth="xs">
