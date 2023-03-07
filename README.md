@@ -12,4 +12,4 @@ Pour lancer le fonctionnement du frontend, veuillez écrire dans le terminal : "
 
 Pour se rendre sur l'application, veuillez vous connecter sur l'url suivante : "http://localhost:3000/"
 
-Voici le lien du repository github, si vous souhaitez recupérer la partie frontend, du projet de départ : "https://github.com/Hamtaromobile/AL_P7_React.git"
+Voici le lien du repository github : "https://github.com/Hamtaromobile/AL_P7_React.git"
