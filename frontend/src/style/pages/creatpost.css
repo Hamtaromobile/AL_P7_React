@@ -1,12 +1,11 @@
 .bloc_creatpost{
-    width: 100em;
-    display: flex;
-    flex-direction: row;
-    flex-wrap:wrap;
-    justify-content:space-evenly;
-    align-items:center;
-    margin-top: 3em;
-    min-height: 25em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin-top: 2em;
 }
 
 .container_titletextsub_creatpost{
@@ -20,6 +19,7 @@
     border: 0.1rem solid;
     border-radius: 2em;
     padding: 2em;
+    margin-top: 2em;
 }
 
 
@@ -64,23 +64,15 @@
     .bloc_creatpost{
       flex-direction: column;
       justify-content:space-between;
-      align-items:flex-start;
       margin-top: 2em;
       margin-left: 0.5em;
     
     }
 
     .container_titletextsub_creatpost{
-      display: flex;
-      flex-direction: column;
-      flex-wrap:wrap;
-      justify-content:space-between;
-      align-items:flex-start;
+      margin-top: 2em;
       width: 25em ;
-      height: 35em;
-      border: 0.1rem solid;
-      border-radius: 2em;
-      padding: 2em;
+      height: 45em;
     }
 
     .text_field_createpost{

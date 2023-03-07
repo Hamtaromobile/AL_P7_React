@@ -65,10 +65,8 @@ const Creatpost = () => {
 			})
 			.then((res) => {
 				setDataUser(res.data);
-				console.log("res", res);
 			})
 			.catch((err) => {
-				console.log(err);
 				setStatusErrAxiosUser(err.response.status);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,7 +120,6 @@ const Creatpost = () => {
 				setDataResStatAxios(res.status);
 			})
 			.catch((err) => {
-				console.log(err);
 				setDataErrorAxios(err);
 			});
 	};
@@ -171,7 +168,7 @@ const Creatpost = () => {
 										className="text_field_createpost"
 										color="secondary"
 										multiline
-										rows={9}
+										rows={12}
 										required
 										id="text"
 										label="text"

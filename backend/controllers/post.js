@@ -2,7 +2,6 @@
 const Reply = require("../models/reply");
 const Post = require("../models/post");
 const fs = require("fs");
-// fonction replace
 
 //creation, route post
 exports.createPost = (req, res, next) => {
@@ -86,7 +85,6 @@ exports.pushIdReply = (req, res, next) => {
 
 //remove idReply
 exports.pullIdReply = (req, res, next) => {
-	console.log("req.body.idReply", req.body.idReply);
 	if (req.body.idReply) {
 		Post.updateOne(
 			{ _id: req.params.id },
